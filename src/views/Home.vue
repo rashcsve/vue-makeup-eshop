@@ -1,17 +1,46 @@
 <template>
   <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <the-navigation @show-modal="modalIsOpened" />
+    <div :class="{'home-container':true, 'home-container--modal': showModal}">
+      <img src="../assets/images/hero.jpg" />
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import TheNavigation from "../components/TheNavigation";
 
 export default {
-  name: 'home',
-  components: {
-    HelloWorld
+  name: "home",
+  components: { TheNavigation },
+  data() {
+    return {
+      showModal: false
+    };
+  },
+  computed: {
+    addModalClass() {
+      return this.showModal;
+    }
+  },
+
+  methods: {
+    modalIsOpened(value) {
+      this.showModal = value;
+    }
   }
-}
+};
 </script>
+
+<style scoped>
+img {
+  width: 100%;
+}
+
+.home-container--modal {
+  overflow: hidden;
+  filter: blur(20px);
+  margin-top: 144px;
+}
+</style>
