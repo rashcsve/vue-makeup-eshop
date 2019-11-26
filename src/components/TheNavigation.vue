@@ -126,7 +126,7 @@ export default {
   text-decoration: none;
 
   &:hover {
-    color: $color-light;
+    color: $color-hover;
   }
 }
 
@@ -157,7 +157,7 @@ export default {
     padding-left: 5px;
   }
   &:hover {
-    background-color: $color-basic;
+    background-color: $color-hover;
     .the-navigation__link {
       color: $color-light;
     }
@@ -190,7 +190,7 @@ export default {
 
 .the-navigation__logo {
   width: 170px;
-  // height: 78px;
+  height: 78px;
   align-self: flex-start;
   display: flex;
   justify-content: center;
@@ -198,6 +198,7 @@ export default {
 
   &-img {
     width: 100%;
+    height: auto;
   }
 
   @media #{$media-max-tablet} {
@@ -219,7 +220,7 @@ export default {
     padding-right: 5px;
   }
   &:hover {
-    background-color: $color-basic;
+    background-color: $color-hover;
     .the-navigation__link {
       color: $color-light;
     }
