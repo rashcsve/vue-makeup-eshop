@@ -3,16 +3,23 @@
     <div class="the-hero__blur">
       <div class="the-hero__blur-background"></div>
       <div class="the-hero__info">{{ perex }}</div>
-      <!-- Add Button -->
+      <Button :title="buttonTitle" :link="buttonLink" :alignment="buttonAlignment" transparent />
     </div>
   </header>
 </template>
 
 <script>
+import Button from "./Button";
 export default {
+  components: {
+    Button
+  },
   data() {
     return {
-      perex: "Giraffes are cool!"
+      perex: "Giraffes are cool!",
+      buttonTitle: "Více o nás",
+      buttonLink: "/about",
+      buttonAlignment: "center"
     };
   }
 };
