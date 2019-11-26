@@ -31,12 +31,23 @@
           </li>
         </ul>
       </div>
+      <div class="the-navigation__information">
+        <div class="the-navigation__information-social">
+          <SocialLink name="instagram" link="https://www.instagram.com/" />
+          <SocialLink name="facebook" link="https://www.facebook.com/" />
+
+        </div>
+      </div>
     </div>
   </nav>
 </template>
 
 <script>
+import SocialLink from "./SocialLink";
 export default {
+  components: {
+    SocialLink
+  },
   data() {
     return {
       showModal: false
@@ -287,5 +298,38 @@ export default {
     font-size: 32px;
     line-height: 40px;
   }
+}
+
+.the-navigation__information {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 60px 65px 80px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  line-height: 24px;
+  box-sizing: border-box;
+
+  @media #{$media-max-tablet} {
+    justify-content: center;
+  }
+
+  @media screen and (max-height: 475px) {
+    position: relative;
+  }
+
+  @media screen and (min-width: 1441px) {
+    width: 1440px;
+    margin: 0 auto;
+  }
+
+  @media screen and (max-height: 480px) {
+    padding: 64px 85px 32px 91px;
+  }
+}
+
+.the-navigation__information-social {
+  display: flex;
 }
 </style>
