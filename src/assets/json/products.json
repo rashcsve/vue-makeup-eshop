@@ -1,0 +1,132 @@
+[
+  {
+    "label": "First Giraffe",
+    "images": [
+      {
+        "thumb": "images/giraffes/squared/giraffe-1.jpg",
+        "src": "images/giraffes/squared/giraffe-1.jpg",
+        "caption": "First Giraffe Rules!"
+      },
+      {
+        "thumb": "images/giraffes/squared/giraffe-2.jpg",
+        "src": "images/giraffes/squared/giraffe-2.jpg",
+        "caption": "Second Giraffe Is The Best!"
+      }
+    ],
+    "id": "1",
+    "title": "First Giraffe",
+    "subtitle": "od 1 000 000",
+    "price": 1000000,
+    "taxRate": 21,
+    "taxPrice": 21,
+    "priceWithoutTax": 790000,
+    "currency": "$",
+    "choices": [
+      {
+        "type": "select",
+        "name": "color",
+        "placeholder": "Choose color",
+        "label": "Choose color",
+        "options": [
+          {
+            "value": "Red",
+            "label": "Red"
+          },
+          {
+            "value": "Green",
+            "label": "Green"
+          },
+          {
+            "value": "Blue",
+            "label": "Blue"
+          },
+          {
+            "value": "Gold",
+            "label": "Gold",
+            "extraPrice": {
+              "value": 10000
+            }
+          }
+        ]
+      }
+    ],
+    "description": "<p>These giraffes are so cool! Buy them</p>"
+  },
+  {
+    "label": "Second Giraffe",
+    "images": [
+      {
+        "thumb": "images/giraffes/squared/giraffe-1.jpg",
+        "src": "images/giraffes/squared/giraffe-1.jpg",
+        "caption": "First Giraffe Rules!"
+      },
+      {
+        "thumb": "images/giraffes/squared/giraffe-2.jpg",
+        "src": "images/giraffes/squared/giraffe-2.jpg",
+        "caption": "Second Giraffe Is The Best!"
+      }
+    ],
+    "id": "2",
+    "title": "Second Giraffe",
+    "subtitle": "od 2 000 000",
+    "price": 2000000,
+    "taxRate": 15,
+    "taxPrice": 15,
+    "priceWithoutTax": 1700000,
+    "currency": "$",
+    "choices": [
+      {
+        "type": "select",
+        "name": "service",
+        "placeholder": "Choose service",
+        "label": "Choose service",
+        "options": [
+          {
+            "value": "One",
+            "label": "One"
+          },
+          {
+            "value": "Two",
+            "label": "Two",
+            "extraPrice": {
+              "value": 10000
+            }
+          },
+          {
+            "value": "Three",
+            "label": "Three",
+            "extraPrice": {
+              "value": 20000
+            }
+          }
+        ]
+      },
+      {
+        "type": "date-time-picker",
+        "name": "time",
+        "placeholder": "Choose date and time",
+        "label": "Choose date and time",
+        "options": {
+          "locale": "en",
+          "disabledHours": ["23", "00", "01", "02", "03"],
+          "minuteInterval": 5,
+          "format": "DD.M.YYYY HH:mm",
+          "formatted": "dddd D.M. - H:mm"
+        }
+      },
+      {
+        "type": "checkbox",
+        "name": "tools",
+        "label": "With food",
+        "options": {
+          "extraPrice": {
+            "value": -100,
+            "label": ""
+          }
+        },
+        "modifier": "--product"
+      }
+    ],
+    "description": "<p>Meow Meow</p>"
+  }
+]

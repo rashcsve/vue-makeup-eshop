@@ -1,10 +1,21 @@
 <template>
   <div class="home">
     <the-navigation @show-modal="modalIsOpened" />
-    <div :class="{'home-container':true, 'home-container__modal': showModal}">
-      <img src="../assets/images/hero.png" alt="Hero Image" class="home-container__image" />
+    <div
+      :class="{ home__container: true, 'home__container--modal': showModal }"
+    >
+      <img
+        src="../assets/images/hero.png"
+        alt="Hero Image"
+        class="home__image"
+      />
       <div class="wrapper">
         <the-hero />
+        <ul class="home__products-list">
+          <li v-for="item in items" :key="item.id" class="home__products-li">
+            <Product :product="item" />
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -12,15 +23,19 @@
 
 <script>
 // @ is an alias to /src
-import TheNavigation from "../components/TheNavigation";
-import TheHero from "../components/TheHero";
+import TheNavigation from '../components/TheNavigation';
+import TheHero from '../components/TheHero';
+import Product from '../components/Product';
+
+import products from '../assets/json/products';
 
 export default {
-  name: "home",
-  components: { TheNavigation, TheHero },
+  name: 'home',
+  components: { TheNavigation, TheHero, Product },
   data() {
     return {
-      showModal: false
+      showModal: false,
+      items: products
     };
   },
   computed: {
@@ -38,25 +53,30 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../assets/styles/_variables.scss";
+@import '../assets/styles/_variables.scss';
 
 img {
   width: 100%;
 }
 
-.home-container {
-  &__modal {
+.home__container {
+  &--modal {
     overflow: hidden;
     filter: blur(20px);
     margin-top: 144px;
   }
+}
 
-  &__image {
-    background: lighten(black, 40%);
-    width: 100%;
-    background-size: cover;
-    background-position: center;
-  }
+.home__image {
+  background: lighten(black, 40%);
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.home__products-list,
+.home__products-li {
+  list-style: none;
 }
 
 // To Do: compote or style Wrapper

@@ -1,15 +1,15 @@
 <template>
   <div
     :class="{
-      'button__wrapper': true, 
-      'button__wrapper--center': alignment === 'center', 
+      button__wrapper: true,
+      'button__wrapper--center': alignment === 'center',
       'button__wrapper--right': alignment === 'right'
     }"
   >
     <a
       v-if="link"
       :href="link"
-      :class="{'button': true, 'button--transparent': transparent}"
+      :class="{ button: true, 'button--transparent': transparent }"
       v-bind="dataAttributes"
     >
       <span class="button__title">{{ title }}</span>
@@ -18,7 +18,13 @@
     <button
       v-if="!link"
       type="button"
-      :class="{'button': true, 'button--':  modifier}"
+      :class="{
+        button: true,
+        'button--more': more,
+        'button--close': close,
+        'button--medium': medium,
+        'button--dark': dark
+      }"
       v-bind="dataAttributes"
     >
       <span class="button__title">{{ title }}</span>
@@ -30,8 +36,11 @@
 export default {
   props: {
     title: String,
-    modifier: String,
     transparent: Boolean,
+    more: Boolean,
+    close: Boolean,
+    dark: Boolean,
+    medium: Boolean,
     link: String,
     alignment: String,
     dataAttributes: Array
@@ -39,8 +48,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import "../assets/styles/_variables";
+<style lang="scss">
+@import '../assets/styles/_variables';
 
 .button__wrapper {
   text-align: left;
@@ -146,7 +155,7 @@ export default {
   }
 
   &--more {
-    background: transparent url("/svg/dropdown.svg") no-repeat right;
+    background: transparent url('../assets/svg/dropdown.svg') no-repeat right;
     background-position-x: 87%;
     color: $color-basic;
     width: 96px;
@@ -158,17 +167,18 @@ export default {
     border-width: 1px;
     justify-content: flex-start;
     &:hover {
-      background: url("/svg/dropdown_light.svg") no-repeat right $color-basic;
+      background: url('../assets/svg/dropdown_light.svg') no-repeat right
+        $color-basic;
       background-position-x: 87%;
       color: $color-light;
       border-color: $color-light;
     }
     &--close {
-      background-image: url("/svg/close.svg");
+      background-image: url('../assets/svg/close.svg');
       background-size: 15%;
     }
     &--close:hover {
-      background-image: url("/svg/close_light.svg");
+      background-image: url('../assets/svg/close_light.svg');
     }
   }
 
