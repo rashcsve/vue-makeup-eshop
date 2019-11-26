@@ -227,15 +227,15 @@ export default {
   &::after {
     content: "";
     position: relative;
-    background: url("../assets/svg/zakaznik-new.svg") no-repeat center/ 80%;
+    background: url("../assets/svg/giraffe.svg") no-repeat center/ 80%;
     left: 0;
     top: 0;
-    height: 32px;
-    width: 32px;
+    height: 30px;
+    width: 30px;
     display: inline-block;
   }
   &:hover::after {
-    background-image: url("../assets/svg/zakaznik-new-white.svg");
+    background-image: url("../assets/svg/giraffe-white.svg");
   }
   &--count {
     font-size: 10px;
