@@ -1,6 +1,6 @@
 <template>
   <div class="product-description">
-    <!-- <vue-form-control
+    <FormControl
       v-for="(choice, index) in currentProduct.choices"
       :key="index"
       :id="currentProduct.id"
@@ -8,10 +8,10 @@
       :name="choice.name"
       :label="choice.label"
       :placeholder="choice.placeholder ? choice.placeholder : null"
+      :product="product.product"
       :options="choice.options ? choice.options : null"
-      :modifier="choice.modifier ? choice.modifier : null"
       @input="handleFormControl"
-    /> -->
+    />
 
     <Button
       @click="addToCart"
@@ -50,10 +50,12 @@
 
 <script>
 import Button from '../components/Button';
+import FormControl from '../components/FormControl';
 
 export default {
   components: {
-    Button
+    Button,
+    FormControl
   },
   props: {
     product: {
@@ -85,6 +87,7 @@ export default {
       this.selectedValuesFromChoices[choice.name] =
         choice.type === 'checkbox' ? false : null;
     });
+    console.log(this.currentProduct);
   },
 
   mounted() {

@@ -14,15 +14,6 @@
         </div>
       </div>
       <div class="product__add-to-cart">
-        <!-- id: product.id,
-        title: product.title,
-        price: product.price,
-        taxRate: product.taxRate,
-        taxPrice: product.taxPrice,
-        priceWithoutTax: product.priceWithoutTax,
-        image: product.images | first,
-        choices: product.choices-->
-        <!-- To Do: add add-to-cart with the below props -->
         <ProductDescription :product="product" />
       </div>
     </div>

@@ -116,7 +116,7 @@
       },
       {
         "type": "checkbox",
-        "name": "tools",
+        "name": "food",
         "label": "With food",
         "options": {
           "extraPrice": {
@@ -124,7 +124,7 @@
             "label": ""
           }
         },
-        "modifier": "--product"
+        "product": true
       }
     ],
     "description": "<p>Meow Meow</p>"

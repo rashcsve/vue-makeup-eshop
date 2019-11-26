@@ -53,8 +53,7 @@ export default {
 
 .button__wrapper {
   text-align: left;
-  position: relative;
-
+  
   &--center {
     text-align: center;
     display: flex;

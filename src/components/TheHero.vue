@@ -3,31 +3,38 @@
     <div class="the-hero__blur">
       <div class="the-hero__blur-background"></div>
       <div class="the-hero__info">{{ perex }}</div>
-      <Button :title="buttonTitle" :link="buttonLink" :alignment="buttonAlignment" transparent />
+      <div class="the-hero__button">
+        <Button
+          :title="buttonTitle"
+          :link="buttonLink"
+          :alignment="buttonAlignment"
+          transparent
+        />
+      </div>
     </div>
   </header>
 </template>
 
 <script>
-import Button from "./Button";
+import Button from './Button';
 export default {
   components: {
     Button
   },
   data() {
     return {
-      perex: "Giraffes are cool!",
-      buttonTitle: "Více o nás",
-      buttonLink: "/about",
-      buttonAlignment: "center"
+      perex: 'Giraffes are cool!',
+      buttonTitle: 'Více o nás',
+      buttonLink: '/about',
+      buttonAlignment: 'center'
     };
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/styles/_variables.scss";
-@import "../assets/styles/_mixins.scss";
+@import '../assets/styles/_variables.scss';
+@import '../assets/styles/_mixins.scss';
 
 .the-hero {
   text-align: center;
@@ -62,7 +69,7 @@ export default {
   top: -10%;
   width: 110%;
   height: 120%;
-  background-image: url("../assets/images/hero.png");
+  background-image: url('../assets/images/hero.png');
   background-position: center;
   background-size: cover;
   opacity: 0.25;
@@ -75,8 +82,12 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    content: "";
+    content: '';
   }
+}
+
+.the-hero__button {
+  position: relative;
 }
 
 .the-hero__info {
