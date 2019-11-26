@@ -2,7 +2,7 @@
   <div class="home">
     <the-navigation @show-modal="modalIsOpened" />
     <div :class="{'home-container':true, 'home-container--modal': showModal}">
-      <img src="../assets/images/hero.jpg" />
+      <img src="../assets/images/hero.png" />
     </div>
   </div>
 </template>
