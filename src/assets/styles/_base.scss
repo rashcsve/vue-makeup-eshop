@@ -1,0 +1,102 @@
+// Title
+.title {
+  color: $color-basic;
+  font-size: 16px;
+  text-align: left;
+
+  &--center {
+    text-align: center;
+    line-height: 20px;
+    // letter-spacing: 0.06em;
+    font-weight: 600;
+  }
+
+  &--light {
+    color: $color-light;
+  }
+
+  &--h1 {
+    line-height: 48px;
+    font-weight: 600;
+    font-size: 45px;
+    margin: 0;
+
+    @media screen and (max-width: 520px) {
+      font-size: 32px;
+      line-height: 36px;
+    }
+  }
+
+  &--h2 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  &--h3 {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 100;
+  }
+
+  &--subtitle {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 24px;
+  }
+
+  &--subtitle-alt {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    line-height: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    @media screen and (max-width: 600px) {
+      font-size: 14px;
+    }
+  }
+
+  &--caption {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 20px;
+    padding-top: 16px;
+  }
+
+  &--no-padding {
+    padding: 0;
+  }
+
+  &--no-padding-bottom {
+    padding-bottom: 0;
+  }
+
+  &--padding-top {
+    padding-top: 65px;
+  }
+
+  &--padding-bottom {
+    padding-bottom: 16px;
+  }
+
+  &--medium {
+    font-size: 32px;
+    margin: 0;
+    padding: 26px 16px 26px;
+    font-weight: 600;
+    line-height: 48px;
+
+    @media only screen and (max-width: 600px) {
+      font-size: 27px;
+    }
+  }
+
+  &--uppercase {
+    text-transform: uppercase;
+  }
+
+  &--no-margin {
+    margin: 0;
+  }
+}

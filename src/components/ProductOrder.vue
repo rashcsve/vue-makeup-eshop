@@ -1,5 +1,5 @@
 <template>
-  <div class="product-description">
+  <div class="product-order">
     <FormControl
       v-for="(choice, index) in currentProduct.choices"
       :key="index"
@@ -12,7 +12,6 @@
       :options="choice.options ? choice.options : null"
       @input="handleFormControl"
     />
-
     <Button
       @click="addToCart"
       title="Add To Cart"
@@ -20,31 +19,6 @@
       medium
       dark
     />
-
-    <div class="product-description__perex">
-      <div
-        ref="textContainer"
-        :class="{
-          'product-description__text': true,
-          'product-description__text--collapsed': textCollapsed
-        }"
-        v-html="product.description"
-      ></div>
-      <Button
-        v-if="showMoreButton"
-        :title="textCollapsed ? 'More' : 'Less'"
-        @click.native="handleTextCollapsing()"
-        more
-        :close="textCollapsed"
-      />
-      <!-- To Do: Add Button -->
-      <!-- <vue-button
-        v-if="showMoreButton"
-        :title="textCollapsed ? 'Více' : 'Méně'"
-        :modifier="'-more' + (textCollapsed ? ' ' : ' -close')"
-        @click.native="handleTextCollapsing()"
-      /> -->
-    </div>
   </div>
 </template>
 
@@ -61,14 +35,6 @@ export default {
     product: {
       type: Object,
       default: null
-    },
-    medium: {
-      type: Boolean,
-      default: false
-    },
-    dark: {
-      type: Boolean,
-      default: false
     }
   },
   data() {
@@ -76,9 +42,7 @@ export default {
       store: this.$store,
       currentProduct: this.product,
       selectedValuesFromChoices: {},
-      allChoicesSelected: false,
-      textCollapsed: true,
-      showMoreButton: false
+      allChoicesSelected: false
     };
   },
 
@@ -87,14 +51,12 @@ export default {
       this.selectedValuesFromChoices[choice.name] =
         choice.type === 'checkbox' ? false : null;
     });
-    console.log(this.currentProduct);
   },
 
   mounted() {
     if (this.currentProduct.choices.length === 0) {
       this.allChoicesSelected = true;
     }
-    this.handleOverflow();
   },
 
   methods: {
@@ -121,44 +83,7 @@ export default {
       if (isAll) {
         this.allChoicesSelected = true;
       }
-    },
-    handleTextCollapsing: function() {
-      this.textCollapsed = !this.textCollapsed;
-    },
-    handleOverflow: function() {
-      //Compute if description text overflows and set if more button shoulde be shown
-      var textContainer = this.$refs.textContainer;
-      if (textContainer.scrollHeight > textContainer.clientHeight) {
-        this.showMoreButton = true;
-      }
     }
   }
 };
 </script>
-
-<style lang="scss">
-
-.product-description__perex {
-  width: auto;
-  padding: 32px 0 16px 0;
-  line-height: 24px;
-
-  @media #{$media-max-tablet} {
-    padding-right: 16px;
-  }
-}
-
-.product-description__perex > .button__wrapper {
-  margin: 16px 0;
-}
-
-.product-description__text {
-  overflow: initial;
-  max-height: 100%;
-}
-
-.product-description__text--collapsed {
-  max-height: 261px;
-  overflow: hidden;
-}
-</style>

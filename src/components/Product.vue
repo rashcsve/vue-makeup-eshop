@@ -1,20 +1,34 @@
 <template>
   <div class="product">
-    <ProductGallery
+    <product-gallery
       :images="product.images"
       :master-image="product.images[0].src"
     />
     <div class="product__info">
-      <!-- To Do: add Title h3 el h1 modifier And Title Compote! -->
-      <h3>{{ product.title }}</h3>
+      <h3 class="title title--h1">{{ product.title }}</h3>
       <div class="product__price">
-        <div class="product__price -with-tax">
+        <div class="product__price--with-tax">
           {{ product.subtitle }}
           {{ product.currency }}
         </div>
       </div>
-      <div class="product__add-to-cart">
-        <ProductDescription :product="product" />
+      <product-order :product="product" />
+      <div class="product__perex">
+        <div
+          ref="textContainer"
+          :class="{
+            'product__perex-text': true,
+            'product__perex-text--collapsed': textCollapsed
+          }"
+          v-html="product.description"
+        ></div>
+        <Button
+          v-if="showMoreButton"
+          :title="textCollapsed ? 'More' : 'Less'"
+          @click.native="handleTextCollapsing()"
+          more
+          :close="!textCollapsed"
+        />
       </div>
     </div>
   </div>
@@ -22,24 +36,47 @@
 
 <script>
 import ProductGallery from '../components/ProductGallery';
-import ProductDescription from '../components/ProductDescription';
+import ProductOrder from '../components/ProductOrder';
+import Button from '../components/Button';
 
 export default {
   components: {
     ProductGallery,
-    ProductDescription
+    ProductOrder,
+    Button
   },
   props: {
     product: {
       type: Object,
       default: null
     }
+  },
+  data() {
+    return {
+      textCollapsed: true,
+      showMoreButton: false,
+      isCollapsed: false
+    };
+  },
+  mounted() {
+    this.handleOverflow();
+  },
+  methods: {
+    handleTextCollapsing: function() {
+      this.textCollapsed = !this.textCollapsed;
+    },
+    handleOverflow: function() {
+      //Compute if description text overflows and set if more button shoulde be shown
+      var textContainer = this.$refs.textContainer;
+      if (textContainer.scrollHeight > textContainer.clientHeight) {
+        this.showMoreButton = true;
+      }
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-
 .product {
   display: flex;
   width: 100%;
@@ -79,6 +116,30 @@ export default {
     padding: 4px 0;
     font-size: 12px;
     font-weight: 100;
+  }
+}
+
+.product-order__perex {
+  width: auto;
+  padding: 32px 0 16px 0;
+  line-height: 24px;
+
+  @media #{$media-max-tablet} {
+    padding-right: 16px;
+  }
+}
+
+.product__perex > .button__wrapper {
+  margin: 16px 0;
+}
+
+.product__perex-text {
+  overflow: initial;
+  max-height: 100%;
+
+  &--collapsed {
+    max-height: 260px;
+    overflow: hidden;
   }
 }
 </style>

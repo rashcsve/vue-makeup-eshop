@@ -21,7 +21,7 @@
       :class="{
         button: true,
         'button--more': more,
-        'button--close': close,
+        'button--more-close': close,
         'button--medium': medium,
         'button--dark': dark
       }"
@@ -51,7 +51,7 @@ export default {
 <style lang="scss">
 .button__wrapper {
   text-align: left;
-  
+
   &--center {
     text-align: center;
     display: flex;
@@ -163,6 +163,7 @@ export default {
     border-color: $color-basic;
     border-width: 1px;
     justify-content: flex-start;
+
     &:hover {
       background: url('../assets/svg/dropdown_light.svg') no-repeat right
         $color-basic;
@@ -170,12 +171,13 @@ export default {
       color: $color-light;
       border-color: $color-light;
     }
-    &--close {
+    &-close {
       background-image: url('../assets/svg/close.svg');
       background-size: 15%;
     }
-    &--close:hover {
+    &-close:hover {
       background-image: url('../assets/svg/close_light.svg');
+      background-size: 15%;
     }
   }
 
