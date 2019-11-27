@@ -17,21 +17,22 @@
           </li>
         </ul>
       </div>
+      <the-footer />
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import TheNavigation from '../components/TheNavigation';
 import TheHero from '../components/TheHero';
 import Product from '../components/Product';
+import TheFooter from '../components/TheFooter';
 
 import products from '../assets/json/products';
 
 export default {
   name: 'home',
-  components: { TheNavigation, TheHero, Product },
+  components: { TheNavigation, TheHero, Product, TheFooter },
   data() {
     return {
       showModal: false,
@@ -75,17 +76,5 @@ img {
 .home__products-list,
 .home__products-li {
   list-style: none;
-}
-
-// To Do: compote or style Wrapper
-.wrapper {
-  padding: 0 64px;
-  @media #{$media-max-tablet} {
-    padding: 0 64px;
-  }
-
-  @media #{$media-phone-L} {
-    padding: 0 16px;
-  }
 }
 </style>

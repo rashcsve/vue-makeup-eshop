@@ -1,3 +1,44 @@
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+body {
+  margin: 0;
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+// Container
+.container {
+  padding: 0 112px;
+  @media #{$media-max-tablet} {
+    padding: 0 64px;
+  }
+
+  @media #{$media-phone-L} {
+    padding: 0 16px;
+  }
+}
+
+// Wrapper
+.wrapper {
+  padding: 0 64px;
+  @media #{$media-max-tablet} {
+    padding: 0 64px;
+  }
+
+  @media #{$media-phone-L} {
+    padding: 0 16px;
+  }
+}
+
 // Title
 .title {
   color: $color-basic;
