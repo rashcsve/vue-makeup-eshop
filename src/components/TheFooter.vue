@@ -11,8 +11,8 @@
         <span>Pravidla ochrany soukromí<br />Obchodní podmínky</span>
       </div>
       <div class="the-footer__social">
-        <social-link name="instagram" link="https://www.instagram.com/" />
-        <social-link name="facebook" link="https://www.facebook.com/" />
+        <social-link name="instagram-white" link="https://www.instagram.com/" />
+        <social-link name="facebook-white" link="https://www.facebook.com/" />
       </div>
     </div>
   </footer>
