@@ -8,9 +8,14 @@
         "caption": "First Giraffe Rules!"
       },
       {
-        "thumb": "images/giraffes/squared/giraffe-2.jpg",
-        "src": "images/giraffes/squared/giraffe-2.jpg",
-        "caption": "Second Giraffe Is The Best!"
+        "thumb": "images/giraffes/squared/giraffe-4.jpg",
+        "src": "images/giraffes/squared/giraffe-4.jpg",
+        "caption": "Giraffe With His Mom"
+      },
+      {
+        "thumb": "images/giraffes/squared/giraffe-3.jpg",
+        "src": "images/giraffes/squared/giraffe-3.jpg",
+        "caption": "Giraffe Is The Best!"
       }
     ],
     "id": "1",
@@ -56,14 +61,19 @@
     "label": "Second Giraffe",
     "images": [
       {
-        "thumb": "images/giraffes/squared/giraffe-1.jpg",
-        "src": "images/giraffes/squared/giraffe-1.jpg",
-        "caption": "First Giraffe Rules!"
-      },
-      {
         "thumb": "images/giraffes/squared/giraffe-2.jpg",
         "src": "images/giraffes/squared/giraffe-2.jpg",
         "caption": "Second Giraffe Is The Best!"
+      },
+      {
+        "thumb": "images/giraffes/squared/giraffe-5.jpg",
+        "src": "images/giraffes/squared/giraffe-5.jpg",
+        "caption": "Giraffe Is Eating"
+      },
+      {
+        "thumb": "images/giraffes/squared/giraffe-7.jpg",
+        "src": "images/giraffes/squared/giraffe-7.jpg",
+        "caption": "Giraffe Portrait"
       }
     ],
     "id": "2",

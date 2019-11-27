@@ -114,8 +114,9 @@
 </template>
 
 <script>
-import vSelect from 'vue-select';
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import vSelect from 'vue-select';
 
 export default {
   components: {
@@ -186,7 +187,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/styles/_variables';
+@import 'vue-select/src/scss/vue-select.scss';
 
 .checkbox__container {
   padding: 32px 0;
@@ -198,7 +199,6 @@ export default {
 
 .checkbox__label {
   display: flex;
-  justify-content: center;
   align-items: center;
 
   &--product {
@@ -389,11 +389,6 @@ export default {
       padding: 0px 6px 3px 3px;
     }
 
-    &.vs--open .vs__actions {
-      transform: rotate(-180deg);
-      transition: all 0.5s;
-    }
-
     input {
       margin: 0;
       padding: 0;
@@ -407,18 +402,18 @@ export default {
       }
     }
 
+    .vs__open-indicator {
+      path {
+        fill: $color-basic;
+      }
+    }
+
     .vs__selected-tag {
       margin: 0;
       padding: 0;
     }
 
     .vs__dropdown-toggle {
-      display: flex;
-      padding: 0 0 4px;
-      background: none;
-      border: 1px solid rgba(60, 60, 60, 0.26);
-      border-radius: 4px;
-      white-space: normal;
       padding: 12px;
       border-radius: 0;
       border-color: black;
@@ -427,28 +422,8 @@ export default {
 
       input {
         cursor: pointer;
-        appearance: none;
-        font-size: 1em;
-        display: inline-block;
-        border: 1px solid transparent;
-        border-left: none;
-        outline: none;
-        margin: 0;
-        padding: 0;
-        max-width: 100%;
-        background: none;
-        box-shadow: none;
-        flex-grow: 1;
-        width: 0;
         font-family: 'Avenir', Helvetica, Arial, sans-serif;
       }
-    }
-    .vs__selected-options {
-      display: flex;
-      flex-basis: 100%;
-      flex-grow: 1;
-      flex-wrap: wrap;
-      padding: 0 2px;
     }
 
     .vs__dropdown-menu {
@@ -517,6 +492,11 @@ export default {
     font-size: 12px;
   }
 
+  .field.has-value:not(.no-label) .field-input {
+    padding-top: 0;
+    padding-left: 12px;
+  }
+
   .field .field-label {
     display: none;
   }
@@ -582,6 +562,9 @@ export default {
       right: 6px;
     }
   }
+  span {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  }
 }
 
 .datepicker-buttons-container {
@@ -646,6 +629,7 @@ export default {
   background: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   border: 1px solid $color-basic !important;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 
   .pickers-container {
     background: $color-light;

@@ -137,7 +137,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/styles/_variables';
 
 .product-description__perex {
   width: auto;

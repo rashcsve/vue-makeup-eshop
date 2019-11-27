@@ -49,8 +49,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/styles/_variables';
-
 .button__wrapper {
   text-align: left;
   

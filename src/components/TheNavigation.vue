@@ -63,8 +63,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../assets/styles/_variables.scss";
-
 .the-navigation {
   position: relative;
   z-index: 1;

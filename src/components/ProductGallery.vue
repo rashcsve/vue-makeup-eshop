@@ -94,8 +94,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/styles/_variables';
-
 .product-gallery {
   width: 60%;
   @media #{$media-max-tablet} {
@@ -111,8 +109,6 @@ export default {
   padding-bottom: 100%;
   position: relative;
   position: relative;
-  border: 1px solid #eee;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
   overflow: hidden;
   display: flex;
   justify-content: center;

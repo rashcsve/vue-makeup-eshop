@@ -33,9 +33,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../assets/styles/_variables.scss';
-@import '../assets/styles/_mixins.scss';
-
 .the-hero {
   text-align: center;
 }
