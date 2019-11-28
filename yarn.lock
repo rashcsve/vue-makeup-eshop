@@ -8505,6 +8505,11 @@ vue-select@^3.2.0:
   resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-3.2.0.tgz#c72166cb1f976d76cd612cde25fc8ef29f7914f5"
   integrity sha512-FfARbDuJWQNpYm6X9zPWCsYXmz33TNR2oqY8FktKRVksKfp1tZPqL9g+/7wgsaMaqUxcIxYEUVV7C3AD+H5cxA==
 
+vue-slide-up-down@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/vue-slide-up-down/-/vue-slide-up-down-2.0.0.tgz#8a1983397c475dd6769fcb97ef21862d5947780a"
+  integrity sha512-Zq2KipWPwwK109msgZkSHVll/net60mJFrTA5TobZiry3x4/+UiVETkv67bG0myZHvIebCvegj35qkLeuAwjGQ==
+
 vue-style-loader@^4.1.0:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/vue-style-loader/-/vue-style-loader-4.1.2.tgz#dedf349806f25ceb4e64f3ad7c0a44fba735fcf8"

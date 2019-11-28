@@ -5,6 +5,7 @@
       'form-control__container--type-checkbox': type === 'checkbox',
       'form-control__container--type-text': type === 'text',
       'form-control__container--type-select': type === 'select',
+      'form-control__container--type-select--cart': (type === 'select' && name === 'transport'),
       'form-control__container--type-date-time-picker':
         type === 'date-time-picker'
     }"
@@ -377,7 +378,7 @@ export default {
     width: 100%;
   }
 
-  &.-cart {
+  &--cart {
     width: 100%;
   }
 

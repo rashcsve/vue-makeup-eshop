@@ -7,19 +7,27 @@
       <the-order-navigation />
     </div>
     <div class="the-order__other">
-      <!-- {% include "../order-cart/template.twig" %}
-        {% include "../order-transport/template.twig" %}
-        {% include "../order-invoice/template.twig" %}
-      {% include "../order-total/template.twig" %}-->
+      <the-order-cart />
+      <the-order-transport />
+      <the-order-invoice />
+      <the-order-total />
     </div>
   </div>
 </template>
 
 <script>
-import TheOrderNavigation from "./TheOrderNavigation";
+import TheOrderNavigation from './TheOrderNavigation';
+import TheOrderTransport from './TheOrderTransport';
+import TheOrderInvoice from './TheOrderInvoice';
+import TheOrderTotal from './TheOrderTotal';
+import TheOrderCart from './TheOrderCart';
 export default {
   components: {
-    TheOrderNavigation
+    TheOrderNavigation,
+    TheOrderTransport,
+    TheOrderInvoice,
+    TheOrderTotal,
+    TheOrderCart
   }
 };
 </script>
@@ -61,7 +69,7 @@ export default {
 }
 
 .the-order__other {
-  background-color: white;
+  background-color: #f5f5f5;
   padding: 0 32px 0;
 
   @media #{$media-min-tablet} {
