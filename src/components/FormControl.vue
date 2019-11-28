@@ -439,7 +439,6 @@ export default {
       .vs__dropdown-option {
         margin: 0;
         height: 48px;
-        list-style: none;
         padding: 16px;
       }
 

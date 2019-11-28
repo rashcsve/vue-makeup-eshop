@@ -152,7 +152,7 @@ export default {
   }
 
   &--more {
-    background: transparent url('../assets/svg/dropdown.svg') no-repeat right;
+    background: transparent url("../assets/svg/dropdown.svg") no-repeat right;
     background-position-x: 87%;
     color: $color-basic;
     width: 96px;
@@ -165,19 +165,22 @@ export default {
     justify-content: flex-start;
 
     &:hover {
-      background: url('../assets/svg/dropdown_light.svg') no-repeat right
+      background: url("../assets/svg/dropdown_light.svg") no-repeat right
         $color-basic;
       background-position-x: 87%;
       color: $color-light;
       border-color: $color-light;
     }
     &-close {
-      background-image: url('../assets/svg/close.svg');
-      background-size: 15%;
+      background: url("../assets/svg/close.svg") no-repeat right;
+      background-position-x: 87%;
+      background-size: 16px;
     }
     &-close:hover {
-      background-image: url('../assets/svg/close_light.svg');
-      background-size: 15%;
+      background: url("../assets/svg/close_light.svg") no-repeat right
+        $color-basic;
+      background-size: 16px;
+      background-position-x: 87%;
     }
   }
 

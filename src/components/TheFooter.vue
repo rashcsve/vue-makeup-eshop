@@ -3,12 +3,15 @@
     class="the-footer"
     :style="{ 'background-image': 'url(' + require(`@/assets/${image}`) + ')' }"
   >
-    <div class="the-footer__main container">
+    <div class="the-footer__main">
       <contact :contactInfo="contactInfo" class="the-footer__contact" />
     </div>
     <div class="the-footer__other">
       <div class="the-footer__rules">
-        <span>Pravidla ochrany soukromí<br />Obchodní podmínky</span>
+        <span>
+          Pravidla ochrany soukromí
+          <br />Obchodní podmínky
+        </span>
       </div>
       <div class="the-footer__social">
         <social-link name="instagram-white" link="https://www.instagram.com/" />
@@ -19,10 +22,10 @@
 </template>
 
 <script>
-import Contact from '../components/ContactInfo';
-import SocialLink from '../components/SocialLink';
+import Contact from "../components/ContactInfo";
+import SocialLink from "../components/SocialLink";
 
-import contactInfo from '../assets/json/contact';
+import contactInfo from "../assets/json/contact";
 
 export default {
   components: {
@@ -32,7 +35,7 @@ export default {
   data() {
     return {
       contactInfo: contactInfo,
-      image: 'images/giraffes/horizontal/giraffe-3.jpg'
+      image: "images/giraffes/horizontal/giraffe-3.jpg"
     };
   }
 };
@@ -75,7 +78,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    content: '';
+    content: "";
   }
 }
 
@@ -93,6 +96,13 @@ export default {
 
 .the-footer__main {
   position: relative;
+  padding: 0 112px;
+  @media #{$media-max-tablet} {
+    padding: 0 64px;
+  }
+  @media #{$media-phone-L} {
+    padding: 0 16px;
+  }
 }
 
 .the-footer__other {
@@ -128,6 +138,10 @@ export default {
 
 .the-footer__social {
   display: flex;
+
+  @media #{$media-phone-L} {
+    padding-top: 16px;
+  }
 }
 
 .the-footer__contact {

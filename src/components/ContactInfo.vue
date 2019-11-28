@@ -12,10 +12,14 @@
         :src="require(`@/assets/${contactInfo.logo}`)"
         :alt="contactInfo.name"
         class="contact-info__logo"
-      /><br />
-      {{ contactInfo.name }}<br />
-      {{ contactInfo.address.street }}<br />
-      {{ contactInfo.address.city }}<br />
+      />
+      <br />
+      {{ contactInfo.name }}
+      <br />
+      {{ contactInfo.address.street }}
+      <br />
+      {{ contactInfo.address.city }}
+      <br />
       <br />
     </div>
     <div class="contact-info__phone-email">
@@ -25,16 +29,14 @@
           'contact-info__link': true,
           'contact-info__link--header': header
         }"
-        >{{ contactInfo.phone }}</a
-      >
+      >{{ contactInfo.phone }}</a>
       <a
         :href="`mailto:${contactInfo.email}`"
         :class="{
           'contact-info__link': true,
           'contact-info__link--header': header
         }"
-        >{{ contactInfo.email }}</a
-      >
+      >{{ contactInfo.email }}</a>
     </div>
   </div>
 </template>
@@ -53,8 +55,9 @@ export default {
   text-align: left;
   width: 240px;
 
-  &--header {
-    @media #{$media-max-tablet} {
+  @media #{$media-max-tablet} {
+    width: 100%;
+    &--header {
       display: none;
     }
   }

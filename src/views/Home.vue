@@ -1,38 +1,39 @@
 <template>
   <div class="home">
     <the-navigation @show-modal="modalIsOpened" />
-    <div
-      :class="{ home__container: true, 'home__container--modal': showModal }"
-    >
-      <img
-        src="../assets/images/hero.png"
-        alt="Hero Image"
-        class="home__image"
-      />
-      <div class="wrapper">
+    <div :class="{ home__container: true, 'home__container--modal': showModal }">
+      <img src="../assets/images/hero.png" alt="Hero Image" class="home__image" />
+      <container>
         <the-hero />
         <ul class="home__products-list">
           <li v-for="item in items" :key="item.id" class="home__products-li">
             <Product :product="item" />
           </li>
         </ul>
-      </div>
+      </container>
       <the-footer />
     </div>
   </div>
 </template>
 
 <script>
-import TheNavigation from '../components/TheNavigation';
-import TheHero from '../components/TheHero';
-import Product from '../components/Product';
-import TheFooter from '../components/TheFooter';
+import TheNavigation from "../components/TheNavigation";
+import TheHero from "../components/TheHero";
+import Product from "../components/Product";
+import Container from "../components/Container";
+import TheFooter from "../components/TheFooter";
 
-import products from '../assets/json/products';
+import products from "../assets/json/products";
 
 export default {
-  name: 'home',
-  components: { TheNavigation, TheHero, Product, TheFooter },
+  name: "home",
+  components: {
+    TheNavigation,
+    TheHero,
+    Product,
+    Container,
+    TheFooter
+  },
   data() {
     return {
       showModal: false,
@@ -71,10 +72,5 @@ img {
   width: 100%;
   background-size: cover;
   background-position: center;
-}
-
-.home__products-list,
-.home__products-li {
-  list-style: none;
 }
 </style>

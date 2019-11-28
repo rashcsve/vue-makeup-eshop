@@ -35,7 +35,6 @@
         <div class="the-navigation__information-social">
           <SocialLink name="instagram" link="https://www.instagram.com/" />
           <SocialLink name="facebook" link="https://www.facebook.com/" />
-
         </div>
       </div>
     </div>
@@ -279,12 +278,6 @@ export default {
     flex-direction: column;
     margin-bottom: 0;
   }
-}
-
-.the-navigation__ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
 }
 
 .the-navigation__li {

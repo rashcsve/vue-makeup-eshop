@@ -15,28 +15,11 @@ body {
   box-sizing: border-box;
 }
 
-// Container
-.container {
-  padding: 0 112px;
-  @media #{$media-max-tablet} {
-    padding: 0 64px;
-  }
-
-  @media #{$media-phone-L} {
-    padding: 0 16px;
-  }
-}
-
-// Wrapper
-.wrapper {
-  padding: 0 64px;
-  @media #{$media-max-tablet} {
-    padding: 0 64px;
-  }
-
-  @media #{$media-phone-L} {
-    padding: 0 16px;
-  }
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 // Title
