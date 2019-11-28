@@ -10,6 +10,7 @@
             <Product :product="item" />
           </li>
         </ul>
+        <the-order />
       </container>
       <the-footer />
     </div>
@@ -20,6 +21,7 @@
 import TheNavigation from "../components/TheNavigation";
 import TheHero from "../components/TheHero";
 import Product from "../components/Product";
+import TheOrder from "../components/TheOrder";
 import Container from "../components/Container";
 import TheFooter from "../components/TheFooter";
 
@@ -31,6 +33,7 @@ export default {
     TheNavigation,
     TheHero,
     Product,
+    TheOrder,
     Container,
     TheFooter
   },
