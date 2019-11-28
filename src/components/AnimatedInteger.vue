@@ -5,6 +5,8 @@
 </template>
 
 <script>
+import { Tween } from 'es6-tween';
+
 export default {
   props: {
     value: {
@@ -29,12 +31,12 @@ export default {
     tween(startValue, endValue) {
       var vm = this;
       function animate() {
-        if (TWEEN.update()) {
+        if (Tween.update()) {
           requestAnimationFrame(animate);
         }
       }
 
-      new TWEEN.Tween({ tweeningValue: startValue })
+      new Tween({ tweeningValue: startValue })
         .to({ tweeningValue: endValue }, 500)
         .on("update", function(object) {
           vm.tweeningValue = object.tweeningValue.toFixed(2);

@@ -23,7 +23,8 @@
         'button--more': more,
         'button--more-close': close,
         'button--medium': medium,
-        'button--dark': dark
+        'button--dark': dark,
+        'button--disabled': disabled
       }"
       v-bind="dataAttributes"
     >
@@ -40,6 +41,7 @@ export default {
     more: Boolean,
     close: Boolean,
     dark: Boolean,
+    disabled: Boolean,
     medium: Boolean,
     link: String,
     alignment: String,
@@ -220,7 +222,7 @@ export default {
 }
 
 .button:disabled,
-.button.-disabled {
+.button--disabled {
   cursor: not-allowed;
   opacity: 0.2;
   &--dark {

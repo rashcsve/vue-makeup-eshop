@@ -12,19 +12,13 @@
       :options="choice.options ? choice.options : null"
       @input="handleFormControl"
     />
-    <Button
-      @click="addToCart"
-      title="Add To Cart"
-      :disabled="!allChoicesSelected"
-      medium
-      dark
-    />
+    <Button @click.native="addToCart" title="Add To Cart" :disabled="!allChoicesSelected" medium dark />
   </div>
 </template>
 
 <script>
-import Button from '../components/Button';
-import FormControl from '../components/FormControl';
+import Button from "../components/Button";
+import FormControl from "../components/FormControl";
 
 export default {
   components: {
@@ -49,8 +43,9 @@ export default {
   created() {
     this.currentProduct.choices.forEach(choice => {
       this.selectedValuesFromChoices[choice.name] =
-        choice.type === 'checkbox' ? false : null;
+        choice.type === "checkbox" ? false : null;
     });
+    console.log("all " + this.allChoicesSelected);
   },
 
   mounted() {
@@ -61,10 +56,12 @@ export default {
 
   methods: {
     addToCart() {
+      console.log("Adding...");
       this.currentProduct.selectedValuesFromChoices = this.selectedValuesFromChoices;
-      this.store.commit('addProduct', this.currentProduct);
+      this.store.commit("addProduct", this.currentProduct);
     },
     handleFormControl(selectedValue) {
+      console.log(selectedValue);
       this.selectedValuesFromChoices[selectedValue.name] = selectedValue.value;
       if (this.currentProduct.extraPrice !== undefined) {
         this.currentProduct.extraPrice += selectedValue.extraPrice;
@@ -76,7 +73,7 @@ export default {
       var values = Object.values(this.selectedValuesFromChoices);
       var isAll = values.every(function(value) {
         if (value === null) return false;
-        if (typeof value === 'object')
+        if (typeof value === "object")
           return value.start !== null && value.end !== null;
         return true;
       });

@@ -2,23 +2,37 @@
   <div class="the-order-navigation__container" ref="container" id="container">
     <div
       ref="navigation"
-      :class="{'the-order-navigation':true, 'the-order-navigation--fixed': isFixed, 'the-order-navigation--static': isStatic}"
+      :class="{
+        'the-order-navigation': true,
+        'the-order-navigation--fixed': isFixed,
+        'the-order-navigation--static': isStatic
+      }"
       data-role="order-handler"
       @click="scrollToOrder"
     >
-      <img src="../assets/svg/giraffe-white.svg" alt="giraffe" class="the-order-navigation__icon" />
+      <img
+        src="../assets/svg/giraffe-white.svg"
+        alt="giraffe"
+        class="the-order-navigation__icon"
+      />
       <transition>
-        <div v-show="this.productsCount > 0" class="the-order-navigation__count">{{productsCount}}</div>
+        <div
+          v-show="this.productsCount > 0"
+          class="the-order-navigation__count"
+        >
+          {{ productsCount }}
+        </div>
       </transition>
       <div v-if="productsCount != 0">
         <span class="order__verb">To order</span>
         <strong>
           {{ productsCount }}
           {{ productsCount > 1 ? 'items' : 'item' }}
-        </strong> za
+        </strong>
+        <span>for</span>
         <strong>
-          <animated-integer :value="productsTotal" />
-          {{ currency }}
+          <!-- <animated-integer :value="productsTotal" /> -->
+          {{ productsCount + currency }}
         </strong>
       </div>
       <div v-else>
@@ -29,7 +43,7 @@
         <img
           src="../assets/svg/dropdown_light.svg"
           alt="dropdown"
-          class="the-order-navigation__icon"
+          class="the-order-navigation__dropdown"
         />
       </div>
       <div v-else></div>
@@ -38,7 +52,9 @@
 </template>
 
 <script>
-import AnimatedInteger from './AnimatedInteger'
+import AnimatedInteger from './AnimatedInteger';
+import ScrollTo from 'vue-scrollto';
+
 export default {
   components: {
     AnimatedInteger
@@ -47,7 +63,7 @@ export default {
     return {
       store: this.$store,
       // currency: this.$root.$options.config.currency,
-      curreny: "$",
+      currency: '$',
       isFixed: false,
       isStatic: false,
       timer: null,
@@ -58,14 +74,14 @@ export default {
   mounted() {
     let component = this;
 
-    window.addEventListener("scroll", this.handleChange);
-    window.addEventListener("resize", this.handleChange);
+    window.addEventListener('scroll', this.handleChange);
+    window.addEventListener('resize', this.handleChange);
 
     this.handleChange();
   },
   destroyed() {
-    window.removeEventListener("scroll", this.handleChange);
-    window.removeEventListener("resize", this.handleChange);
+    window.removeEventListener('scroll', this.handleChange);
+    window.removeEventListener('resize', this.handleChange);
   },
 
   computed: {
@@ -113,7 +129,7 @@ export default {
     },
 
     scrollToOrder() {
-      scrollTo("order");
+      ScrollTo.scrollTo('#order');
     }
   }
 };
@@ -134,17 +150,17 @@ export default {
   transform: translateY(100%);
   transition: transform 0s ease-in;
 
-  &-count {
+  &__count {
     font-size: 10px;
     border-radius: 50%;
     color: #202020;
     background-color: white;
-    height: 17px;
-    width: 17px;
-    line-height: 17px;
+    height: 16px;
+    width: 16px;
+    line-height: 16px;
     text-align: center;
     position: absolute;
-    top: 30px;
+    top: 20px;
     left: 70px;
     z-index: 1;
     @media #{$media-phone-L} {
@@ -166,14 +182,14 @@ export default {
     cursor: pointer;
 
     // .create-light-box-shadow();
-    &:hover {
-      color: $color-basic;
-      background-color: $color-light;
-      .the-order-navigation__-count {
-        background-color: #202020;
-        color: white;
-      }
-    }
+    // &:hover {
+    //   color: $color-basic;
+    //   background-color: $color-light;
+    //   .the-order-navigation__-count {
+    //     background-color: #202020;
+    //     color: white;
+    //   }
+    // }
   }
 
   &--non-fixed {
@@ -208,12 +224,7 @@ export default {
   width: 32px;
 }
 
-.order__basket-icon {
-  height: 28px;
-  width: 28px;
-}
-.order__dropdown-icon {
-  height: auto;
-  width: 20px;
+.the-order-navigation__dropdown {
+  width: 16px;
 }
 </style>
