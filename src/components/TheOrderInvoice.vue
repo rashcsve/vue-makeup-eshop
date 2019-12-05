@@ -1,114 +1,70 @@
 <template>
-  <div class="order__invoice" v-if="hasProducts">
-    <h4 class="title title--medium">
-      Delivery information
-    </h4>
+  <div class="order__invoice">
+    <h4 class="title title--medium">Delivery information</h4>
     <div class="order__form">
+      <form-control label="Name" type="text" name="fullname" placeholder="Name" v-model="fullName" />
+      <form-control label="Street" type="text" name="street" placeholder="Street" v-model="street" />
+      <form-control label="City" type="text" name="city" placeholder="City" v-model="city" />
       <form-control
-        label="Jméno a příjmení"
-        type="text"
-        name="fullname"
-        placeholder="Jméno a příjmení"
-        v-model="fullName"
-      />
-
-      <form-control
-        label="Ulice a číslo popisné"
-        type="text"
-        name="street"
-        placeholder="Ulice a číslo popisné"
-        v-model="street"
-      />
-
-      <form-control
-        label="Město"
-        type="text"
-        name="city"
-        placeholder="Město"
-        v-model="city"
-      />
-
-      <form-control
-        label="PSČ"
+        label="Postcode"
         type="text"
         name="postcode"
-        placeholder="PSČ"
+        placeholder="Postcode"
         v-model="postcode"
       />
-
+      <form-control label="Phone" type="text" name="phone" placeholder="Phone" v-model="phone" />
+      <form-control label="E-mail" type="text" name="email" placeholder="E-mail" v-model="email" />
       <form-control
-        label="Telefon"
-        type="text"
-        name="phone"
-        placeholder="Telefon"
-        v-model="phone"
-      />
-
-      <form-control
-        label="E-mail"
-        type="text"
-        name="email"
-        placeholder="E-mail"
-        v-model="email"
-      />
-
-      <form-control
-        label="Nakupuji na firmu"
+        label="Corporate Information"
         name="company"
         type="checkbox"
         v-model="isCompany"
       />
-
       <slide-up-down
         :active="isCompany.value"
         :duration="500"
         :class="{'order__business':true, 'order__business--active': isCompany.value === true}"
       >
         <form-control
-          label="Název společnosti"
+          label="Company name"
           type="text"
           name="comapny-name"
-          placeholder="Název společnosti"
+          placeholder="Company name"
           v-model="companyName"
         />
-
         <form-control
-          label="Ulice a číslo popisné"
+          label="Street"
           type="text"
           name="company-street"
-          placeholder="Ulice a číslo popisné"
+          placeholder="Street"
           v-model="companyStreet"
         />
-
         <form-control
-          label="Město"
+          label="City"
           type="text"
           name="company-city"
-          placeholder="Město"
+          placeholder="City"
           v-model="companyCity"
         />
-
         <form-control
-          label="PSČ"
+          label="Postcode"
           type="text"
           name="company-postcode"
-          placeholder="PSČ"
+          placeholder="Postcode"
           v-model="companyPostcode"
         />
-
         <form-control
-          label="IČO"
+          label="Identification number"
           type="text"
           name="in"
-          placeholder="IČO"
+          placeholder="Identification number"
           v-model="identificationNumber"
         />
-
         <form-control
-          label="DIČ"
+          label="VAT"
           type="text"
           name="tin"
-          placeholder="DIČ"
+          placeholder="VAT"
           v-model="taxIdentificationNumber"
         />
       </slide-up-down>
@@ -117,8 +73,8 @@
 </template>
 
 <script>
-import FormControl from './FormControl';
-import SlideUpDown from 'vue-slide-up-down';
+import FormControl from "./FormControl";
+import SlideUpDown from "vue-slide-up-down";
 
 export default {
   components: {
@@ -139,19 +95,12 @@ export default {
       companyCity: null,
       companyPostcode: null,
       identificationNumber: null,
-      taxIdentificationNumber: null,
-      store: this.$store
+      taxIdentificationNumber: null
     };
   },
 
   created() {
     this.functionUpdate();
-  },
-
-  computed: {
-    hasProducts() {
-      return this.store.getters.products.length !== 0;
-    }
   },
 
   watch: {
@@ -198,7 +147,7 @@ export default {
 
   methods: {
     functionUpdate(newValue, oldValue) {
-      this.store.commit('updateInvoice', {
+      this.$store.commit("updateInvoice", {
         fullName: this.fullName,
         street: this.street,
         city: this.city,

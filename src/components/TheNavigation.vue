@@ -1,33 +1,41 @@
 <template>
-  <nav :class="{'the-navigation': true, 'the-navigation--open': showModal}">
-    <!-- Main navigation bar -->
+  <nav :class="{ 'the-navigation': true, 'the-navigation--open': showModal }">
     <div class="the-navigation__main">
       <div
         @click="show()"
-        :class="{'the-navigation__menu': true, 'the-navigation__menu--open': showModal}"
+        :class="{
+          'the-navigation__menu': true,
+          'the-navigation__menu--open': showModal
+        }"
       >
-        <div v-if="!showModal" class="the-navigation__link the-navigation__link--menu">Menu</div>
-        <div v-else class="the-navigation__link the-navigation__link--close" @click="show()">Zavřít</div>
+        <div
+          v-if="!showModal"
+          class="the-navigation__link the-navigation__link--menu"
+        >
+          Menu
+        </div>
+        <div v-else class="the-navigation__link the-navigation__link--close">
+          Close
+        </div>
       </div>
-      <a class="the-navigation__logo" href="/">
-        <img alt="giraffe" src="../assets/images/logo.jpg" class="the-navigation__logo-img" />
-      </a>
-      <div class="the-navigation__basket">
-        <div class="the-navigation__link the-navigation__link--cart">Košík</div>
+      <router-link class="the-navigation__logo" to="/">
+        <h3 class="title title--h1">giraffes</h3>
+      </router-link>
+      <div @click="scrollToOrder" class="the-navigation__basket">
+        <div class="the-navigation__link the-navigation__link--cart">Cart</div>
       </div>
     </div>
-    <!-- Open navigation content -->
     <div class="the-navigation__other" v-if="showModal">
       <div class="the-navigation__items">
         <ul class="the-navigation__ul">
           <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="/about">O nás</a>
+            <a class="the-navigation__li-link" href="/about">About us</a>
           </li>
           <li class="the-navigation__li">
             <a class="the-navigation__li-link" href="/">Giraffe</a>
           </li>
           <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="#contact">Kontakt</a>
+            <a class="the-navigation__li-link" href="#contact">Contact</a>
           </li>
         </ul>
       </div>
@@ -42,7 +50,9 @@
 </template>
 
 <script>
-import SocialLink from "./SocialLink";
+import SocialLink from './SocialLink';
+import ScrollTo from 'vue-scrollto';
+
 export default {
   components: {
     SocialLink
@@ -55,7 +65,10 @@ export default {
   methods: {
     show() {
       this.showModal = !this.showModal;
-      this.$emit("show-modal", this.showModal);
+      this.$emit('show-modal', this.showModal);
+    },
+    scrollToOrder() {
+      ScrollTo.scrollTo('#order');
     }
   }
 };
@@ -68,17 +81,9 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
-  // height: @navigation-height;
-
-  // &.-no-cart {
-  //   .the-navigation__basket {
-  //     visibility: hidden;
-  //     pointer-events: none;
-  //   }
-  // }
 
   &:before {
-    content: "";
+    content: '';
     position: absolute;
     z-index: -1;
     top: 0;
@@ -92,7 +97,6 @@ export default {
     background-color: rgba(255, 255, 255, 0.8);
   }
 
-  // Modal is opened
   &--open {
     position: fixed;
     min-height: 100vh;
@@ -110,7 +114,7 @@ export default {
   position: relative;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   min-height: 96px;
   padding: 35px 65px 35px;
 
@@ -121,8 +125,6 @@ export default {
     align-items: flex-end;
     min-height: $navigation-height;
   }
-
-  // TO DO - add a container wrapper
   @media screen and (min-width: 1441px) {
     width: 1440px;
     margin: 0 auto;
@@ -134,7 +136,7 @@ export default {
   text-decoration: none;
 
   &:hover {
-    color: $color-hover;
+    color: $color-basic;
   }
 }
 
@@ -165,15 +167,15 @@ export default {
     padding-left: 5px;
   }
   &:hover {
-    background-color: $color-hover;
+    background-color: $color-basic;
     .the-navigation__link {
       color: $color-light;
     }
   }
 
   &::before {
-    content: "";
-    background: url("../assets/svg/menu.svg") no-repeat;
+    content: '';
+    background: url('../assets/svg/menu.svg') no-repeat;
     background-size: 16px;
     background-position: center;
     left: 0;
@@ -183,26 +185,26 @@ export default {
     display: inline-block;
   }
   &:hover::before {
-    background-image: url("../assets/svg/menu_hover.svg");
+    background-image: url('../assets/svg/menu_hover.svg');
   }
 
   &--open {
     &::before {
-      background-image: url("../assets/svg/close.svg");
+      background-image: url('../assets/svg/close.svg');
     }
     &:hover::before {
-      background-image: url("../assets/svg/close_hover.svg");
+      background-image: url('../assets/svg/close_hover.svg');
     }
   }
 }
 
 .the-navigation__logo {
-  width: 170px;
-  height: 78px;
-  align-self: flex-start;
+  // width: 170px;
+  // height: 78px;
+  align-self: flex-end;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
 
   &-img {
     width: 100%;
@@ -228,15 +230,15 @@ export default {
     padding-right: 5px;
   }
   &:hover {
-    background-color: $color-hover;
+    background-color: $color-basic;
     .the-navigation__link {
       color: $color-light;
     }
   }
   &::after {
-    content: "";
+    content: '';
     position: relative;
-    background: url("../assets/svg/giraffe.svg") no-repeat center/ 80%;
+    background: url('../assets/svg/giraffe.svg') no-repeat center/ 80%;
     left: 0;
     top: 0;
     height: 30px;
@@ -244,7 +246,7 @@ export default {
     display: inline-block;
   }
   &:hover::after {
-    background-image: url("../assets/svg/giraffe-white.svg");
+    background-image: url('../assets/svg/giraffe-white.svg');
   }
   &--count {
     font-size: 10px;

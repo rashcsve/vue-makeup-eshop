@@ -43,6 +43,7 @@
         <input
           type="checkbox"
           :name="name"
+          :label="label"
           @change="update"
           v-model="currentFormControlValue.value"
           class="checkbox__input"
@@ -55,8 +56,9 @@
         >
           {{ label }}
           <div v-if="options !== undefined" class="checkbox__extra">
-            {{ options.extraPrice.value }}{{ currency
-            }}{{ options.extraPrice.label }}
+            {{ options.extraPrice.value }}
+            {{ currency}}
+            {{ options.extraPrice.label }}
           </div>
         </span>
       </label>
@@ -77,7 +79,7 @@
             <span
               v-if="option.extraPrice"
               class="vue-select__extra"
-            >+ {{ option.extraPrice.value }} $</span>
+            >+ {{ option.extraPrice.value }} {{ currency }}</span>
           </div>
         </template>
       </v-select>
@@ -149,10 +151,10 @@ export default {
 
   data() {
     return {
-      store: this.$store,
       currentFormControlValue: {
         name: this.name,
-        value: this.value
+        value: this.value,
+        label: this.label
       },
       currency: "$",
       animationId: null
@@ -170,6 +172,8 @@ export default {
     update() {
       if (this.options !== undefined && this.options.extraPrice !== undefined) {
         this.currentFormControlValue.extraPrice = this.options.extraPrice.value;
+      } else {
+        this.currentFormControlValue.extraPrice = 0;
       }
       this.$emit("input", this.currentFormControlValue);
     },
@@ -178,7 +182,6 @@ export default {
       if (selected.extraPrice !== undefined) {
         this.currentFormControlValue.extraPrice = selected.extraPrice.value;
       }
-      console.log(this.currentFormControlValue)
       this.$emit("input", this.currentFormControlValue);
     }
   }
@@ -241,7 +244,6 @@ export default {
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 1.5px;
-  line-height: 15px;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -264,7 +266,6 @@ export default {
   color: #a0a0a0;
   height: 16px;
   position: relative;
-  top: 2px;
 }
 
 .form-control {
@@ -405,6 +406,10 @@ export default {
       path {
         fill: $color-basic;
       }
+    }
+
+    .vs__selected {
+      margin: 0;
     }
 
     .vs__selected-tag {

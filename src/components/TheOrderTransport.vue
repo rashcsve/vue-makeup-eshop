@@ -1,5 +1,5 @@
 <template>
-  <div class="the-order-transport" v-if="hasProducts">
+  <div class="the-order-transport">
     <h4 class="title title--medium">Transport</h4>
     <div class="the-order__form">
       <form-control
@@ -18,32 +18,22 @@
 </template>
 
 <script>
-import FormControl from './FormControl';
+import FormControl from "./FormControl";
 export default {
   components: {
     FormControl
   },
   data: function() {
     return {
-      store: this.$store,
-      transportType: ''
+      transportType: ""
     };
   },
-
-  computed: {
-    hasProducts() {
-      return this.store.getters.products.length !== 0;
-    }
-  },
-
   watch: {
     transportType(newValue, oldValue) {
-      this.store.commit('setTransport', {
+      this.$store.commit("setTransport", {
         transportType: this.transportType
       });
     }
   }
 };
 </script>
-
-<style lang="scss" scoped></style>

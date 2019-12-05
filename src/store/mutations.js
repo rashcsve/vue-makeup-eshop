@@ -1,17 +1,15 @@
 const mutations = {
-  // TO-DO: same names!!!
-  setOrderTotal(state, orderTotal) {
-    state.order.total = orderTotal;
+  setOrderTotal(state, payload) {
+    state.order.total = payload;
   },
-  setTransport(state, transport) {
-    state.order.transport = transport;
+  setTransport(state, payload) {
+    state.order.transport = payload;
   },
-  updateInvoice(state, invoice) {
-    state.order.invoice = invoice;
+  updateInvoice(state, payload) {
+    state.order.invoice = payload;
   },
-  setProducts(state, products) {
-    // update products
-    state.order.products = products;
+  setProducts(state, payload) {
+    state.order.products = payload;
   },
   removeProduct(state, product) {
     let index = state.order.products.indexOf(product);
@@ -23,22 +21,21 @@ const mutations = {
   addProduct(state, product) {
     var product = JSON.parse(JSON.stringify(product));
 
-    //rozsir produkt o uniq id
     product.productIdWithChoices = 'productId::' + product.id;
-    var stringifiedValues = '';
+    let stringifiedValues = '';
     Object.keys(product.selectedValuesFromChoices).forEach(key => {
-      var value = product.selectedValuesFromChoices[key];
+      let value = product.selectedValuesFromChoices[key];
       if (key === 'date-range') {
-        var start = value.start;
-        var end = value.end;
+        let start = value.start;
+        let end = value.end;
         value = start + ' - ' + end;
       }
-      stringifiedValues += ', ' + value;
+      stringifiedValues !== "" ? (stringifiedValues += ', ' + value) : (stringifiedValues += value)
       product.productIdWithChoices += '__' + key + '::' + value;
     });
     product.stringifiedValues = stringifiedValues;
 
-    var productFromStore = null;
+    let productFromStore = null;
     state.order.products.forEach(element => {
       if (element.productIdWithChoices === product.productIdWithChoices) {
         productFromStore = element;
@@ -46,7 +43,6 @@ const mutations = {
       }
     });
 
-    //Handle adding new / or recout
     if (productFromStore) {
       productFromStore.count++;
     } else {

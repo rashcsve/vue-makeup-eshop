@@ -48,7 +48,6 @@ export default {
       return this.showModal;
     }
   },
-
   methods: {
     modalIsOpened(value) {
       this.showModal = value;
@@ -58,10 +57,6 @@ export default {
 </script>
 
 <style lang="scss">
-img {
-  width: 100%;
-}
-
 .home__container {
   &--modal {
     overflow: hidden;

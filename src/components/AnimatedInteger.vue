@@ -1,12 +1,8 @@
 <template>
-  <div>
-    <span>{{ tweeningValue }}</span>
-  </div>
+  <span v-html="` ${tweeningValue} `" />
 </template>
 
 <script>
-import { Tween } from 'es6-tween';
-
 export default {
   props: {
     value: {
@@ -14,32 +10,31 @@ export default {
       required: true
     }
   },
-  data: function() {
+  data() {
     return {
       tweeningValue: 0
     };
   },
   watch: {
-    value(newValue, oldValue) {
-      this.tween(oldValue, newValue);
+    value(newVal, oldVal) {
+      this.tween(oldVal, newVal);
     }
   },
   mounted() {
-    this.tween(0.0, this.value);
+    this.tween(0, this.value);
   },
   methods: {
     tween(startValue, endValue) {
-      var vm = this;
+      let vm = this;
       function animate() {
-        if (Tween.update()) {
+        if (TWEEN.update()) {
           requestAnimationFrame(animate);
         }
       }
-
-      new Tween({ tweeningValue: startValue })
+      new TWEEN.Tween({ tweeningValue: startValue })
         .to({ tweeningValue: endValue }, 500)
-        .on("update", function(object) {
-          vm.tweeningValue = object.tweeningValue.toFixed(2);
+        .onUpdate(function() {
+          vm.tweeningValue = this.tweeningValue.toFixed(0);
         })
         .start();
 
@@ -48,6 +43,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

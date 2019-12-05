@@ -2,16 +2,10 @@
   <div
     :class="{
       button__wrapper: true,
-      'button__wrapper--center': alignment === 'center',
-      'button__wrapper--right': alignment === 'right'
+      'button__wrapper--center': alignment === 'center'
     }"
   >
-    <a
-      v-if="link"
-      :href="link"
-      :class="{ button: true, 'button--transparent': transparent }"
-      v-bind="dataAttributes"
-    >
+    <a v-if="link" :href="link" :class="{ button: true, 'button--transparent': transparent }">
       <span class="button__title">{{ title }}</span>
     </a>
 
@@ -24,9 +18,9 @@
         'button--more-close': close,
         'button--medium': medium,
         'button--dark': dark,
+        'button--big': big,
         'button--disabled': disabled
       }"
-      v-bind="dataAttributes"
     >
       <span class="button__title">{{ title }}</span>
     </button>
@@ -43,9 +37,9 @@ export default {
     dark: Boolean,
     disabled: Boolean,
     medium: Boolean,
+    big: Boolean,
     link: String,
-    alignment: String,
-    dataAttributes: Array
+    alignment: String
   }
 };
 </script>
@@ -58,10 +52,6 @@ export default {
     text-align: center;
     display: flex;
     justify-content: center;
-  }
-
-  &--right {
-    text-align: right;
   }
 }
 
@@ -142,17 +132,6 @@ export default {
     }
   }
 
-  &--transparent-dark {
-    background: inherit;
-    color: $color-basic;
-    border-color: $color-basic;
-
-    &:hover {
-      color: $color-light;
-      background: $color-basic;
-    }
-  }
-
   &--more {
     background: transparent url("../assets/svg/dropdown.svg") no-repeat right;
     background-position-x: 87%;
@@ -186,29 +165,6 @@ export default {
     }
   }
 
-  // &--lupa {
-  //   background: url("/svg/zoom.svg") no-repeat right white;
-  //   background-position: 93% 47.5%;
-  //   background-size: 10px;
-  //   width: 176px;
-  //   font-size: 12px;
-  //   text-align: left;
-  //   padding: 0 14px;
-  //   @media @media-min-tablet {
-  //     display: none;
-  //   }
-  // }
-  // &.-more.-lupa:hover {
-  //   background-image: url("/svg/zoom-white.svg");
-  //   background-position: 93% 47.5%;
-  //   background-size: 10px;
-  // }
-
-  &--no-position {
-    top: 0;
-    left: 0;
-  }
-
   &--big {
     width: 288px;
     @media only screen and (max-width: 600px) {
@@ -231,19 +187,7 @@ export default {
       background-color: $color-basic;
     }
   }
-  &--transparent-dark {
-    &:hover {
-      color: $color-basic;
-      background-color: transparent;
-    }
-  }
   &--light {
-    &:hover {
-      color: $color-basic;
-      background-color: $color-light;
-    }
-  }
-  &--want {
     &:hover {
       color: $color-basic;
       background-color: $color-light;

@@ -7,10 +7,7 @@
     <div class="product__info">
       <h3 class="title title--h1">{{ product.title }}</h3>
       <div class="product__price">
-        <div class="product__price--with-tax">
-          {{ product.subtitle }}
-          {{ product.currency }}
-        </div>
+        {{ product.subtitle }} {{ product.currency }}
       </div>
       <product-order :product="product" />
       <div class="product__perex">
@@ -62,12 +59,11 @@ export default {
     this.handleOverflow();
   },
   methods: {
-    handleTextCollapsing: function() {
+    handleTextCollapsing() {
       this.textCollapsed = !this.textCollapsed;
     },
-    handleOverflow: function() {
-      //Compute if description text overflows and set if more button shoulde be shown
-      var textContainer = this.$refs.textContainer;
+    handleOverflow() {
+      let textContainer = this.$refs.textContainer;
       if (textContainer.scrollHeight > textContainer.clientHeight) {
         this.showMoreButton = true;
       }
@@ -136,6 +132,7 @@ export default {
 .product__perex-text {
   overflow: initial;
   max-height: 100%;
+  margin: 16px 0;
 
   &--collapsed {
     max-height: 260px;

@@ -4,7 +4,7 @@ const getters = {
   },
   productsCount(state) {
     let count = 0;
-    state.order.products.forEach(function(element) {
+    state.order.products.forEach(element => {
       count += element.count;
     });
     return count;
@@ -49,14 +49,14 @@ const getters = {
   },
   productsTotalWithoutTax(state) {
     let total = 0;
-    state.order.products.forEach(function(element) {
+    state.order.products.forEach(element => {
       total += element.count * element.priceWithoutTax;
     });
     return total;
   },
   productsTotalTax(state) {
     let totalTax = {};
-    state.order.products.forEach(function(element) {
+    state.order.products.forEach(element => {
       let el = element;
 
       if (totalTax[el.taxRate] === undefined) {

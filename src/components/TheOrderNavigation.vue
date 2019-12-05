@@ -7,90 +7,78 @@
         'the-order-navigation--fixed': isFixed,
         'the-order-navigation--static': isStatic
       }"
-      data-role="order-handler"
       @click="scrollToOrder"
     >
-      <img
-        src="../assets/svg/giraffe-white.svg"
-        alt="giraffe"
-        class="the-order-navigation__icon"
-      />
+      <img src="../assets/svg/giraffe-white.svg" alt="giraffe" class="the-order-navigation__icon" />
       <transition>
-        <div
-          v-show="this.productsCount > 0"
-          class="the-order-navigation__count"
-        >
-          {{ productsCount }}
-        </div>
+        <div v-show="this.productsCount > 0" class="the-order-navigation__count">{{ productsCount }}</div>
       </transition>
-      <div v-if="productsCount != 0">
-        <span class="order__verb">To order</span>
-        <strong>
-          {{ productsCount }}
-          {{ productsCount > 1 ? 'items' : 'item' }}
-        </strong>
-        <span>for</span>
-        <strong>
-          <!-- <animated-integer :value="productsTotal" /> -->
-          {{ productsCount + currency }}
-        </strong>
-      </div>
+      <span v-if="productsCount !== 0">
+        {{ label }}
+        <b>{{ productsCount }} {{ productsCount > 1 ? 'items' : 'item' }}</b>
+        {{ textFor }}
+        <b>
+          <animated-integer :value="productsTotal" />
+          {{ currency }}
+        </b>
+      </span>
       <div v-else>
         <span>Your cart is empty</span>
       </div>
-
-      <div v-if="productsCount != 0">
+      <div
+        :class="{'the-order-navigation__icon-right':true, 'the-order-navigation__icon-right--open':productsCount !== 0}"
+      >
         <img
           src="../assets/svg/dropdown_light.svg"
           alt="dropdown"
           class="the-order-navigation__dropdown"
         />
       </div>
-      <div v-else></div>
     </div>
   </div>
 </template>
 
 <script>
-import AnimatedInteger from './AnimatedInteger';
-import ScrollTo from 'vue-scrollto';
+import AnimatedInteger from "./AnimatedInteger";
+import ScrollTo from "vue-scrollto";
 
 export default {
   components: {
     AnimatedInteger
   },
-  data: function() {
+  data() {
     return {
-      store: this.$store,
       // currency: this.$root.$options.config.currency,
-      currency: '$',
+      currency: "$",
       isFixed: false,
       isStatic: false,
       timer: null,
-      showcount: false
+      showcount: false,
+      label: "To order ",
+      textFor: " for "
     };
   },
 
   mounted() {
     let component = this;
 
-    window.addEventListener('scroll', this.handleChange);
-    window.addEventListener('resize', this.handleChange);
+    window.addEventListener("scroll", this.handleChange);
+    window.addEventListener("resize", this.handleChange);
 
     this.handleChange();
   },
   destroyed() {
-    window.removeEventListener('scroll', this.handleChange);
-    window.removeEventListener('resize', this.handleChange);
+    window.removeEventListener("scroll", this.handleChange);
+    window.removeEventListener("resize", this.handleChange);
   },
 
   computed: {
     productsCount() {
-      return this.store.getters.productsCount;
+      return this.$store.getters.productsCount;
     },
 
     productsTotal() {
-      return this.store.getters.productsTotal;
+      return this.$store.getters.productsTotal;
     }
   },
 
@@ -103,8 +91,6 @@ export default {
   methods: {
     handleChange() {
       this.checkFixedAttribute();
-      // if (this.timer !== null) clearTimeout(this.timer)
-      // this.timer = setTimeout(this.checkFixedAttribute, 0)
     },
     checkFixedAttribute() {
       var navigationHeight = this.$refs.navigation.getBoundingClientRect()
@@ -129,7 +115,7 @@ export default {
     },
 
     scrollToOrder() {
-      ScrollTo.scrollTo('#order');
+      ScrollTo.scrollTo("#order");
     }
   }
 };
@@ -141,7 +127,6 @@ export default {
   height: 80px;
   padding: 0 48px;
   margin: auto;
-  // background-color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -180,16 +165,7 @@ export default {
     margin: auto;
     z-index: 1000;
     cursor: pointer;
-
-    // .create-light-box-shadow();
-    // &:hover {
-    //   color: $color-basic;
-    //   background-color: $color-light;
-    //   .the-order-navigation__-count {
-    //     background-color: #202020;
-    //     color: white;
-    //   }
-    // }
+    @include create-light-box-shadow;
   }
 
   &--non-fixed {
@@ -222,6 +198,18 @@ export default {
 
 .the-order-navigation__icon {
   width: 32px;
+}
+
+.the-order-navigation__icon-right {
+  visibility: hidden;
+
+  &--open {
+    visibility: visible;
+  }
+}
+
+.the-order-navigation__info {
+  display: flex;
 }
 
 .the-order-navigation__dropdown {

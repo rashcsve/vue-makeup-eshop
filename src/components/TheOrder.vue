@@ -6,7 +6,7 @@
       </div>
       <the-order-navigation />
     </div>
-    <div class="the-order__other">
+    <div class="the-order__other" v-if="hasProducts">
       <the-order-cart />
       <the-order-transport />
       <the-order-invoice />
@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import TheOrderNavigation from './TheOrderNavigation';
-import TheOrderTransport from './TheOrderTransport';
-import TheOrderInvoice from './TheOrderInvoice';
-import TheOrderTotal from './TheOrderTotal';
-import TheOrderCart from './TheOrderCart';
+import TheOrderNavigation from "./TheOrderNavigation";
+import TheOrderTransport from "./TheOrderTransport";
+import TheOrderInvoice from "./TheOrderInvoice";
+import TheOrderTotal from "./TheOrderTotal";
+import TheOrderCart from "./TheOrderCart";
 export default {
   components: {
     TheOrderNavigation,
@@ -28,6 +28,11 @@ export default {
     TheOrderInvoice,
     TheOrderTotal,
     TheOrderCart
+  },
+  computed: {
+    hasProducts() {
+      return this.$store.getters.products.length !== 0;
+    }
   }
 };
 </script>
@@ -64,7 +69,6 @@ export default {
 }
 
 .the-order__main {
-  // background-color: #f5f5f5;
   width: 100%;
 }
 

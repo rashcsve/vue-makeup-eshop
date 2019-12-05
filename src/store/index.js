@@ -20,12 +20,5 @@ export default new Vuex.Store({
   state,
   mutations,
   actions,
-  getters,
-  // TO DO - what is setter wtf
-  setters: {
-    setProducts: function setProducts(state, products) {
-      // update products
-      state.order.products = products;
-    }
-  }
+  getters
 });

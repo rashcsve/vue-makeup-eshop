@@ -13,14 +13,9 @@
         :alt="contactInfo.name"
         class="contact-info__logo"
       />
-      <br />
-      {{ contactInfo.name }}
-      <br />
-      {{ contactInfo.address.street }}
-      <br />
-      {{ contactInfo.address.city }}
-      <br />
-      <br />
+      <p>{{ contactInfo.name }}</p>
+      <p>{{ contactInfo.address.street }}</p>
+      <p>{{ contactInfo.address.city }}</p>
     </div>
     <div class="contact-info__phone-email">
       <a
@@ -29,14 +24,16 @@
           'contact-info__link': true,
           'contact-info__link--header': header
         }"
-      >{{ contactInfo.phone }}</a>
+        >{{ contactInfo.phone }}</a
+      >
       <a
         :href="`mailto:${contactInfo.email}`"
         :class="{
           'contact-info__link': true,
           'contact-info__link--header': header
         }"
-      >{{ contactInfo.email }}</a>
+        >{{ contactInfo.email }}</a
+      >
     </div>
   </div>
 </template>
@@ -86,8 +83,8 @@ export default {
 }
 
 .contact-info__name {
-  font-style: normal;
   line-height: 32px;
   font-size: 24px;
+  margin-bottom: 16px;
 }
 </style>

@@ -2,69 +2,62 @@
   <div class="order__total" v-if="hasProducts">
     <div class="order__taxes">
       <div class="order__tax">
-        <label class="order__tax-title">Cena bez DPH</label>
+        <label class="order__tax-title">To be paid without VAT</label>
         <label class="order__tax-price">
           <!-- <vue-animated-integer :value="productsTotalWithoutTax" /> Kč -->
           {{ productsTotalWithoutTax }} $
         </label>
       </div>
-      <div
-        class="order__tax"
-        v-for="(taxPrice, taxRate) in productsTotalTax"
-        :key="taxRate"
-      >
-        <label class="order__tax-title">DPH {{ taxRate }}%</label>
+      <div class="order__tax" v-for="(taxPrice, taxRate) in productsTotalTax" :key="taxRate">
+        <label class="order__tax-title">VAT {{ taxRate }}%</label>
         <label class="order__tax-price">
           <!-- <vue-animated-integer :value="taxPrice" /> Kč -->
           {{ taxPrice }} $
         </label>
       </div>
       <div class="order__tax -total">
-        <label class="order__tax-title">Celkem</label>
+        <label class="order__tax-title">Subtotal</label>
         <label class="order__tax-price">
-          <!-- <vue-animated-integer :value="productsTotal" /> Kč -->
-          {{ productsTotal }} $
+          <animated-integer :value="productsTotal" />
+          {{ currency }}
         </label>
       </div>
     </div>
     <div class="order__trade-terms">
       <form-control
-        label="Souhlasím s Obchodními podmínkami"
+        label="I agree with the terms and conditions"
         name="trade-terms"
         type="checkbox"
         v-model="isTradeTermsAgreed"
       />
     </div>
     <div class="order__finish-order">
-      <button
+      <Button
         :disabled="
           isTradeTermsAgreed ? isTradeTermsAgreed.value === false : true
         "
         @click="submitOrder"
         type="button"
-        class="button -big -dark"
-      >
-        <span class="button__title">
-          Objednat a zaplatit
-        </span>
-      </button>
+        title="Pay for it"
+        big
+        dark
+      />
     </div>
   </div>
 </template>
 
 <script>
-import Button from './Button';
-import FormControl from './FormControl';
+import Button from "./Button";
+import FormControl from "./FormControl";
+import AnimatedInteger from "./AnimatedInteger";
 
 export default {
-  components: {
-    FormControl,
-    Button
-  },
+  components: { AnimatedInteger, FormControl, Button },
   data() {
     return {
       store: this.$store,
-      isTradeTermsAgreed: null
+      isTradeTermsAgreed: null,
+      currency: "$"
     };
   },
 
@@ -98,12 +91,12 @@ export default {
 
   methods: {
     submitOrder() {
-      this.store.dispatch('submitOrder');
-      window.Modal.open('order-completed-modal');
+      this.store.dispatch("submitOrder");
+      window.Modal.open("order-completed-modal");
     },
 
     update(n, o) {
-      this.store.commit('setOrderTotal', {
+      this.store.commit("setOrderTotal", {
         tradeTermsAgreed: this.isTradeTermsAgreed
       });
     }
@@ -112,6 +105,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.order__finish-order {
+  display: flex;
+  justify-content: center;
+}
+
 .order__total {
   margin-bottom: 80px;
 }
@@ -135,7 +133,7 @@ export default {
   }
 
   &::before {
-    content: '';
+    content: "";
     height: auto;
     border-bottom: 1px dashed $color-basic;
     flex-grow: 1;

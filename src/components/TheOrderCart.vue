@@ -1,12 +1,8 @@
 <template>
-  <div v-if="productsCount != 0" class="the-order-cart__products">
+  <div class="the-order-cart__products">
     <div class="the-order-cart">
       <h4 class="title title--medium">Cart</h4>
-      <div
-        class="the-order-cart__item"
-        v-for="(product, index) in products"
-        :key="index"
-      >
+      <div class="the-order-cart__item" v-for="(product, index) in products" :key="index">
         <div class="the-order-cart__image-wrapper">
           <div
             class="the-order-cart__image"
@@ -18,12 +14,10 @@
         </div>
 
         <div class="the-order-cart__other">
-          <div class="the-order-cart__title">
-            {{ product.title }}
-          </div>
-          <div class="the-order-cart__total">
-            {{ product.count }} items{{ product.stringifiedValues }}
-          </div>
+          <div class="the-order-cart__title">{{ product.title }}</div>
+          <div
+            class="the-order-cart__total"
+          >{{ product.count }} {{ product.count > 1 ? "items" : "item" }}: {{ product.stringifiedValues }}</div>
           <div class="the-order-cart__price">
             <b>{{ productTotalPrice(product) }} {{ currency }}</b>
           </div>
@@ -38,34 +32,27 @@
 export default {
   data() {
     return {
-      message: '',
-      store: this.$store,
+      message: "",
       // currency: this.$root.$options.config.currency
-      currency: '$'
+      currency: "$"
     };
   },
 
   computed: {
     products() {
-      console.log(this.store.getters.products);
-      return this.store.getters.products;
-    },
-
-    productsCount() {
-      return this.store.getters.productsCount;
+      return this.$store.getters.products;
     }
   },
 
   methods: {
     removeItem(product) {
-      this.store.commit('removeProduct', product);
+      this.$store.commit("removeProduct", product);
     },
     productTotalPrice(product) {
       let extraPrice = 0;
       if (product.extraPrice !== undefined) {
         extraPrice = product.extraPrice;
       }
-
       return product.price + extraPrice;
     }
   }
@@ -74,7 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 .the-order-cart__icon {
-  background: url('../assets/svg/close_basket.svg') no-repeat right;
+  background: url("../assets/svg/close_basket.svg") no-repeat right;
   left: 0;
   top: 0;
   height: 20px;

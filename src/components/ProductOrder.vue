@@ -12,7 +12,13 @@
       :options="choice.options ? choice.options : null"
       @input="handleFormControl"
     />
-    <Button @click.native="addToCart" title="Add To Cart" :disabled="!allChoicesSelected" medium dark />
+    <Button
+      @click.native="addToCart"
+      title="Add To Cart"
+      :disabled="!allChoicesSelected"
+      medium
+      dark
+    />
   </div>
 </template>
 
@@ -33,7 +39,6 @@ export default {
   },
   data() {
     return {
-      store: this.$store,
       currentProduct: this.product,
       selectedValuesFromChoices: {},
       allChoicesSelected: false
@@ -45,7 +50,6 @@ export default {
       this.selectedValuesFromChoices[choice.name] =
         choice.type === "checkbox" ? false : null;
     });
-    console.log("all " + this.allChoicesSelected);
   },
 
   mounted() {
@@ -58,17 +62,15 @@ export default {
     addToCart() {
       console.log("Adding...");
       this.currentProduct.selectedValuesFromChoices = this.selectedValuesFromChoices;
-      this.store.commit("addProduct", this.currentProduct);
+      this.$store.commit("addProduct", this.currentProduct);
     },
     handleFormControl(selectedValue) {
-      console.log(selectedValue);
       this.selectedValuesFromChoices[selectedValue.name] = selectedValue.value;
       if (this.currentProduct.extraPrice !== undefined) {
         this.currentProduct.extraPrice += selectedValue.extraPrice;
       } else {
         this.currentProduct.extraPrice = selectedValue.extraPrice;
       }
-
       //Check if all choices are selected
       var values = Object.values(this.selectedValuesFromChoices);
       var isAll = values.every(function(value) {

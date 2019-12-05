@@ -23,8 +23,8 @@ export default {
   },
   data() {
     return {
-      perex: 'Giraffes are cool!',
-      buttonTitle: 'Více o nás',
+      perex: 'Giraffes are cool! Giraffes spend most of their lives standing up, they even sleep and give birth standing up',
+      buttonTitle: 'About us',
       buttonLink: '/about',
       buttonAlignment: 'center'
     };

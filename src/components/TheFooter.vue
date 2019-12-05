@@ -9,8 +9,9 @@
     <div class="the-footer__other">
       <div class="the-footer__rules">
         <span>
-          Pravidla ochrany soukromí
-          <br />Obchodní podmínky
+          Privacy rules
+          <br />
+          Terms and conditions
         </span>
       </div>
       <div class="the-footer__social">
@@ -22,10 +23,10 @@
 </template>
 
 <script>
-import Contact from "../components/ContactInfo";
-import SocialLink from "../components/SocialLink";
+import Contact from '../components/ContactInfo';
+import SocialLink from '../components/SocialLink';
 
-import contactInfo from "../assets/json/contact";
+import contactInfo from '../assets/json/contact';
 
 export default {
   components: {
@@ -35,7 +36,7 @@ export default {
   data() {
     return {
       contactInfo: contactInfo,
-      image: "images/giraffes/horizontal/giraffe-3.jpg"
+      image: 'images/giraffes/horizontal/giraffe-3.jpg'
     };
   }
 };
@@ -78,7 +79,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    content: "";
+    content: '';
   }
 }
 

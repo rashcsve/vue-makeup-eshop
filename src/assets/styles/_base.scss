@@ -15,8 +15,17 @@ body {
   box-sizing: border-box;
 }
 
+a {
+  text-decoration: none;
+}
+
+img {
+  width: 100%;
+}
+
 ul,
-li {
+li,
+p {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -40,7 +49,7 @@ li {
   }
 
   &--h1 {
-    line-height: 48px;
+    line-height: 45px;
     font-weight: 600;
     font-size: 45px;
     margin: 0;
@@ -51,57 +60,10 @@ li {
     }
   }
 
-  &--h2 {
-    font-size: 32px;
-    line-height: 40px;
-  }
-
   &--h3 {
     font-size: 24px;
     line-height: 32px;
     font-weight: 100;
-  }
-
-  &--subtitle {
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 24px;
-  }
-
-  &--subtitle-alt {
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    line-height: 20px;
-    text-align: center;
-    text-transform: uppercase;
-    @media screen and (max-width: 600px) {
-      font-size: 14px;
-    }
-  }
-
-  &--caption {
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    line-height: 20px;
-    padding-top: 16px;
-  }
-
-  &--no-padding {
-    padding: 0;
-  }
-
-  &--no-padding-bottom {
-    padding-bottom: 0;
-  }
-
-  &--padding-top {
-    padding-top: 65px;
-  }
-
-  &--padding-bottom {
-    padding-bottom: 16px;
   }
 
   &--medium {
@@ -114,13 +76,5 @@ li {
     @media only screen and (max-width: 600px) {
       font-size: 27px;
     }
-  }
-
-  &--uppercase {
-    text-transform: uppercase;
-  }
-
-  &--no-margin {
-    margin: 0;
   }
 }

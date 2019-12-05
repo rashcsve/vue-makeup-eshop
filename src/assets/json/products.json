@@ -42,10 +42,6 @@
             "label": "Green"
           },
           {
-            "value": "Blue",
-            "label": "Blue"
-          },
-          {
             "value": "Gold",
             "label": "Gold",
             "extraPrice": {
