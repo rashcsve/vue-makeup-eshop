@@ -30,7 +30,9 @@ const mutations = {
         let end = value.end;
         value = start + ' - ' + end;
       }
-      stringifiedValues !== "" ? (stringifiedValues += ', ' + value) : (stringifiedValues += value)
+      stringifiedValues !== ''
+        ? (stringifiedValues += ', ' + value)
+        : (stringifiedValues += value);
       product.productIdWithChoices += '__' + key + '::' + value;
     });
     product.stringifiedValues = stringifiedValues;
@@ -48,6 +50,18 @@ const mutations = {
     } else {
       product.count = 1;
       state.order.products.push(product);
+    }
+
+    localStorage.setItem('product', product);
+  },
+  initialiseStore(state) {
+    if (localStorage.getItem('product')) {
+      console.log('mmm');
+      this.replaceState(
+        Object.assign(state, JSON.parse(localStorage.getItem('product')))
+      );
+    } else {
+      localStorage.removeItem('product');
     }
   }
 };

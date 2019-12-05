@@ -1,5 +1,5 @@
 <template>
-  <div class="order__total" v-if="hasProducts">
+  <div class="order__total">
     <div class="order__taxes">
       <div class="order__tax">
         <label class="order__tax-title">To be paid without VAT</label>
@@ -36,7 +36,7 @@
         :disabled="
           isTradeTermsAgreed ? isTradeTermsAgreed.value === false : true
         "
-        @click="submitOrder"
+        @click.native="submitOrder"
         type="button"
         title="Pay for it"
         big
@@ -55,7 +55,6 @@ export default {
   components: { AnimatedInteger, FormControl, Button },
   data() {
     return {
-      store: this.$store,
       isTradeTermsAgreed: null,
       currency: "$"
     };
@@ -73,30 +72,27 @@ export default {
 
   computed: {
     productsTotal() {
-      return this.store.getters.productsTotal;
+      return this.$store.getters.productsTotal;
     },
 
     productsTotalTax() {
-      return this.store.getters.productsTotalTax;
+      return this.$store.getters.productsTotalTax;
     },
 
     productsTotalWithoutTax() {
-      return this.store.getters.productsTotalWithoutTax;
-    },
-
-    hasProducts() {
-      return this.store.getters.products.length !== 0;
+      return this.$store.getters.productsTotalWithoutTax;
     }
   },
 
   methods: {
     submitOrder() {
-      this.store.dispatch("submitOrder");
-      window.Modal.open("order-completed-modal");
+      console.log("subm");
+      this.$store.dispatch("submitOrder");
+      // window.Modal.open("order-completed-modal");
     },
 
     update(n, o) {
-      this.store.commit("setOrderTotal", {
+      this.$store.commit("setOrderTotal", {
         tradeTermsAgreed: this.isTradeTermsAgreed
       });
     }
