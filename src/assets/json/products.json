@@ -23,8 +23,6 @@
     "subtitle": "od 1 000 000",
     "price": 1000000,
     "taxRate": 21,
-    "taxPrice": 21,
-    "priceWithoutTax": 790000,
     "currency": "$",
     "choices": [
       {
@@ -77,8 +75,6 @@
     "subtitle": "od 2 000 000",
     "price": 2000000,
     "taxRate": 15,
-    "taxPrice": 15,
-    "priceWithoutTax": 1700000,
     "currency": "$",
     "choices": [
       {

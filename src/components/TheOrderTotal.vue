@@ -8,7 +8,7 @@
           {{ productsTotalWithoutTax }} $
         </label>
       </div>
-      <div class="order__tax" v-for="(taxPrice, taxRate) in productsTotalTax" :key="taxRate">
+      <div class="order__tax" v-for="[taxRate, taxPrice] of productsTotalTax" :key="taxRate">
         <label class="order__tax-title">VAT {{ taxRate }}%</label>
         <label class="order__tax-price">
           <!-- <vue-animated-integer :value="taxPrice" /> Kč -->
@@ -86,11 +86,9 @@ export default {
 
   methods: {
     submitOrder() {
-      console.log("subm");
       this.$store.dispatch("submitOrder");
       // window.Modal.open("order-completed-modal");
     },
-
     update(n, o) {
       this.$store.commit("setOrderTotal", {
         tradeTermsAgreed: this.isTradeTermsAgreed

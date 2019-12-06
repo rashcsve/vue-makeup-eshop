@@ -5,6 +5,7 @@
       <img src="../assets/images/hero.png" alt="Hero Image" class="home__image" />
       <container>
         <the-hero />
+        <!-- // To Do: Add compote for this -->
         <ul class="home__products-list">
           <li v-for="item in items" :key="item.id" class="home__products-li">
             <Product :product="item" />

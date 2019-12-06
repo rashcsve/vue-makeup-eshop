@@ -1,4 +1,7 @@
 const mutations = {
+  // ADD_TO_CART(state, payload) {
+  // },
+
   setOrderTotal(state, payload) {
     state.order.total = payload;
   },
@@ -11,24 +14,25 @@ const mutations = {
   setProducts(state, payload) {
     state.order.products = payload;
   },
+  // setState(state, payload) {
+  //   Vue.set(state, payload);
+  // },
   removeProduct(state, product) {
     let index = state.order.products.indexOf(product);
-
     if (index > -1) {
       state.order.products.splice(index, 1);
     }
   },
-  addProduct(state, product) {
-    var product = JSON.parse(JSON.stringify(product));
-
+  addProduct(state, payload) {
+    let product = JSON.parse(JSON.stringify(payload));
+    console.log(product)
     product.productIdWithChoices = 'productId::' + product.id;
+
     let stringifiedValues = '';
     Object.keys(product.selectedValuesFromChoices).forEach(key => {
       let value = product.selectedValuesFromChoices[key];
       if (key === 'date-range') {
-        let start = value.start;
-        let end = value.end;
-        value = start + ' - ' + end;
+        value = value.start + ' - ' + value.end;
       }
       stringifiedValues !== ''
         ? (stringifiedValues += ', ' + value)
@@ -55,14 +59,14 @@ const mutations = {
     localStorage.setItem('product', product);
   },
   initialiseStore(state) {
-    if (localStorage.getItem('product')) {
-      console.log('mmm');
-      this.replaceState(
-        Object.assign(state, JSON.parse(localStorage.getItem('product')))
-      );
-    } else {
-      localStorage.removeItem('product');
-    }
+    // if (localStorage.getItem('product')) {
+    //   console.log('mmm');
+    //   this.replaceState(
+    //     Object.assign(state, JSON.parse(localStorage.getItem('product')))
+    //   );
+    // } else {
+    //   localStorage.removeItem('product');
+    // }
   }
 };
 

@@ -14,7 +14,6 @@
       <input
         :name="name"
         :type="type"
-        :value="currentFormControlValue.value"
         @change="update"
         v-model="currentFormControlValue.value"
         :class="{
@@ -24,10 +23,8 @@
       />
       <span class="form-control__placeholder">
         {{ label }}
-        <span
-          v-show="invalid"
-          class="form-control__placeholder-warn"
-        >{{ ' - ' + warning }}</span>
+        <!-- To Do: Add Validation and error prevention -->
+        <span v-show="invalid" class="form-control__placeholder-warn">{{ ' - ' + warning }}</span>
       </span>
       <span class="form-control__focus-border"></span>
     </div>
@@ -43,7 +40,6 @@
         <input
           type="checkbox"
           :name="name"
-          :label="label"
           @change="update"
           v-model="currentFormControlValue.value"
           class="checkbox__input"
@@ -57,7 +53,7 @@
           {{ label }}
           <div v-if="options !== undefined" class="checkbox__extra">
             {{ options.extraPrice.value }}
-            {{ currency}}
+            {{ currency }}
             {{ options.extraPrice.label }}
           </div>
         </span>
@@ -148,26 +144,15 @@ export default {
     id: null,
     invalid: false
   },
-
   data() {
     return {
       currentFormControlValue: {
         name: this.name,
-        value: this.value,
-        label: this.label
+        value: this.value
       },
-      currency: "$",
-      animationId: null
+      currency: "$"
     };
   },
-
-  created() {
-    if (this.type === "checkbox") {
-      this.currentFormControlValue.value = false;
-    }
-    this.animationId = "DateTimePicker-" + this.name + "-" + this.id;
-  },
-
   methods: {
     update() {
       if (this.options !== undefined && this.options.extraPrice !== undefined) {
@@ -175,12 +160,15 @@ export default {
       } else {
         this.currentFormControlValue.extraPrice = 0;
       }
+    
       this.$emit("input", this.currentFormControlValue);
     },
     updateVueSelect(selected) {
       this.currentFormControlValue.value = selected.value;
       if (selected.extraPrice !== undefined) {
         this.currentFormControlValue.extraPrice = selected.extraPrice.value;
+      } else {
+        this.currentFormControlValue.extraPrice = 0;
       }
       this.$emit("input", this.currentFormControlValue);
     }

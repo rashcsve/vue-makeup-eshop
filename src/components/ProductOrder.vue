@@ -62,20 +62,20 @@ export default {
     addToCart() {
       console.log("Adding...");
       this.currentProduct.selectedValuesFromChoices = this.selectedValuesFromChoices;
+
+      // To Do: how to use those ...mapActions things???
       this.$store.commit("addProduct", this.currentProduct);
     },
     handleFormControl(selectedValue) {
       this.selectedValuesFromChoices[selectedValue.name] = selectedValue.value;
-      if (this.currentProduct.extraPrice !== undefined) {
-        this.currentProduct.extraPrice += selectedValue.extraPrice;
-      } else {
-        this.currentProduct.extraPrice = selectedValue.extraPrice;
-      }
-      //Check if all choices are selected
-      var values = Object.values(this.selectedValuesFromChoices);
-      var isAll = values.every(function(value) {
+      this.currentProduct.extraPrice = selectedValue.extraPrice;
+
+      // Check if all choices are selected
+      const values = Object.values(this.selectedValuesFromChoices);
+      let isAll = values.every(value => {
         if (value === null) return false;
         if (typeof value === "object")
+          // To Do: Validation for disabed dates ?
           return value.start !== null && value.end !== null;
         return true;
       });

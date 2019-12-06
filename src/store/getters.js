@@ -1,7 +1,5 @@
 const getters = {
-  products(state) {
-    return state.order.products;
-  },
+  products: state => state.order.products,
   productsCount(state) {
     let count = 0;
     state.order.products.forEach(element => {
@@ -44,28 +42,32 @@ const getters = {
         }
       }
     }
-
     return total;
   },
   productsTotalWithoutTax(state) {
     let total = 0;
     state.order.products.forEach(element => {
-      total += element.count * element.priceWithoutTax;
+      total +=
+        element.count * (element.price * ((100 - element.taxRate) / 100));
     });
     return total;
   },
   productsTotalTax(state) {
-    let totalTax = {};
+    let totalTaxMap = new Map();
     state.order.products.forEach(element => {
-      let el = element;
-
-      if (totalTax[el.taxRate] === undefined) {
-        totalTax[el.taxRate] = 0;
+      let totalTaxPrice = 0;
+      //check if key exists
+      if (totalTaxMap.has(element.taxRate)) {
+        totalTaxPrice = totalTaxMap.get(element.taxRate); // get the value
+        totalTaxPrice +=
+          element.count * (element.price * (element.taxRate / 100));
+      } else {
+        totalTaxPrice =
+          element.count * (element.price * (element.taxRate / 100));
       }
-
-      totalTax[el.taxRate] += el.count * el.taxPrice;
+      totalTaxMap.set(element.taxRate, totalTaxPrice); // set new key-value pair
     });
-    return totalTax;
+    return totalTaxMap;
   }
 };
 

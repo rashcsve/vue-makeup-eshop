@@ -7,7 +7,7 @@ Vue.config.productionTip = false;
 
 // Store Watcher
 store.subscribe(state => {
-  localStorage.setItem('prodssuct', JSON.stringify(state));
+  localStorage.setItem('product', JSON.stringify(state));
 });
 
 new Vue({
