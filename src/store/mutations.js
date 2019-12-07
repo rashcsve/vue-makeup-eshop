@@ -25,7 +25,6 @@ const mutations = {
   },
   addProduct(state, payload) {
     let product = JSON.parse(JSON.stringify(payload));
-    console.log(product)
     product.productIdWithChoices = 'productId::' + product.id;
 
     let stringifiedValues = '';

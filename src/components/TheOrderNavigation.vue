@@ -11,22 +11,22 @@
     >
       <img src="../assets/svg/giraffe-white.svg" alt="giraffe" class="the-order-navigation__icon" />
       <transition>
-        <div v-show="this.productsCount > 0" class="the-order-navigation__count">{{ productsCount }}</div>
+        <div v-show="hasItems" class="the-order-navigation__count">{{ getItemsCount }}</div>
       </transition>
-      <span v-if="productsCount !== 0">
+      <span v-if="hasItems">
         {{ label }}
-        <b>{{ productsCount }} {{ productsCount > 1 ? 'items' : 'item' }}</b>
+        <b>{{ getItemsCount }} {{ getItemsCount > 1 ? 'items' : 'item' }}</b>
         {{ textFor }}
         <b>
           <!-- <animated-integer :value="productsTotal" /> -->
-          {{ productsTotal + currency }}
+          {{ getCartTotal + currency }}
         </b>
       </span>
       <div v-else>
         <span>Your cart is empty</span>
       </div>
       <div
-        :class="{'the-order-navigation__icon-right':true, 'the-order-navigation__icon-right--open':productsCount !== 0}"
+        :class="{'the-order-navigation__icon-right':true, 'the-order-navigation__icon-right--open':hasItems}"
       >
         <img
           src="../assets/svg/dropdown_light.svg"
@@ -41,6 +41,8 @@
 <script>
 import AnimatedInteger from "./AnimatedInteger";
 import ScrollTo from "vue-scrollto";
+
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -58,36 +60,28 @@ export default {
       textFor: " for "
     };
   },
-
   mounted() {
-    let component = this;
-
     window.addEventListener("scroll", this.handleChange);
     window.addEventListener("resize", this.handleChange);
-
     this.handleChange();
   },
   destroyed() {
     window.removeEventListener("scroll", this.handleChange);
     window.removeEventListener("resize", this.handleChange);
   },
-
   computed: {
-    productsCount() {
-      return this.$store.getters.productsCount;
-    },
-
-    productsTotal() {
-      return this.$store.getters.productsTotal;
-    }
+    ...mapGetters({
+      hasItems: "cart/hasItems",
+      getItemsCount: "cart/getCartItemsCount",
+      getCartTotal: "cart/getCartTotal"
+    })
   },
-
+  // TO DO - Do I need it?
   watch: {
-    productsCount(newCount, oldCount) {
+    hasItems(newCount, oldCount) {
       this.checkFixedAttribute();
     }
   },
-
   methods: {
     handleChange() {
       this.checkFixedAttribute();
@@ -103,17 +97,16 @@ export default {
 
       if (containerFromTop - currentViewportBottomLine < 0) {
         this.isStatic = true;
-        if (this.isFixed !== false && this.productsCount !== 0) {
+        if (this.isFixed !== false && this.hasItems) {
           this.isFixed = false;
         }
       } else {
         this.isStatic = false;
-        if (this.isFixed !== true && this.productsCount !== 0) {
+        if (this.isFixed !== true && this.hasItems) {
           this.isFixed = true;
         }
       }
     },
-
     scrollToOrder() {
       ScrollTo.scrollTo("#order");
     }

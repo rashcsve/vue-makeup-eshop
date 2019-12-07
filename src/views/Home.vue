@@ -20,7 +20,7 @@
           />
         </div>
         <p v-else>Loading...</p>
-        <!-- <the-order /> -->
+        <the-order />
       </container>
       <the-footer />
     </div>

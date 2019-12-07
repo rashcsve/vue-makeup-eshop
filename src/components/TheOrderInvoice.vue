@@ -2,70 +2,23 @@
   <div class="order__invoice">
     <h4 class="title title--medium">Delivery information</h4>
     <div class="order__form">
-      <form-control label="Name" type="text" name="fullname" placeholder="Name" v-model="fullName" />
-      <form-control label="Street" type="text" name="street" placeholder="Street" v-model="street" />
-      <form-control label="City" type="text" name="city" placeholder="City" v-model="city" />
       <form-control
-        label="Postcode"
-        type="text"
-        name="postcode"
-        placeholder="Postcode"
-        v-model="postcode"
+        v-for="(choice, index) in choices"
+        :key="index"
+        :choice="choice"
+        @input="handleInput"
       />
-      <form-control label="Phone" type="text" name="phone" placeholder="Phone" v-model="phone" />
-      <form-control label="E-mail" type="text" name="email" placeholder="E-mail" v-model="email" />
-      <form-control
-        label="Corporate Information"
-        name="company"
-        type="checkbox"
-        v-model="isCompany"
-      />
+      <form-control :key="companyCheckbox.index" :choice="companyCheckbox" @input="handleInput" />
       <slide-up-down
-        :active="isCompany.value"
+        :active="isCompany"
         :duration="500"
-        :class="{'order__business':true, 'order__business--active': isCompany.value === true}"
+        :class="{'order__business':true, 'order__business--active': isCompany}"
       >
         <form-control
-          label="Company name"
-          type="text"
-          name="comapny-name"
-          placeholder="Company name"
-          v-model="companyName"
-        />
-        <form-control
-          label="Street"
-          type="text"
-          name="company-street"
-          placeholder="Street"
-          v-model="companyStreet"
-        />
-        <form-control
-          label="City"
-          type="text"
-          name="company-city"
-          placeholder="City"
-          v-model="companyCity"
-        />
-        <form-control
-          label="Postcode"
-          type="text"
-          name="company-postcode"
-          placeholder="Postcode"
-          v-model="companyPostcode"
-        />
-        <form-control
-          label="Identification number"
-          type="text"
-          name="in"
-          placeholder="Identification number"
-          v-model="identificationNumber"
-        />
-        <form-control
-          label="VAT"
-          type="text"
-          name="tin"
-          placeholder="VAT"
-          v-model="taxIdentificationNumber"
+          v-for="(choice, index) in companyChoices"
+          :key="index"
+          :choice="choice"
+          @input="handleInput"
         />
       </slide-up-down>
     </div>
@@ -76,92 +29,93 @@
 import FormControl from "./FormControl";
 import SlideUpDown from "vue-slide-up-down";
 
+import { mapActions } from "vuex";
+
 export default {
   components: {
     FormControl,
     SlideUpDown
   },
-  data: function() {
+  data() {
     return {
-      fullName: null,
-      street: null,
-      city: null,
-      postcode: null,
-      phone: null,
-      email: null,
+      orderInvoice: {},
       isCompany: false,
-      companyName: null,
-      companyStreet: null,
-      companyCity: null,
-      companyPostcode: null,
-      identificationNumber: null,
-      taxIdentificationNumber: null
+      choices: [
+        { label: "name", type: "text", name: "name", placeholder: "Name" },
+        {
+          label: "street",
+          type: "text",
+          name: "street",
+          placeholder: "Street"
+        },
+        { label: "city", type: "text", name: "city", placeholder: "City" },
+        {
+          label: "postcode",
+          type: "text",
+          name: "postcode",
+          placeholder: "Postcode"
+        },
+        { label: "phone", type: "text", name: "phone", placeholder: "Phone" },
+        { label: "email", type: "text", name: "email", placeholder: "Email" }
+      ],
+      companyCheckbox: {
+        label: "Corporate Information",
+        type: "checkbox",
+        name: "company",
+        id: "company",
+        options: null
+      },
+      companyChoices: [
+        {
+          label: "companyName",
+          type: "text",
+          name: "companyName",
+          placeholder: "Company Name"
+        },
+        {
+          label: "companyStreet",
+          type: "text",
+          name: "companyStreet",
+          placeholder: "Company Street"
+        },
+        {
+          label: "companyCity",
+          type: "text",
+          name: "companyCity",
+          placeholder: "Company City"
+        },
+        {
+          label: "companyPostcode",
+          type: "text",
+          name: "companyPostcode",
+          placeholder: "Company Postcode"
+        },
+        {
+          label: "identificationNumber",
+          type: "text",
+          name: "identificationNumber",
+          placeholder: "Identification Number"
+        },
+        {
+          label: "taxIdentificationNumber",
+          type: "text",
+          name: "taxIdentificationNumber",
+          placeholder: "Tax Identification Number"
+        }
+      ]
     };
   },
-
-  created() {
-    this.functionUpdate();
-  },
-
-  watch: {
-    fullName: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    street: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    city: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    postcode: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    phone: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    email: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    isCompany: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    companyName: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    companyStreet: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    companyCity: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    companyPostcode: function(n, o) {
-      this.functionUpdate(n, o);
-    },
-    identificationNumber(n, o) {
-      this.functionUpdate(n, o);
-    },
-    taxIdentificationNumber(n, o) {
-      this.functionUpdate(n, o);
-    }
-  },
-
   methods: {
-    functionUpdate(newValue, oldValue) {
-      this.$store.commit("updateInvoice", {
-        fullName: this.fullName,
-        street: this.street,
-        city: this.city,
-        postcode: this.postcode,
-        phone: this.phone,
-        email: this.email,
-        isCompany: this.isCompany,
-        companyName: this.companyName,
-        companyStreet: this.companyStreet,
-        companyCity: this.companyCity,
-        companyPostcode: this.companyPostcode,
-        identificationNumber: this.identificationNumber,
-        taxIdentificationNumber: this.taxIdentificationNumber
-      });
+    ...mapActions({
+      addInvoiceToCart: "cart/addInvoiceToCart"
+    }),
+    handleInput(inputValue) {
+      if (inputValue.type === "checkbox") {
+        this.isCompany = inputValue.value;
+      } else {
+        this.orderInvoice[inputValue.label] = inputValue.value;
+        this.addInvoiceToCart(this.orderInvoice);
+      }
     }
   }
 };

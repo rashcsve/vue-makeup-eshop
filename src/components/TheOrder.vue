@@ -6,7 +6,7 @@
       </div>
       <the-order-navigation />
     </div>
-    <div class="the-order__other" v-if="hasProducts">
+    <div class="the-order__other" v-if="hasItems">
       <the-order-cart />
       <the-order-transport />
       <the-order-invoice />
@@ -22,7 +22,7 @@ import TheOrderInvoice from "./TheOrderInvoice";
 import TheOrderTotal from "./TheOrderTotal";
 import TheOrderCart from "./TheOrderCart";
 
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -33,10 +33,7 @@ export default {
     TheOrderCart
   },
   computed: {
-    ...mapGetters({ allCartItems: "cart/getCartItems" }),
-    hasProducts() {
-      return this.allCartItems.length !== 0;
-    }
+    ...mapGetters({ hasItems: "cart/hasItems" })
   }
 };
 </script>

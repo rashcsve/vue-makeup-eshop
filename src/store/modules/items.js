@@ -15,7 +15,9 @@ export default {
     itemIsInStock(state) {
       return product => {
         const found = state.items.find(pr => product.id === pr.id);
-        if (found.quantity) {
+        if (found.quantity === 0) {
+          return false;
+        } else if (found && found.quantity) {
           return found.quantity > 0;
         } else if (found) {
           return true;

@@ -2,24 +2,28 @@
   <div class="the-order-cart__products">
     <div class="the-order-cart">
       <h4 class="title title--medium">Cart</h4>
-      <div class="the-order-cart__item" v-for="(product, index) in products" :key="index">
+      <div class="the-order-cart__item" v-for="(product, index) in getCartItems" :key="index">
         <div class="the-order-cart__image-wrapper">
           <div
             class="the-order-cart__image"
             :style="{
               'background-image':
-                'url(' + require(`@/assets/${product.images[0].src}`) + ')'
+                'url(' + require(`@/assets/${product.image}`) + ')'
             }"
           ></div>
         </div>
 
         <div class="the-order-cart__other">
-          <div class="the-order-cart__title">{{ product.title }}</div>
-          <div
-            class="the-order-cart__total"
-          >{{ product.count }} {{ product.count > 1 ? "items" : "item" }}: {{ product.stringifiedValues }}</div>
+          <div class="the-order-cart__title">{{ product.label }}</div>
+          <div class="the-order-cart__total">
+            {{ product.stock }} {{ product.stock > 1 ? "items" : "item" }}
+            <span
+              v-if="product.additionalValue"
+            >- "{{ product.additionalLabel }}"</span>
+            <span v-if="product.dateTimeValue">- {{ product.dateTimeValue }}</span>
+          </div>
           <div class="the-order-cart__price">
-            <b>{{ productTotalPrice(product) }} {{ currency }}</b>
+            <b>{{ product.price * product.stock }} $</b>
           </div>
         </div>
         <div class="the-order-cart__icon" @click="removeItem(product)"></div>
@@ -29,6 +33,8 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -39,9 +45,9 @@ export default {
   },
 
   computed: {
-    products() {
-      return this.$store.getters.products;
-    }
+    ...mapGetters({
+      getCartItems: "cart/getCartItems"
+    })
   },
 
   methods: {

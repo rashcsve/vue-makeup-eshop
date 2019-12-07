@@ -3,15 +3,12 @@
     <h4 class="title title--medium">Transport</h4>
     <div class="the-order__form">
       <form-control
-        label="Choose transport type"
-        type="select"
-        name="transport"
         :options="[
           { label: 'PPL', value: 'ppl' },
           { label: 'DHL', value: 'dhl' }
         ]"
-        placeholder="Choose transport type..."
-        v-model="transportType"
+        :choice="choice"
+        @input="handleFormControl"
       />
     </div>
   </div>
@@ -19,20 +16,33 @@
 
 <script>
 import FormControl from "./FormControl";
+
+import { mapActions } from "vuex";
+
 export default {
   components: {
     FormControl
   },
-  data: function() {
+  data() {
     return {
-      transportType: ""
+      transport: {},
+      choice: {
+        label: "Choose transport type",
+        type: "select",
+        name: "transport",
+        placeholder: "Choose transport type..."
+      }
     };
   },
-  watch: {
-    transportType(newValue, oldValue) {
-      this.$store.commit("setTransport", {
-        transportType: this.transportType
-      });
+  methods: {
+    ...mapActions({
+      addTransportToCart: "cart/addTransportToCart"
+    }),
+    handleFormControl(selectedValue) {
+      this.transport.id = this.choice.name;
+      this.transport.value = selectedValue.value;
+      this.transport.label = selectedValue.label;
+      this.addTransportToCart(this.transport)
     }
   }
 };

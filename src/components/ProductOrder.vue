@@ -1,6 +1,6 @@
 <template>
   <div class="product-order">
-    <FormControl
+    <form-control
       v-for="(choice, index) in choices"
       :key="index"
       :choice="choice"
@@ -64,14 +64,23 @@ export default {
       } else if (selectedValue.type === "checkbox") {
         this.itemForStore.additionalValue = selectedValue.value;
         if (selectedValue.extraPrice) {
-          this.itemForStore.price += selectedValue.extraPrice;
+          if (this.itemForStore.price === undefined)
+            this.itemForStore.price = 0;
+          // Add price only if the value is true
+          if (selectedValue.value) {
+            this.itemForStore.price += selectedValue.extraPrice;
+          } else {
+            this.itemForStore.price -= selectedValue.extraPrice;
+          }
         }
         this.itemForStore.additionalLabel = selectedValue.label;
       } else if (selectedValue.type === "select") {
         this.itemForStore.id = selectedValue.id;
         this.itemForStore.price = selectedValue.price;
         if (selectedValue.extraPrice) {
-          this.itemForStore.price += selectedValue.extraPrice;
+          if (selectedValue.value) {
+            this.itemForStore.price += selectedValue.extraPrice;
+          }
         }
         this.itemForStore.id = selectedValue.id;
         this.itemForStore.taxRate = selectedValue.taxRate;
@@ -88,9 +97,6 @@ export default {
       } else {
         this.cartItem.push(selectedValue);
       }
-
-      console.log("item for store");
-      console.log(this.itemForStore);
 
       // TO DO - Add validation
       // Check if all choices are selected

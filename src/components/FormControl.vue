@@ -22,7 +22,7 @@
         }"
       />
       <span class="form-control__placeholder">
-        {{ choice.label }}
+        {{ choice.placeholder }}
         <!-- To Do: Add Validation and error prevention -->
         <!-- <span v-show="invalid" class="form-control__placeholder-warn">{{ ' - ' + warning }}</span> -->
       </span>
@@ -52,7 +52,7 @@
         >
           {{ choice.label }}
           <div
-            v-if="options[0].extraPrice !== undefined"
+            v-if="options && options[0].extraPrice !== undefined"
             class="checkbox__extra"
           >{{ options[0].extraPrice }}$</div>
         </span>
@@ -121,8 +121,7 @@ export default {
       required: true
     },
     options: {
-      type: Array,
-      required: true
+      type: Array
     }
   },
   data() {

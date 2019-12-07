@@ -4,39 +4,29 @@
       <div class="order__tax">
         <label class="order__tax-title">To be paid without VAT</label>
         <label class="order__tax-price">
-          <!-- <vue-animated-integer :value="productsTotalWithoutTax" /> Kč -->
-          {{ productsTotalWithoutTax }} $
+          <animated-integer :value="getCartTotalWithoutTax" />$
         </label>
       </div>
-      <div class="order__tax" v-for="[taxRate, taxPrice] of productsTotalTax" :key="taxRate">
+      <div class="order__tax" v-for="(taxPrice, taxRate) in getCartTaxes" :key="taxRate">
         <label class="order__tax-title">VAT {{ taxRate }}%</label>
         <label class="order__tax-price">
-          <!-- <vue-animated-integer :value="taxPrice" /> Kč -->
-          {{ taxPrice }} $
+          <animated-integer :value="taxPrice" />$
         </label>
       </div>
       <div class="order__tax -total">
         <label class="order__tax-title">Subtotal</label>
         <label class="order__tax-price">
-          <!-- <animated-integer :value="productsTotal" /> -->
-          {{productsTotal+ currency }}
+          <animated-integer :value="getCartTotal" />$
         </label>
       </div>
     </div>
     <div class="order__trade-terms">
-      <form-control
-        label="I agree with the terms and conditions"
-        name="trade-terms"
-        type="checkbox"
-        v-model="isTradeTermsAgreed"
-      />
+      <form-control :choice="agreementCheckbox" @input="handleCheckbox" />
     </div>
     <div class="order__finish-order">
       <Button
-        :disabled="
-          isTradeTermsAgreed ? isTradeTermsAgreed.value === false : true
-        "
-        @click.native="submitOrder"
+        :disabled="!isTradeTermsAgreed"
+        @click.native.prevent="submitOrder"
         type="button"
         title="Pay for it"
         big
@@ -51,48 +41,37 @@ import Button from "./Button";
 import FormControl from "./FormControl";
 import AnimatedInteger from "./AnimatedInteger";
 
+import { mapGetters } from "vuex";
+
 export default {
   components: { AnimatedInteger, FormControl, Button },
   data() {
     return {
       isTradeTermsAgreed: null,
-      currency: "$"
+      agreementCheckbox: {
+        label: "I agree with the terms and conditions",
+        type: "checkbox",
+        name: "trade-terms",
+        id: "trade-terms",
+        options: null
+      }
     };
   },
-
-  created() {
-    this.update();
-  },
-
-  watch: {
-    isTradeTermsAgreed(newValue, oldValue) {
-      this.update(newValue, oldValue);
-    }
-  },
-
   computed: {
-    productsTotal() {
-      return this.$store.getters.productsTotal;
-    },
-
-    productsTotalTax() {
-      return this.$store.getters.productsTotalTax;
-    },
-
-    productsTotalWithoutTax() {
-      return this.$store.getters.productsTotalWithoutTax;
-    }
+    ...mapGetters({
+      getCartTotal: "cart/getCartTotal",
+      getCartTaxes: "cart/getCartTaxes",
+      getCartTotalWithoutTax: "cart/getCartTotalWithoutTax"
+    })
   },
 
   methods: {
     submitOrder() {
-      this.$store.dispatch("submitOrder");
-      // window.Modal.open("order-completed-modal");
+      console.log("submitting...");
+      this.$store.dispatch("cart/submitOrder");
     },
-    update(n, o) {
-      this.$store.commit("setOrderTotal", {
-        tradeTermsAgreed: this.isTradeTermsAgreed
-      });
+    handleCheckbox(checkboxValue) {
+      this.isTradeTermsAgreed = checkboxValue.value;
     }
   }
 };
