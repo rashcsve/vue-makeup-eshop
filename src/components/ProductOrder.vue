@@ -8,7 +8,7 @@
       @input="handleFormControl"
     />
     <Button
-      @click.native="addToCart(cartItem)"
+      @click.native="addToCart(itemForStore)"
       title="Add To Cart"
       :disabled="!allChoicesSelected"
       medium
@@ -39,8 +39,9 @@ export default {
   },
   data() {
     return {
-      allChoicesSelected: false,
-      cartItems: []
+      allChoicesSelected: true,
+      cartItem: [],
+      itemForStore: {}
     };
   },
 
@@ -58,27 +59,54 @@ export default {
     },
 
     handleFormControl(selectedValue) {
-      const alreadyExistsIndex = this.cartItems.findIndex(
-        item => item.formId === selectedValue.formId
-      );
-      if (alreadyExistsIndex > -1) {
-        this.cartItems[alreadyExistsIndex] = selectedValue;
-      } else {
-        this.cartItems.push(selectedValue);
+      if (selectedValue.type === "date-time-picker") {
+        this.itemForStore.dateTimeValue = selectedValue.value;
+      } else if (selectedValue.type === "checkbox") {
+        this.itemForStore.additionalValue = selectedValue.value;
+        if (selectedValue.extraPrice) {
+          this.itemForStore.price += selectedValue.extraPrice;
+        }
+        this.itemForStore.additionalLabel = selectedValue.label;
+      } else if (selectedValue.type === "select") {
+        this.itemForStore.id = selectedValue.id;
+        this.itemForStore.price = selectedValue.price;
+        if (selectedValue.extraPrice) {
+          this.itemForStore.price += selectedValue.extraPrice;
+        }
+        this.itemForStore.id = selectedValue.id;
+        this.itemForStore.taxRate = selectedValue.taxRate;
+        this.itemForStore.image = selectedValue.image;
+        this.itemForStore.label = selectedValue.label;
       }
 
+      const alreadyExistsIndex = this.cartItem.findIndex(
+        item => item.formId === selectedValue.formId
+      );
+      // if exists in array
+      if (alreadyExistsIndex > -1) {
+        this.cartItem[alreadyExistsIndex] = selectedValue;
+      } else {
+        this.cartItem.push(selectedValue);
+      }
+
+      console.log("item for store");
+      console.log(this.itemForStore);
+
+      // TO DO - Add validation
       // Check if all choices are selected
-      let choicesIds = [];
-      this.choices.forEach(v => {
-        choicesIds.push(v.name);
-      });
-      let itemsIds = [];
-      this.cartItems.forEach(v => {
-        itemsIds.push(v.formId);
-      });
-      JSON.stringify(choicesIds) === JSON.stringify(itemsIds)
-        ? (this.allChoicesSelected = true)
-        : (this.allChoicesSelected = false);
+      // let choicesIds = [];
+      // this.choices.forEach(v => {
+      //   choicesIds.push(v.name);
+      // });
+      // let itemsIds = [];
+      // this.cartItem.forEach(v => {
+      //   itemsIds.push(v.formId);
+      // });
+      // JSON.stringify(choicesIds) === JSON.stringify(itemsIds)
+      //   ? (this.allChoicesSelected = true)
+      //   : (this.allChoicesSelected = false);
+      // console.log("cartItem");
+      // console.log(this.cartItem);
     }
   }
 };

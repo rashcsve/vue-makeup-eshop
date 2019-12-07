@@ -20,7 +20,7 @@
           />
         </div>
         <p v-else>Loading...</p>
-        <the-order />
+        <!-- <the-order /> -->
       </container>
       <the-footer />
     </div>
@@ -78,6 +78,7 @@ export default {
         {
           id: "age",
           type: "select",
+          required: true,
           name: "age",
           placeholder: "Choose age",
           label: "Choose age"
@@ -106,12 +107,14 @@ export default {
           type: "select",
           name: "service",
           placeholder: "Choose service",
-          label: "Choose service"
+          label: "Choose service",
+          required: true
         },
         {
           type: "date-time-picker",
           name: "time",
           placeholder: "Choose date and time",
+          required: true,
           label: "Choose date and time",
           options: [
             {
@@ -140,6 +143,7 @@ export default {
         {
           id: "photo",
           type: "checkbox",
+          required: false,
           name: "photo",
           label: "Take a photo",
           options: [

@@ -24,6 +24,7 @@
     "label": "Baby",
     "price": 1000,
     "extraPrice": 500,
+    "taxRate": 21,
     "quantity": 2,
     "image": "images/giraffes/squared/giraffe-1.jpg"
   }

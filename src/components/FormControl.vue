@@ -52,9 +52,9 @@
         >
           {{ choice.label }}
           <div
-            v-if="options.extraPrice !== undefined"
+            v-if="options[0].extraPrice !== undefined"
             class="checkbox__extra"
-          >{{ options.extraPrice }}$</div>
+          >{{ options[0].extraPrice }}$</div>
         </span>
       </label>
     </div>
@@ -136,10 +136,17 @@ export default {
       objectToEmit.value = this.currentFormControlValue;
       objectToEmit.formId = this.choice.name;
       objectToEmit.label = this.choice.label;
+      objectToEmit.required = this.choice.required;
+      objectToEmit.type = this.choice.type;
+      if (this.choice.options && this.choice.options[0].extraPrice) {
+        objectToEmit.extraPrice = this.choice.options[0].extraPrice;
+      }
       this.$emit("input", objectToEmit);
     },
     updateSelect() {
       this.currentFormControlValue.formId = this.choice.name;
+      this.currentFormControlValue.required = this.choice.required;
+      this.currentFormControlValue.type = this.choice.type;
       this.$emit("input", this.currentFormControlValue);
     }
   }
