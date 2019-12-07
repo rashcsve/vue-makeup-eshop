@@ -1,0 +1,30 @@
+[
+  {
+    "id": "giraffe1",
+    "value": "adult",
+    "label": "Adult",
+    "price": 1000,
+    "quantity": 10,
+    "taxRate": 21,
+    "image": "images/giraffes/squared/giraffe-3.jpg"
+  },
+  {
+    "id": "giraffe2",
+    "value": "teenager",
+    "label": "Teenager",
+    "price": 1000,
+    "extraPrice": 250,
+    "quantity": 5,
+    "taxRate": 21,
+    "image": "images/giraffes/squared/giraffe-4.jpg"
+  },
+  {
+    "id": "giraffe3",
+    "value": "baby",
+    "label": "Baby",
+    "price": 1000,
+    "extraPrice": 500,
+    "quantity": 2,
+    "image": "images/giraffes/squared/giraffe-1.jpg"
+  }
+]

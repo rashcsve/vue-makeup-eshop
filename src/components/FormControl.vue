@@ -2,95 +2,91 @@
   <div
     :class="{
       'form-control__container': true,
-      'form-control__container--type-checkbox': type === 'checkbox',
-      'form-control__container--type-text': type === 'text',
-      'form-control__container--type-select': type === 'select',
-      'form-control__container--type-select--cart': (type === 'select' && name === 'transport'),
+      'form-control__container--type-checkbox': choice.type === 'checkbox',
+      'form-control__container--type-text': choice.type === 'text',
+      'form-control__container--type-select': choice.type === 'select',
+      'form-control__container--type-select--cart': (choice.type === 'select' && choice.name === 'transport'),
       'form-control__container--type-date-time-picker':
-        type === 'date-time-picker'
+        choice.type === 'date-time-picker'
     }"
   >
-    <div v-if="type === 'text' || type === 'password'">
+    <div v-if="choice.type === 'text' || choice.type === 'password'">
       <input
-        :name="name"
-        :type="type"
+        :name="choice.name"
+        :type="choice.type"
         @change="update"
-        v-model="currentFormControlValue.value"
+        v-model="currentFormControlValue"
         :class="{
           'form-control': true,
-          'form-control--filled': currentFormControlValue.value
+          'form-control--filled': currentFormControlValue
         }"
       />
       <span class="form-control__placeholder">
-        {{ label }}
+        {{ choice.label }}
         <!-- To Do: Add Validation and error prevention -->
-        <span v-show="invalid" class="form-control__placeholder-warn">{{ ' - ' + warning }}</span>
+        <!-- <span v-show="invalid" class="form-control__placeholder-warn">{{ ' - ' + warning }}</span> -->
       </span>
       <span class="form-control__focus-border"></span>
     </div>
 
     <div
-      v-if="type === 'checkbox'"
+      v-if="choice.type === 'checkbox'"
       :class="{
         checkbox__container: true,
-        'checkbox__container--product': product
+        'checkbox__container--product': choice.product
       }"
     >
-      <label :class="{ checkbox__label: true, 'checkbox__label--product': product }">
+      <label :class="{ checkbox__label: true, 'checkbox__label--product': choice.product }">
         <input
-          type="checkbox"
-          :name="name"
+          :type="choice.type"
+          :name="choice.name"
           @change="update"
-          v-model="currentFormControlValue.value"
+          v-model="currentFormControlValue"
           class="checkbox__input"
         />
         <span
           :class="{
             checkbox__phrase: true,
-            'checkbox__phrase--product': product
+            'checkbox__phrase--product': choice.product
           }"
         >
-          {{ label }}
-          <div v-if="options !== undefined" class="checkbox__extra">
-            {{ options.extraPrice.value }}
-            {{ currency }}
-            {{ options.extraPrice.label }}
-          </div>
+          {{ choice.label }}
+          <div
+            v-if="options.extraPrice !== undefined"
+            class="checkbox__extra"
+          >{{ options.extraPrice }}$</div>
         </span>
       </label>
     </div>
 
-    <div v-if="type === 'select'">
+    <div v-if="choice.type === 'select'">
       <v-select
         ref="control"
         :options="options"
         label="label"
-        :placeholder="placeholder"
-        @input="updateVueSelect"
+        :placeholder="choice.placeholder"
+        @input="updateSelect"
         :clearable="false"
+        v-model="currentFormControlValue"
       >
-        <template slot="option" slot-scope="option">
+        <template v-slot:option="option">
           <div class="vue-select__options-container">
             <span>{{ option.label }}</span>
-            <span
-              v-if="option.extraPrice"
-              class="vue-select__extra"
-            >+ {{ option.extraPrice.value }} {{ currency }}</span>
+            <span v-if="option.extraPrice" class="vue-select__extra">+ {{ option.extraPrice }} $</span>
           </div>
         </template>
       </v-select>
-      <input type="hidden" v-model="currentFormControlValue.value" :name="name" />
+      <!-- <input type="hidden" v-model="currentFormControlValue" :name="choice.name" /> -->
     </div>
 
-    <div v-if="type === 'date-time-picker'">
+    <div v-if="choice.type === 'date-time-picker'">
       <vue-ctk-date-time-picker
-        :id="'DateTimePicker-' + name + '-' + id"
-        v-model="currentFormControlValue.value"
+        v-model="currentFormControlValue"
         @input="update"
         color="black"
         :noHeader="true"
         buttonColor="black"
-        :label="label"
+        :label="choice.label"
         :no-shortcuts="true"
         :noButtonNow="true"
         :locale="options.locale ? options.locale : null"
@@ -119,57 +115,31 @@ export default {
     vSelect,
     VueCtkDateTimePicker
   },
-
   props: {
-    label: {
-      type: String,
+    choice: {
+      type: Object,
       required: true
     },
-    type: {
-      type: String,
+    options: {
+      type: Array,
       required: true
-    },
-    name: {
-      type: String,
-      required: true
-    },
-    warning: {
-      type: String,
-      default: "Warning!"
-    },
-    options: null,
-    placeholder: "",
-    product: false,
-    value: null,
-    id: null,
-    invalid: false
+    }
   },
   data() {
     return {
-      currentFormControlValue: {
-        name: this.name,
-        value: this.value
-      },
-      currency: "$"
+      currentFormControlValue: ""
     };
   },
   methods: {
     update() {
-      if (this.options !== undefined && this.options.extraPrice !== undefined) {
-        this.currentFormControlValue.extraPrice = this.options.extraPrice.value;
-      } else {
-        this.currentFormControlValue.extraPrice = 0;
-      }
-    
-      this.$emit("input", this.currentFormControlValue);
+      let objectToEmit = {};
+      objectToEmit.value = this.currentFormControlValue;
+      objectToEmit.formId = this.choice.name;
+      objectToEmit.label = this.choice.label;
+      this.$emit("input", objectToEmit);
     },
-    updateVueSelect(selected) {
-      this.currentFormControlValue.value = selected.value;
-      if (selected.extraPrice !== undefined) {
-        this.currentFormControlValue.extraPrice = selected.extraPrice.value;
-      } else {
-        this.currentFormControlValue.extraPrice = 0;
-      }
+    updateSelect() {
+      this.currentFormControlValue.formId = this.choice.name;
       this.$emit("input", this.currentFormControlValue);
     }
   }

@@ -18,8 +18,8 @@
       <div class="order__tax -total">
         <label class="order__tax-title">Subtotal</label>
         <label class="order__tax-price">
-          <animated-integer :value="productsTotal" />
-          {{ currency }}
+          <!-- <animated-integer :value="productsTotal" /> -->
+          {{productsTotal+ currency }}
         </label>
       </div>
     </div>

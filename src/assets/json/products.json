@@ -1,50 +1,56 @@
 [
   {
-    "label": "First Giraffe",
+    "id": "1",
     "images": [
       {
-        "thumb": "images/giraffes/squared/giraffe-1.jpg",
-        "src": "images/giraffes/squared/giraffe-1.jpg",
-        "caption": "First Giraffe Rules!"
+        "thumb": "images/giraffes/squared/giraffe-3.jpg",
+        "src": "images/giraffes/squared/giraffe-3.jpg",
+        "caption": "Adult Giraffe"
       },
       {
         "thumb": "images/giraffes/squared/giraffe-4.jpg",
         "src": "images/giraffes/squared/giraffe-4.jpg",
-        "caption": "Giraffe With His Mom"
+        "caption": "Teenage Giraffe"
       },
       {
-        "thumb": "images/giraffes/squared/giraffe-3.jpg",
-        "src": "images/giraffes/squared/giraffe-3.jpg",
-        "caption": "Giraffe Is The Best!"
+        "thumb": "images/giraffes/squared/giraffe-1.jpg",
+        "src": "images/giraffes/squared/giraffe-1.jpg",
+        "caption": "Baby Giraffe!"
       }
     ],
-    "id": "1",
-    "title": "First Giraffe",
-    "subtitle": "od 1 000 000",
-    "price": 1000000,
+    "title": "Giraffes",
+    "subtitle": "od 1 000",
+    "price": 1000,
     "taxRate": 21,
-    "currency": "$",
     "choices": [
       {
         "type": "select",
-        "name": "color",
-        "placeholder": "Choose color",
-        "label": "Choose color",
+        "name": "age",
+        "placeholder": "Choose age",
+        "label": "Choose age",
         "options": [
           {
-            "value": "Red",
-            "label": "Red"
+            "id": "giraffe1",
+            "value": "adult",
+            "label": "Adult",
+            "quantity": 10,
+            "image": "images/giraffes/squared/giraffe-3.jpg"
           },
           {
-            "value": "Green",
-            "label": "Green"
+            "id": "giraffe2",
+            "value": "teenager",
+            "label": "Teenager",
+            "extraPrice": 250,
+            "quantity": 5,
+            "image": "images/giraffes/squared/giraffe-4.jpg"
           },
           {
-            "value": "Gold",
-            "label": "Gold",
-            "extraPrice": {
-              "value": 10000
-            }
+            "id": "giraffe3",
+            "value": "baby",
+            "label": "Baby",
+            "extraPrice": 500,
+            "quantity": 2,
+            "image": "images/giraffes/squared/giraffe-1.jpg"
           }
         ]
       }
@@ -52,30 +58,23 @@
     "description": "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam dictum tincidunt diam. Curabitur vitae diam non enim vestibulum interdum. Quisque porta. Quisque tincidunt scelerisque libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Mauris tincidunt sem sed arcu. Maecenas aliquet accumsan leo. Mauris elementum mauris vitae tortor. Nullam eget nisl. Aenean vel massa quis mauris vehicula lacinia. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus.</p><p>Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Pellentesque sapien. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. Maecenas lorem. Quisque porta. Vestibulum erat nulla, ullamcorper nec, rutrum non, nonummy ac, erat. Quisque tincidunt scelerisque libero. Nulla quis diam. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Integer vulputate sem a nibh rutrum consequat.</p>"
   },
   {
-    "label": "Second Giraffe",
+    "id": "2",
     "images": [
       {
         "thumb": "images/giraffes/squared/giraffe-2.jpg",
         "src": "images/giraffes/squared/giraffe-2.jpg",
-        "caption": "Second Giraffe Is The Best!"
+        "caption": "Meet Giraffe"
       },
       {
         "thumb": "images/giraffes/squared/giraffe-5.jpg",
         "src": "images/giraffes/squared/giraffe-5.jpg",
-        "caption": "Giraffe Is Eating"
-      },
-      {
-        "thumb": "images/giraffes/squared/giraffe-7.jpg",
-        "src": "images/giraffes/squared/giraffe-7.jpg",
-        "caption": "Giraffe Portrait"
+        "caption": "Feed Giraffe"
       }
     ],
-    "id": "2",
-    "title": "Second Giraffe",
-    "subtitle": "od 2 000 000",
-    "price": 2000000,
+    "title": "Services",
+    "subtitle": "od 100",
+    "price": 100,
     "taxRate": 15,
-    "currency": "$",
     "choices": [
       {
         "type": "select",
@@ -84,47 +83,53 @@
         "label": "Choose service",
         "options": [
           {
-            "value": "One",
-            "label": "One"
+            "id": "service1",
+            "value": "meet",
+            "label": "Meet giraffe",
+            "image": "images/giraffes/squared/giraffe-2.jpg"
           },
           {
-            "value": "Two",
-            "label": "Two",
-            "extraPrice": {
-              "value": 10000
-            }
-          },
-          {
-            "value": "Three",
-            "label": "Three",
-            "extraPrice": {
-              "value": 20000
-            }
+            "id": "service2",
+            "value": "feed",
+            "label": "Feed giraffe",
+            "extraPrice": 200,
+            "image": "images/giraffes/squared/giraffe-5.jpg"
           }
         ]
       },
       {
+        "id": "date-picker",
         "type": "date-time-picker",
         "name": "time",
         "placeholder": "Choose date and time",
         "label": "Choose date and time",
         "options": {
           "locale": "en",
-          "disabledHours": ["23", "00", "01", "02", "03"],
+          "disabledHours": [
+            "21",
+            "22",
+            "23",
+            "00",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07"
+          ],
           "minuteInterval": 5,
           "format": "DD.M.YYYY HH:mm",
           "formatted": "dddd D.M. - H:mm"
         }
       },
       {
+        "id": "photo",
         "type": "checkbox",
-        "name": "food",
-        "label": "With food",
+        "name": "photo",
+        "label": "Take a photo",
         "options": {
-          "extraPrice": {
-            "value": -100,
-            "label": ""
-          }
+          "extraPrice": 50
         },
         "product": true
       }

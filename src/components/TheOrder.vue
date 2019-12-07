@@ -21,6 +21,9 @@ import TheOrderTransport from "./TheOrderTransport";
 import TheOrderInvoice from "./TheOrderInvoice";
 import TheOrderTotal from "./TheOrderTotal";
 import TheOrderCart from "./TheOrderCart";
+
+import { mapState, mapGetters, mapActions } from "vuex";
+
 export default {
   components: {
     TheOrderNavigation,
@@ -30,8 +33,9 @@ export default {
     TheOrderCart
   },
   computed: {
+    ...mapGetters({ allCartItems: "cart/getCartItems" }),
     hasProducts() {
-      return this.$store.getters.products.length !== 0;
+      return this.allCartItems.length !== 0;
     }
   }
 };

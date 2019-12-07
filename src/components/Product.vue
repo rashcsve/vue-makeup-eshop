@@ -1,15 +1,10 @@
 <template>
   <div class="product">
-    <product-gallery
-      :images="product.images"
-      :master-image="product.images[0].src"
-    />
+    <product-gallery :images="info.images" :master-image="info.images[0].src" />
     <div class="product__info">
-      <h3 class="title title--h1">{{ product.title }}</h3>
-      <div class="product__price">
-        {{ product.subtitle }} {{ product.currency }}
-      </div>
-      <product-order :product="product" />
+      <h3 class="title title--h1">{{ info.title }}</h3>
+      <div class="product__price">{{ info.subtitle }}$</div>
+      <product-order :choices="choices" :options="options" />
       <div class="product__perex">
         <div
           ref="textContainer"
@@ -17,7 +12,7 @@
             'product__perex-text': true,
             'product__perex-text--collapsed': textCollapsed
           }"
-          v-html="product.description"
+          v-html="info.description"
         ></div>
         <Button
           v-if="showMoreButton"
@@ -32,9 +27,9 @@
 </template>
 
 <script>
-import ProductGallery from '../components/ProductGallery';
-import ProductOrder from '../components/ProductOrder';
-import Button from '../components/Button';
+import ProductGallery from "../components/ProductGallery";
+import ProductOrder from "../components/ProductOrder";
+import Button from "../components/Button";
 
 export default {
   components: {
@@ -45,6 +40,18 @@ export default {
   props: {
     product: {
       type: Object,
+      default: null
+    },
+    info: {
+      type: Object,
+      default: null
+    },
+    choices: {
+      type: Array,
+      default: null
+    },
+    options: {
+      type: Array,
       default: null
     }
   },

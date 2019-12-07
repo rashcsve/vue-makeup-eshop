@@ -18,8 +18,8 @@
         <b>{{ productsCount }} {{ productsCount > 1 ? 'items' : 'item' }}</b>
         {{ textFor }}
         <b>
-          <animated-integer :value="productsTotal" />
-          {{ currency }}
+          <!-- <animated-integer :value="productsTotal" /> -->
+          {{ productsTotal + currency }}
         </b>
       </span>
       <div v-else>
