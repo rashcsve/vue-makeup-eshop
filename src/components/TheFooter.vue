@@ -1,7 +1,7 @@
 <template>
   <footer
     class="the-footer"
-    :style="{ 'background-image': 'url(' + require(`@/assets/${image}`) + ')' }"
+    :style="{ 'background-image': 'url(' + require(`@/assets/${contactInfo.image}`) + ')' }"
   >
     <div class="the-footer__main">
       <contact :contactInfo="contactInfo" class="the-footer__contact" />
@@ -10,8 +10,7 @@
       <div class="the-footer__rules">
         <span>
           Privacy rules
-          <br />
-          Terms and conditions
+          <br />Terms and conditions
         </span>
       </div>
       <div class="the-footer__social">
@@ -23,10 +22,8 @@
 </template>
 
 <script>
-import Contact from '../components/ContactInfo';
-import SocialLink from '../components/SocialLink';
-
-import contactInfo from '../assets/json/contact';
+import Contact from "../components/ContactInfo";
+import SocialLink from "../components/SocialLink";
 
 export default {
   components: {
@@ -35,8 +32,16 @@ export default {
   },
   data() {
     return {
-      contactInfo: contactInfo,
-      image: 'images/giraffes/horizontal/giraffe-3.jpg'
+      contactInfo: {
+        name: "Giraffes",
+        address: {
+          street: "Wild",
+          city: "Africa"
+        },
+        phone: "123456789",
+        email: "giraffes@the.best",
+        image: "images/giraffes/horizontal/giraffe-3.jpg"
+      }
     };
   }
 };
@@ -79,7 +84,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.7);
-    content: '';
+    content: "";
   }
 }
 
