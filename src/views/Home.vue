@@ -1,8 +1,14 @@
 <template>
   <div class="home">
     <the-navigation @show-modal="modalIsOpened" />
-    <div :class="{ home__container: true, 'home__container--modal': showModal }">
-      <img src="../assets/images/hero.png" alt="Hero Image" class="home__image" />
+    <div
+      :class="{ home__container: true, 'home__container--modal': showModal }"
+    >
+      <img
+        src="../assets/images/hero.png"
+        alt="Hero Image"
+        class="home__image"
+      />
       <container>
         <the-hero />
         <div v-if="!loading">
@@ -28,17 +34,17 @@
 </template>
 
 <script>
-import TheNavigation from "../components/TheNavigation";
-import TheHero from "../components/TheHero";
-import Product from "../components/Product";
-import TheOrder from "../components/TheOrder";
-import Container from "../components/Container";
-import TheFooter from "../components/TheFooter";
+import TheNavigation from '../components/TheNavigation';
+import TheHero from '../components/TheHero';
+import Product from '../components/Product';
+import TheOrder from '../components/TheOrder';
+import Container from '../components/Container';
+import TheFooter from '../components/TheFooter';
 
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     TheNavigation,
     TheHero,
@@ -54,98 +60,85 @@ export default {
       giraffeInfo: {
         images: [
           {
-            thumb: "images/giraffes/squared/giraffe-3.jpg",
-            src: "images/giraffes/squared/giraffe-3.jpg",
-            caption: "Adult Giraffe"
+            thumb: 'images/giraffes/squared/giraffe-3.jpg',
+            src: 'images/giraffes/squared/giraffe-3.jpg',
+            caption: 'Adult Giraffe'
           },
           {
-            thumb: "images/giraffes/squared/giraffe-4.jpg",
-            src: "images/giraffes/squared/giraffe-4.jpg",
-            caption: "Teenage Giraffe"
+            thumb: 'images/giraffes/squared/giraffe-4.jpg',
+            src: 'images/giraffes/squared/giraffe-4.jpg',
+            caption: 'Teenage Giraffe'
           },
           {
-            thumb: "images/giraffes/squared/giraffe-1.jpg",
-            src: "images/giraffes/squared/giraffe-1.jpg",
-            caption: "Baby Giraffe!"
+            thumb: 'images/giraffes/squared/giraffe-1.jpg',
+            src: 'images/giraffes/squared/giraffe-1.jpg',
+            caption: 'Baby Giraffe!'
           }
         ],
-        title: "Giraffes",
-        subtitle: "od 1 000",
+        title: 'Giraffes',
+        subtitle: 'od 1 000',
         description:
-          "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam dictum tincidunt diam. Curabitur vitae diam non enim vestibulum interdum. Quisque porta. Quisque tincidunt scelerisque libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Mauris tincidunt sem sed arcu. Maecenas aliquet accumsan leo. Mauris elementum mauris vitae tortor. Nullam eget nisl. Aenean vel massa quis mauris vehicula lacinia. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus.</p><p>Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Pellentesque sapien. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. Maecenas lorem. Quisque porta. Vestibulum erat nulla, ullamcorper nec, rutrum non, nonummy ac, erat. Quisque tincidunt scelerisque libero. Nulla quis diam. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Integer vulputate sem a nibh rutrum consequat.</p>"
+          '<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam dictum tincidunt diam. Curabitur vitae diam non enim vestibulum interdum. Quisque porta. Quisque tincidunt scelerisque libero. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Etiam sapien elit, consequat eget, tristique non, venenatis quis, ante. Mauris tincidunt sem sed arcu. Maecenas aliquet accumsan leo. Mauris elementum mauris vitae tortor. Nullam eget nisl. Aenean vel massa quis mauris vehicula lacinia. Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus.</p><p>Maecenas fermentum, sem in pharetra pellentesque, velit turpis volutpat ante, in pharetra metus odio a lectus. Pellentesque sapien. In laoreet, magna id viverra tincidunt, sem odio bibendum justo, vel imperdiet sapien wisi sed libero. Maecenas lorem. Quisque porta. Vestibulum erat nulla, ullamcorper nec, rutrum non, nonummy ac, erat. Quisque tincidunt scelerisque libero. Nulla quis diam. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Integer vulputate sem a nibh rutrum consequat.</p>'
       },
       giraffeChoices: [
         {
-          id: "age",
-          type: "select",
+          id: 'age',
+          type: 'select',
           required: true,
-          name: "age",
-          placeholder: "Choose age",
-          label: "Choose age"
+          name: 'age',
+          placeholder: 'Choose age',
+          label: 'Choose age'
         }
       ],
       serviceInfo: {
         images: [
           {
-            thumb: "images/giraffes/squared/giraffe-2.jpg",
-            src: "images/giraffes/squared/giraffe-2.jpg",
-            caption: "Meet Giraffe"
+            thumb: 'images/giraffes/squared/giraffe-2.jpg',
+            src: 'images/giraffes/squared/giraffe-2.jpg',
+            caption: 'Meet Giraffe'
           },
           {
-            thumb: "images/giraffes/squared/giraffe-5.jpg",
-            src: "images/giraffes/squared/giraffe-5.jpg",
-            caption: "Feed Giraffe"
+            thumb: 'images/giraffes/squared/giraffe-5.jpg',
+            src: 'images/giraffes/squared/giraffe-5.jpg',
+            caption: 'Feed Giraffe'
           }
         ],
-        title: "Services",
-        subtitle: "od 100",
-        description: "<p>Meow Meow</p>"
+        title: 'Services',
+        subtitle: 'od 100',
+        description: '<p>Meow Meow</p>'
       },
       serviceChoices: [
         {
-          id: "service",
-          type: "select",
-          name: "service",
-          placeholder: "Choose service",
-          label: "Choose service",
+          id: 'service',
+          type: 'select',
+          name: 'service',
+          placeholder: 'Choose service',
+          label: 'Choose service',
           required: true
         },
         {
-          type: "date-time-picker",
-          name: "time",
-          placeholder: "Choose date and time",
+          id: 'date-time-picker',
+          type: 'date-time-picker',
+          name: 'date',
+          placeholder: 'Choose date',
           required: true,
-          label: "Choose date and time",
+          label: 'Choose date',
           options: [
             {
-              id: "date-picker-options",
-              value: "",
-              locale: "en",
-              disabledHours: [
-                "21",
-                "22",
-                "23",
-                "00",
-                "01",
-                "02",
-                "03",
-                "04",
-                "05",
-                "06",
-                "07"
-              ],
-              minuteInterval: 5,
-              format: "DD.M.YYYY HH:mm",
-              formatted: "dddd D.M. - H:mm"
+              id: 'date-picker-options',
+              value: '',
+              locale: 'en',
+              minDate: '2019-12-01',
+              maxDate: '2020-12-31'
             }
           ]
         },
         {
-          id: "photo",
-          type: "checkbox",
+          id: 'photo',
+          type: 'checkbox',
           required: false,
-          name: "photo",
-          label: "Take a photo",
+          name: 'photo',
+          label: 'Take a photo',
           options: [
             {
               extraPrice: 50
@@ -167,8 +160,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchGiraffes: "items/fetchGiraffes",
-      fetchServices: "items/fetchServices"
+      fetchGiraffes: 'items/fetchGiraffes',
+      fetchServices: 'items/fetchServices'
     }),
     modalIsOpened(value) {
       this.showModal = value;

@@ -54,12 +54,11 @@ export default {
       state.total.totalCartTaxes = cartTaxes;
       return cartTaxes;
     },
-    getProductsCount(state) {
-      let count = 0;
-      state.items.forEach(element => {
-        count += element.count;
-      });
-      return count;
+    getCartTransport(state) {
+      return state.transport;
+    },
+    getCartInvoice(state) {
+      return state.invoice;
     }
   },
   mutations: {

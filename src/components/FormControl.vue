@@ -5,7 +5,8 @@
       'form-control__container--type-checkbox': choice.type === 'checkbox',
       'form-control__container--type-text': choice.type === 'text',
       'form-control__container--type-select': choice.type === 'select',
-      'form-control__container--type-select--cart': (choice.type === 'select' && choice.name === 'transport'),
+      'form-control__container--type-select--cart':
+        choice.type === 'select' && choice.name === 'transport',
       'form-control__container--type-date-time-picker':
         choice.type === 'date-time-picker'
     }"
@@ -36,7 +37,12 @@
         'checkbox__container--product': choice.product
       }"
     >
-      <label :class="{ checkbox__label: true, 'checkbox__label--product': choice.product }">
+      <label
+        :class="{
+          checkbox__label: true,
+          'checkbox__label--product': choice.product
+        }"
+      >
         <input
           :type="choice.type"
           :name="choice.name"
@@ -54,7 +60,9 @@
           <div
             v-if="options && options[0].extraPrice !== undefined"
             class="checkbox__extra"
-          >{{ options[0].extraPrice }}$</div>
+          >
+            {{ options[0].extraPrice }}$
+          </div>
         </span>
       </label>
     </div>
@@ -65,18 +73,19 @@
         :options="options"
         label="label"
         :placeholder="choice.placeholder"
-        @input="updateSelect"
+        @input="update"
         :clearable="false"
         v-model="currentFormControlValue"
       >
         <template v-slot:option="option">
           <div class="vue-select__options-container">
             <span>{{ option.label }}</span>
-            <span v-if="option.extraPrice" class="vue-select__extra">+ {{ option.extraPrice }} $</span>
+            <span v-if="option.extraPrice" class="vue-select__extra"
+              >+ {{ option.extraPrice }} $</span
+            >
           </div>
         </template>
       </v-select>
-      <!-- <input type="hidden" v-model="currentFormControlValue" :name="choice.name" /> -->
     </div>
 
     <div v-if="choice.type === 'date-time-picker'">
@@ -90,14 +99,11 @@
         :no-shortcuts="true"
         :noButtonNow="true"
         :locale="options.locale ? options.locale : null"
-        :format="options.format ? options.format : 'YYYY-MM-DD HH:mm'"
+        format="DD.MM.YYYY"
+        only-date
         :formatted="options.formatted ? options.formatted : 'l'"
-        :minute-interval="options.minuteInterval ? options.minuteInterval : 1"
-        :range="options.range ? options.range : false"
         :min-date="options.minDate ? options.minDate : ''"
         :max-date="options.maxDate ? options.maxDate : ''"
-        :only-date="options.onlyDate ? options.onlyDate : false"
-        :only-time="options.onlyTime ? options.onlyTime : false"
         :disabled-dates="options.disabledDates ? options.disabledDates : []"
         :disabled-hours="options.disabledHours ? options.disabledHours : []"
       />
@@ -106,9 +112,9 @@
 </template>
 
 <script>
-import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
-import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
-import vSelect from "vue-select";
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+import vSelect from 'vue-select';
 
 export default {
   components: {
@@ -126,34 +132,40 @@ export default {
   },
   data() {
     return {
-      currentFormControlValue: ""
+      currentFormControlValue: '',
+      objectToEmit: { price: 0 }
     };
   },
   methods: {
     update() {
-      let objectToEmit = {};
-      objectToEmit.value = this.currentFormControlValue;
-      objectToEmit.formId = this.choice.name;
-      objectToEmit.label = this.choice.label;
-      objectToEmit.required = this.choice.required;
-      objectToEmit.type = this.choice.type;
-      if (this.choice.options && this.choice.options[0].extraPrice) {
-        objectToEmit.extraPrice = this.choice.options[0].extraPrice;
+      // Put to store only necessary data
+      if (this.choice.type === 'select') {
+        this.objectToEmit = { ...this.currentFormControlValue };
+        if (this.currentFormControlValue.extraPrice) {
+          this.objectToEmit.price += this.currentFormControlValue.extraPrice;
+        }
+      } else {
+        this.objectToEmit.value = this.currentFormControlValue;
+        this.objectToEmit.label = this.choice.label;
+        if (
+          this.choice.options &&
+          this.choice.options[0].extraPrice &&
+          this.currentFormControlValue === true
+        ) {
+          this.objectToEmit.price += this.choice.options[0].extraPrice;
+        }
       }
-      this.$emit("input", objectToEmit);
-    },
-    updateSelect() {
-      this.currentFormControlValue.formId = this.choice.name;
-      this.currentFormControlValue.required = this.choice.required;
-      this.currentFormControlValue.type = this.choice.type;
-      this.$emit("input", this.currentFormControlValue);
+      this.objectToEmit.formId = this.choice.name;
+      this.objectToEmit.required = this.choice.required;
+      this.objectToEmit.type = this.choice.type;
+      this.$emit('input', this.objectToEmit);
     }
   }
 };
 </script>
 
 <style lang="scss">
-@import "vue-select/src/scss/vue-select.scss";
+@import 'vue-select/src/scss/vue-select.scss';
 
 .checkbox__container {
   padding: 32px 0;
@@ -183,7 +195,7 @@ export default {
   }
 
   & + span:before {
-    content: "";
+    content: '';
     margin-right: 16px;
     display: inline-block;
     vertical-align: text-top;
@@ -194,8 +206,8 @@ export default {
   }
 
   &:checked + span:after {
-    content: "";
-    background: url("../assets/svg/checkbox.svg") no-repeat;
+    content: '';
+    background: url('../assets/svg/checkbox.svg') no-repeat;
     background-size: 16px;
     height: 16px;
     width: 16px;
@@ -256,15 +268,14 @@ export default {
       padding: 0 4px;
       top: -7px;
       left: 13px;
-      // transition-duration: 0.3s;
       opacity: 1;
-      // background: #f5f5f5;
+      transition: all 0.3s ease-in-out;
     }
   }
   &:focus {
     ~ .form-control__focus-border {
       transform: scaleX(1);
-      transition-duration: 0.4s;
+      transition-duration: 0.3s;
     }
   }
 
@@ -287,7 +298,7 @@ export default {
   background: white;
   opacity: 0.5;
   color: $color-basic;
-  // transition: opacity 0.3s;
+  transition: opacity 0.3s;
   &--invalid {
     color: $color-warn;
   }
@@ -390,7 +401,7 @@ export default {
 
       input {
         cursor: pointer;
-        font-family: "Avenir", Helvetica, Arial, sans-serif;
+        font-family: 'Avenir', Helvetica, Arial, sans-serif;
       }
     }
 
@@ -486,7 +497,7 @@ export default {
     height: 48px;
     color: $color-basic;
     font-size: 16px;
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     &::placeholder {
       color: $color-basic;
     }
@@ -518,8 +529,8 @@ export default {
 .date-time-picker {
   .field {
     &::after {
-      content: "";
-      background: url("../assets/svg/datePicker.svg") no-repeat;
+      content: '';
+      background: url('../assets/svg/datePicker.svg') no-repeat;
       width: 38px;
       height: 32px;
       position: absolute;
@@ -530,7 +541,7 @@ export default {
     }
   }
   span {
-    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
   }
 }
 
@@ -562,7 +573,7 @@ export default {
     background-color: $color-light !important;
 
     &::after {
-      content: "CHOOSE";
+      content: 'CHOOSE';
       color: $color-basic;
       display: flex;
       justify-content: center;
@@ -576,7 +587,7 @@ export default {
   }
 
   &::after {
-    content: "CHOOSE";
+    content: 'CHOOSE';
     color: $color-light;
     display: flex;
     justify-content: center;
@@ -596,7 +607,7 @@ export default {
   background: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   border: 1px solid $color-basic !important;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
 
   .pickers-container {
     background: $color-light;

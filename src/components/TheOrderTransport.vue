@@ -10,39 +10,61 @@
         :choice="choice"
         @input="handleFormControl"
       />
+      <slide-up-down
+        :active="hasError"
+        :duration="200"
+        :class="{ order__business: true, 'order__business--active': hasError }"
+      >
+        <p>{{ error }}</p>
+      </slide-up-down>
     </div>
   </div>
 </template>
 
 <script>
-import FormControl from "./FormControl";
+import FormControl from './FormControl';
+import SlideUpDown from 'vue-slide-up-down';
 
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   components: {
-    FormControl
+    FormControl,
+    SlideUpDown
   },
   data() {
     return {
       transport: {},
+      error: 'This field is required',
       choice: {
-        label: "Choose transport type",
-        type: "select",
-        name: "transport",
-        placeholder: "Choose transport type..."
+        label: 'Choose transport type',
+        type: 'select',
+        name: 'transport',
+        required: true,
+        placeholder: 'Choose transport type...'
       }
     };
   },
+  computed: {
+    ...mapGetters({
+      getCartTransport: 'cart/getCartTransport'
+    }),
+    hasError() {
+      return Object.entries(this.getCartTransport).length === 0 && this.getCartTransport.constructor === Object
+    }
+  },
   methods: {
     ...mapActions({
-      addTransportToCart: "cart/addTransportToCart"
+      addTransportToCart: 'cart/addTransportToCart'
     }),
     handleFormControl(selectedValue) {
       this.transport.id = this.choice.name;
       this.transport.value = selectedValue.value;
       this.transport.label = selectedValue.label;
-      this.addTransportToCart(this.transport)
+      // if (this.choice.required && selectedValue.value === '') {
+      //   this.hasError = true;
+      // }
+      this.addTransportToCart(this.transport);
     }
   }
 };
