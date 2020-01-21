@@ -20,82 +20,28 @@
         </label>
       </div>
     </div>
-    <div class="order__trade-terms">
-      <form-control :choice="agreementCheckbox" @input="handleCheckbox" />
-    </div>
-    <div class="order__finish-order">
-      <Button
-        :disabled="!isTradeTermsAgreed"
-        @click.native.prevent="submitOrder"
-        type="button"
-        title="Pay for it"
-        big
-        dark
-      />
-    </div>
   </div>
 </template>
 
 <script>
-import Button from "./Button";
 import FormControl from "./FormControl";
 import AnimatedInteger from "./AnimatedInteger";
 
 import { mapGetters } from "vuex";
 
 export default {
-  components: { AnimatedInteger, FormControl, Button },
-  data() {
-    return {
-      isTradeTermsAgreed: null,
-      agreementCheckbox: {
-        label: "I agree with the terms and conditions",
-        type: "checkbox",
-        name: "trade-terms",
-        id: "trade-terms",
-        options: null
-      }
-    };
-  },
+  components: { AnimatedInteger, FormControl },
   computed: {
     ...mapGetters({
       getCartTotal: "cart/getCartTotal",
       getCartTaxes: "cart/getCartTaxes",
       getCartTotalWithoutTax: "cart/getCartTotalWithoutTax"
     })
-  },
-
-  methods: {
-    submitOrder() {
-      console.log("submitting...");
-      this.$store.dispatch("cart/submitOrder");
-    },
-    handleCheckbox(checkboxValue) {
-      this.isTradeTermsAgreed = checkboxValue.value;
-    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.order__finish-order {
-  display: flex;
-  justify-content: center;
-}
-
-.order__total {
-  margin-bottom: 80px;
-}
-
-.order__trade-terms {
-  display: flex;
-  align-items: baseline;
-
-  &.-icon {
-    font-size: xx-small;
-  }
-}
-
 .order__tax {
   display: flex;
   flex-wrap: wrap;

@@ -78,3 +78,10 @@ p {
     }
   }
 }
+
+// Errors
+.error {
+  padding-bottom: 16px;
+  color: $color-warn;
+  text-align: left;
+}

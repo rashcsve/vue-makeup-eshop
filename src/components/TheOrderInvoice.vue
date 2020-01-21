@@ -6,12 +6,13 @@
         v-for="(choice, index) in choices"
         :key="index"
         :choice="choice"
+        :error="error"
         @input="handleInput"
       />
       <form-control :key="companyCheckbox.index" :choice="companyCheckbox" @input="handleInput" />
       <slide-up-down
         :active="isCompany"
-        :duration="500"
+        :duration="300"
         :class="{'order__business':true, 'order__business--active': isCompany}"
       >
         <form-control
@@ -36,27 +37,67 @@ export default {
     FormControl,
     SlideUpDown
   },
+  props: {
+    error: {
+      type: Boolean,
+      default: false
+    }
+  },
+  watch: {
+    error() {
+      this.invoiceError = this.error
+      console.log("watching in invoice")
+      console.log(this.error)
+    }
+  },
   data() {
     return {
       orderInvoice: {},
       isCompany: false,
+      requiredFields: [],
       choices: [
-        { label: "name", type: "text", name: "name", placeholder: "Name" },
+        {
+          label: "name",
+          type: "text",
+          name: "name",
+          placeholder: "Name",
+          required: true
+        },
         {
           label: "street",
           type: "text",
           name: "street",
-          placeholder: "Street"
+          placeholder: "Street",
+          required: true
         },
-        { label: "city", type: "text", name: "city", placeholder: "City" },
+        {
+          label: "city",
+          type: "text",
+          name: "city",
+          placeholder: "City",
+          required: true
+        },
         {
           label: "postcode",
           type: "text",
           name: "postcode",
-          placeholder: "Postcode"
+          placeholder: "Postcode",
+          required: true
         },
-        { label: "phone", type: "text", name: "phone", placeholder: "Phone" },
-        { label: "email", type: "text", name: "email", placeholder: "Email" }
+        {
+          label: "phone",
+          type: "text",
+          name: "phone",
+          placeholder: "Phone",
+          required: true
+        },
+        {
+          label: "email",
+          type: "text",
+          name: "email",
+          placeholder: "Email",
+          required: true
+        }
       ],
       companyCheckbox: {
         label: "Corporate Information",
@@ -105,6 +146,16 @@ export default {
       ]
     };
   },
+  mounted() {
+    this.choices.forEach(ch =>
+      ch.required ? this.requiredFields.push(ch.name) : ""
+    );
+  },
+  computed: {
+    hasError() {
+      return this.invoiceError;
+    }
+  },
   methods: {
     ...mapActions({
       addInvoiceToCart: "cart/addInvoiceToCart"
@@ -114,7 +165,18 @@ export default {
         this.isCompany = inputValue.value;
       } else {
         this.orderInvoice[inputValue.label] = inputValue.value;
-        this.addInvoiceToCart(this.orderInvoice);
+        if (
+          this.requiredFields.includes(inputValue.formId) &&
+          inputValue.required &&
+          !inputValue.value
+        ) {
+          console.log("neni");
+          this.invoiceError = true;
+        }
+        // console.log(JSON.stringify(this.orderInvoice))
+        // console.log(JSON.stringify(this.requiredFields))
+        // if(this.requiredFields.includes(inputValue.formId))
+        if (inputValue.value) this.addInvoiceToCart(this.orderInvoice);
       }
     }
   }

@@ -8,62 +8,54 @@
           { label: 'DHL', value: 'dhl' }
         ]"
         :choice="choice"
+        :error="error"
         @input="handleFormControl"
       />
-      <slide-up-down
-        :active="hasError"
-        :duration="200"
-        :class="{ order__business: true, 'order__business--active': hasError }"
-      >
-        <p>{{ error }}</p>
-      </slide-up-down>
     </div>
   </div>
 </template>
 
 <script>
-import FormControl from './FormControl';
-import SlideUpDown from 'vue-slide-up-down';
+import FormControl from "./FormControl";
 
-import { mapActions, mapGetters } from 'vuex';
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
-    FormControl,
-    SlideUpDown
+    FormControl
+  },
+  props: {
+    error: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
       transport: {},
-      error: 'This field is required',
+      requiredFields: [],
       choice: {
-        label: 'Choose transport type',
-        type: 'select',
-        name: 'transport',
+        label: "Choose transport type",
+        type: "select",
+        name: "transport",
         required: true,
-        placeholder: 'Choose transport type...'
+        placeholder: "Choose transport type..."
       }
     };
   },
   computed: {
     ...mapGetters({
-      getCartTransport: 'cart/getCartTransport'
-    }),
-    hasError() {
-      return Object.entries(this.getCartTransport).length === 0 && this.getCartTransport.constructor === Object
-    }
+      getCartTransport: "cart/getCartTransport"
+    })
   },
   methods: {
     ...mapActions({
-      addTransportToCart: 'cart/addTransportToCart'
+      addTransportToCart: "cart/addTransportToCart"
     }),
     handleFormControl(selectedValue) {
       this.transport.id = this.choice.name;
       this.transport.value = selectedValue.value;
       this.transport.label = selectedValue.label;
-      // if (this.choice.required && selectedValue.value === '') {
-      //   this.hasError = true;
-      // }
       this.addTransportToCart(this.transport);
     }
   }

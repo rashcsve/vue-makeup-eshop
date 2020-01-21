@@ -11,6 +11,9 @@
         choice.type === 'date-time-picker'
     }"
   >
+    <div class="error" v-if="hasError">
+      <p>{{ errorMessage }}</p>
+    </div>
     <div v-if="choice.type === 'text' || choice.type === 'password'">
       <input
         :name="choice.name"
@@ -19,7 +22,8 @@
         v-model="currentFormControlValue"
         :class="{
           'form-control': true,
-          'form-control--filled': currentFormControlValue
+          'form-control--filled': currentFormControlValue,
+          'form-control--error': hasError
         }"
       />
       <span class="form-control__placeholder">
@@ -60,14 +64,12 @@
           <div
             v-if="options && options[0].extraPrice !== undefined"
             class="checkbox__extra"
-          >
-            {{ options[0].extraPrice }}$
-          </div>
+          >{{ options[0].extraPrice }}$</div>
         </span>
       </label>
     </div>
 
-    <div v-if="choice.type === 'select'">
+    <div v-if="choice.type === 'select'" :class="{ 'form-control__select--error': hasError}">
       <v-select
         ref="control"
         :options="options"
@@ -80,9 +82,7 @@
         <template v-slot:option="option">
           <div class="vue-select__options-container">
             <span>{{ option.label }}</span>
-            <span v-if="option.extraPrice" class="vue-select__extra"
-              >+ {{ option.extraPrice }} $</span
-            >
+            <span v-if="option.extraPrice" class="vue-select__extra">+ {{ option.extraPrice }} $</span>
           </div>
         </template>
       </v-select>
@@ -112,9 +112,9 @@
 </template>
 
 <script>
-import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
-import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
-import vSelect from 'vue-select';
+import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
+import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
+import vSelect from "vue-select";
 
 export default {
   components: {
@@ -128,25 +128,41 @@ export default {
     },
     options: {
       type: Array
+    },
+    error: {
+      type: Boolean
     }
   },
   data() {
     return {
-      currentFormControlValue: '',
+      currentFormControlValue: "",
+      hasError: this.error,
+      errorMessage: "The field cannot be empty",
       objectToEmit: { price: 0 }
     };
+  },
+  watch: {
+    error(newValue, oldValue) {
+      this.hasError = this.error;
+    }
   },
   methods: {
     update() {
       // Put to store only necessary data
-      if (this.choice.type === 'select') {
+      if (this.choice.type === "select") {
         this.objectToEmit = { ...this.currentFormControlValue };
         if (this.currentFormControlValue.extraPrice) {
           this.objectToEmit.price += this.currentFormControlValue.extraPrice;
         }
+        this.currentFormControlValue.value
+          ? (this.hasError = false)
+          : (this.hasError = true);
       } else {
         this.objectToEmit.value = this.currentFormControlValue;
         this.objectToEmit.label = this.choice.label;
+        this.currentFormControlValue
+          ? (this.hasError = false)
+          : (this.hasError = true);
         if (
           this.choice.options &&
           this.choice.options[0].extraPrice &&
@@ -155,17 +171,20 @@ export default {
           this.objectToEmit.price += this.choice.options[0].extraPrice;
         }
       }
+
+      console.log("from upd");
+      console.log(this.hasError);
       this.objectToEmit.formId = this.choice.name;
       this.objectToEmit.required = this.choice.required;
       this.objectToEmit.type = this.choice.type;
-      this.$emit('input', this.objectToEmit);
+      this.$emit("input", this.objectToEmit);
     }
   }
 };
 </script>
 
 <style lang="scss">
-@import 'vue-select/src/scss/vue-select.scss';
+@import "vue-select/src/scss/vue-select.scss";
 
 .checkbox__container {
   padding: 32px 0;
@@ -195,7 +214,7 @@ export default {
   }
 
   & + span:before {
-    content: '';
+    content: "";
     margin-right: 16px;
     display: inline-block;
     vertical-align: text-top;
@@ -206,8 +225,8 @@ export default {
   }
 
   &:checked + span:after {
-    content: '';
-    background: url('../assets/svg/checkbox.svg') no-repeat;
+    content: "";
+    background: url("../assets/svg/checkbox.svg") no-repeat;
     background-size: 16px;
     height: 16px;
     width: 16px;
@@ -277,6 +296,9 @@ export default {
       transform: scaleX(1);
       transition-duration: 0.3s;
     }
+  }
+  &--error {
+    border-color: $color-warn;
   }
 
   @media only screen and (max-width: 600px) {
@@ -401,7 +423,7 @@ export default {
 
       input {
         cursor: pointer;
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        font-family: "Avenir", Helvetica, Arial, sans-serif;
       }
     }
 
@@ -437,6 +459,26 @@ export default {
     button.clear {
       font-weight: 100;
     }
+  }
+}
+
+.vue-select__options-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.vue-select__extra {
+  font-size: 12px;
+  color: #a0a0a0;
+
+  &:hover {
+    color: $color-light;
+  }
+}
+
+.form-control__select--error {
+  .v-select .vs__dropdown-toggle {
+    border-color: $color-warn;
   }
 }
 
@@ -497,7 +539,7 @@ export default {
     height: 48px;
     color: $color-basic;
     font-size: 16px;
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
     &::placeholder {
       color: $color-basic;
     }
@@ -512,25 +554,11 @@ export default {
   }
 }
 
-.vue-select__options-container {
-  display: flex;
-  justify-content: space-between;
-}
-
-.vue-select__extra {
-  font-size: 12px;
-  color: #a0a0a0;
-
-  &:hover {
-    color: $color-light;
-  }
-}
-
 .date-time-picker {
   .field {
     &::after {
-      content: '';
-      background: url('../assets/svg/datePicker.svg') no-repeat;
+      content: "";
+      background: url("../assets/svg/datePicker.svg") no-repeat;
       width: 38px;
       height: 32px;
       position: absolute;
@@ -541,7 +569,7 @@ export default {
     }
   }
   span {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
   }
 }
 
@@ -573,7 +601,7 @@ export default {
     background-color: $color-light !important;
 
     &::after {
-      content: 'CHOOSE';
+      content: "CHOOSE";
       color: $color-basic;
       display: flex;
       justify-content: center;
@@ -587,7 +615,7 @@ export default {
   }
 
   &::after {
-    content: 'CHOOSE';
+    content: "CHOOSE";
     color: $color-light;
     display: flex;
     justify-content: center;
@@ -607,7 +635,7 @@ export default {
   background: #fff;
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   border: 1px solid $color-basic !important;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
 
   .pickers-container {
     background: $color-light;
