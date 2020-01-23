@@ -4,21 +4,14 @@
       'form-control__container': true,
       'form-control__container--type-checkbox': choice.type === 'checkbox',
       'form-control__container--type-text': choice.type === 'text',
-      'form-control__container--type-select': choice.type === 'select',
-      'form-control__container--type-select--cart':
-        choice.type === 'select' && choice.name === 'transport',
-      'form-control__container--type-date-time-picker':
-        choice.type === 'date-time-picker'
+      'form-control__container--type-select': choice.type === 'select'
     }"
   >
-    <div class="error" v-if="hasError">
-      <p>{{ errorMessage }}</p>
-    </div>
     <div v-if="choice.type === 'text' || choice.type === 'password'">
       <input
         :name="choice.name"
         :type="choice.type"
-        @change="update"
+        @input="update"
         v-model="currentFormControlValue"
         :class="{
           'form-control': true,
@@ -61,126 +54,109 @@
           }"
         >
           {{ choice.label }}
-          <div
-            v-if="options && options[0].extraPrice !== undefined"
-            class="checkbox__extra"
-          >{{ options[0].extraPrice }}$</div>
         </span>
       </label>
     </div>
 
     <div v-if="choice.type === 'select'" :class="{ 'form-control__select--error': hasError}">
+      <!--To Do: Label as props as well -->
       <v-select
         ref="control"
         :options="options"
-        label="label"
         :placeholder="choice.placeholder"
         @input="update"
+        label="colour_name" 
         :clearable="false"
         v-model="currentFormControlValue"
       >
         <template v-slot:option="option">
-          <div class="vue-select__options-container">
+          <div class="vue-select__options-container" v-if="choice.name === 'product'">
+            <span>{{ option.colour_name }}</span>
+            <span class="vue-select__color" :style="{backgroundColor: option.hex_value}" />
+          </div>
+          <div v-else>
             <span>{{ option.label }}</span>
-            <span v-if="option.extraPrice" class="vue-select__extra">+ {{ option.extraPrice }} $</span>
           </div>
         </template>
       </v-select>
     </div>
 
-    <div v-if="choice.type === 'date-time-picker'">
-      <vue-ctk-date-time-picker
-        v-model="currentFormControlValue"
-        @input="update"
-        color="black"
-        :noHeader="true"
-        buttonColor="black"
-        :label="choice.label"
-        :no-shortcuts="true"
-        :noButtonNow="true"
-        :locale="options.locale ? options.locale : null"
-        format="DD.MM.YYYY"
-        only-date
-        :formatted="options.formatted ? options.formatted : 'l'"
-        :min-date="options.minDate ? options.minDate : ''"
-        :max-date="options.maxDate ? options.maxDate : ''"
-        :disabled-dates="options.disabledDates ? options.disabledDates : []"
-        :disabled-hours="options.disabledHours ? options.disabledHours : []"
-      />
+    <div class="form-control__error" v-if="hasError">
+      <p>{{ errorMessage }}</p>
     </div>
   </div>
 </template>
 
 <script>
-import VueCtkDateTimePicker from "vue-ctk-date-time-picker";
-import "vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css";
 import vSelect from "vue-select";
 
 export default {
   components: {
-    vSelect,
-    VueCtkDateTimePicker
+    vSelect
   },
   props: {
     choice: {
       type: Object,
-      required: true
+      default: () => {
+        return {
+          type: 'text',
+          placeholder: 'text',
+          label: '',
+          name: '',
+          validator: null
+        }
+      }
     },
     options: {
       type: Array
-    },
-    error: {
-      type: Boolean
     }
   },
   data() {
     return {
       currentFormControlValue: "",
-      hasError: this.error,
-      errorMessage: "The field cannot be empty",
-      objectToEmit: { price: 0 }
-    };
-  },
-  watch: {
-    error(newValue, oldValue) {
-      this.hasError = this.error;
+      errorMessage: null,
+      isUpdated: false,
+      objectToEmit: {}
     }
   },
+  computed: {
+    hasError() {
+      if (this.isUpdated) {
+        return this.errorMessage === null ? false : true
+      }
+      return false
+    }
+  },
+  created() {
+    this.validate(this.currentFormControlValue)
+  },
   methods: {
+    validate(value) {
+      this.errorMessage = null
+      if (this.choice.validator) {
+        try {
+          this.choice.validator(value)
+        } catch(e) {
+          this.errorMessage = e.message;
+        }
+      }
+      this.$emit('validated', this.errorMessage)
+    },
     update() {
+      console.log(this.currentFormControlValue)
       // Put to store only necessary data
       if (this.choice.type === "select") {
         this.objectToEmit = { ...this.currentFormControlValue };
-        if (this.currentFormControlValue.extraPrice) {
-          this.objectToEmit.price += this.currentFormControlValue.extraPrice;
-        }
-        this.currentFormControlValue.value
-          ? (this.hasError = false)
-          : (this.hasError = true);
       } else {
         this.objectToEmit.value = this.currentFormControlValue;
         this.objectToEmit.label = this.choice.label;
-        this.currentFormControlValue
-          ? (this.hasError = false)
-          : (this.hasError = true);
-        if (
-          this.choice.options &&
-          this.choice.options[0].extraPrice &&
-          this.currentFormControlValue === true
-        ) {
-          this.objectToEmit.price += this.choice.options[0].extraPrice;
-        }
       }
-
-      console.log("from upd");
-      console.log(this.hasError);
-      this.objectToEmit.formId = this.choice.name;
-      this.objectToEmit.required = this.choice.required;
-      this.objectToEmit.type = this.choice.type;
+      this.isUpdated = true
+      this.validate(this.currentFormControlValue)
       this.$emit("input", this.objectToEmit);
     }
   }
-};
+}
 </script>
 
 <style lang="scss">
@@ -465,6 +441,12 @@ export default {
 .vue-select__options-container {
   display: flex;
   justify-content: space-between;
+}
+
+.vue-select__color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
 
 .vue-select__extra {

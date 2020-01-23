@@ -33,14 +33,14 @@ export default {
   data() {
     return {
       contactInfo: {
-        name: "Giraffes",
+        name: "Cosmetics",
         address: {
-          street: "Wild",
-          city: "Africa"
+          street: "Love",
+          city: "Nature"
         },
         phone: "123456789",
-        email: "giraffes@the.best",
-        image: "images/giraffes/horizontal/giraffe-3.jpg"
+        email: "cruelty@free",
+        image: "images/footer.jpg"
       }
     };
   }

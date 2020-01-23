@@ -19,11 +19,19 @@
         </div>
       </div>
       <router-link class="the-navigation__logo" to="/">
-        <h3 class="title title--h1">giraffes</h3>
+        <h3 class="title title--h1">cosmetics</h3>
       </router-link>
-      <div @click="scrollToOrder" class="the-navigation__basket">
+      <div @click="openSidebar" class="the-navigation__basket">
         <div class="the-navigation__link the-navigation__link--cart">Cart</div>
+        <transition>
+          <div v-show="hasItems" class="the-order-navigation__count">{{ getItemsCount }}</div>
+        </transition>
       </div>
+    </div>
+    <div class="the-navigation__products">
+      <router-link class="the-navigation__link the-navigation__link--center" to="/face">Face</router-link>
+      <router-link class="the-navigation__link the-navigation__link--center" to="/products">All</router-link>
+      <router-link class="the-navigation__link the-navigation__link--center" to="/lips">Lips</router-link>
     </div>
     <div class="the-navigation__other" v-if="showModal">
       <div class="the-navigation__items">
@@ -32,7 +40,7 @@
             <a class="the-navigation__li-link" href="/about">About us</a>
           </li>
           <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="/">Giraffe</a>
+            <a class="the-navigation__li-link" href="/">Cosmetics</a>
           </li>
           <li class="the-navigation__li">
             <a class="the-navigation__li-link" href="#contact">Contact</a>
@@ -51,7 +59,8 @@
 
 <script>
 import SocialLink from './SocialLink';
-import ScrollTo from 'vue-scrollto';
+
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -62,13 +71,19 @@ export default {
       showModal: false
     };
   },
+  computed: {
+    ...mapGetters({
+      hasItems: "cart/hasItems",
+      getItemsCount: "cart/getCartItemsCount"
+    })
+  },
   methods: {
     show() {
       this.showModal = !this.showModal;
       this.$emit('show-modal', this.showModal);
     },
-    scrollToOrder() {
-      ScrollTo.scrollTo('#order');
+    openSidebar() {
+      this.$emit('show-sidebar', true);
     }
   }
 };
@@ -116,10 +131,10 @@ export default {
   justify-content: space-between;
   align-items: flex-end;
   min-height: 96px;
-  padding: 35px 65px 35px;
+  padding: 35px 65px 0;
 
   @media #{$media-max-tablet} {
-    padding: 16px 32px;
+    padding: 16px 32px 0;
   }
   @media screen and (min-width: 768px) {
     align-items: flex-end;
@@ -152,6 +167,10 @@ export default {
 
   &--cart {
     text-align: left;
+  }
+
+  &--center {
+    text-align: center;
   }
 
   @media #{$media-min-tablet} {
@@ -238,7 +257,7 @@ export default {
   &::after {
     content: '';
     position: relative;
-    background: url('../assets/svg/giraffe.svg') no-repeat center/ 80%;
+    background: url('../assets/svg/lipstick.svg') no-repeat center/ 80%;
     left: 0;
     top: 0;
     height: 30px;
@@ -246,7 +265,7 @@ export default {
     display: inline-block;
   }
   &:hover::after {
-    background-image: url('../assets/svg/giraffe-white.svg');
+    background-image: url('../assets/svg/lipstick-white.svg');
   }
   &--count {
     font-size: 10px;
@@ -266,6 +285,12 @@ export default {
     color: #202020;
     background-color: white;
   }
+}
+
+.the-navigation__products {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
 }
 
 .the-navigation__other {
@@ -325,4 +350,5 @@ export default {
 .the-navigation__information-social {
   display: flex;
 }
+
 </style>

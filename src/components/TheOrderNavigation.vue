@@ -9,7 +9,7 @@
       }"
       @click="scrollToOrder"
     >
-      <img src="../assets/svg/giraffe-white.svg" alt="giraffe" class="the-order-navigation__icon" />
+      <img src="../assets/svg/lipstick-white.svg" alt="lipstick" class="the-order-navigation__icon" />
       <transition>
         <div v-show="hasItems" class="the-order-navigation__count">{{ getItemsCount }}</div>
       </transition>

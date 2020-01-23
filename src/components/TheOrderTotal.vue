@@ -1,18 +1,6 @@
 <template>
   <div class="order__total">
     <div class="order__taxes">
-      <div class="order__tax">
-        <label class="order__tax-title">To be paid without VAT</label>
-        <label class="order__tax-price">
-          <animated-integer :value="getCartTotalWithoutTax" />$
-        </label>
-      </div>
-      <div class="order__tax" v-for="(taxPrice, taxRate) in getCartTaxes" :key="taxRate">
-        <label class="order__tax-title">VAT {{ taxRate }}%</label>
-        <label class="order__tax-price">
-          <animated-integer :value="taxPrice" />$
-        </label>
-      </div>
       <div class="order__tax -total">
         <label class="order__tax-title">Subtotal</label>
         <label class="order__tax-price">
@@ -33,9 +21,7 @@ export default {
   components: { AnimatedInteger, FormControl },
   computed: {
     ...mapGetters({
-      getCartTotal: "cart/getCartTotal",
-      getCartTaxes: "cart/getCartTaxes",
-      getCartTotalWithoutTax: "cart/getCartTotalWithoutTax"
+      getCartTotal: "cart/getCartTotal"
     })
   }
 };
