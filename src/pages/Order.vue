@@ -3,8 +3,8 @@
     <div class="the-order__main">
       <h3 class="title title--h1">Your Order</h3>
       <form class="the-order__other" v-if="hasItems">
-        <the-order-transport />
-        <the-order-invoice />
+        <the-order-invoice @next-step="continueToShipping" />
+        <the-order-transport v-if="isShipping" />
         <div class="the-order__finish-order">
           <!-- TO DO - Add transition -->
           <div v-if="hasError" class="error">
@@ -59,6 +59,7 @@ export default {
       isTradeTermsAgreed: null,
       error: "",
       hasError: false,
+      isShipping: false,
       agreementCheckbox: {
         label: "I agree with the terms and conditions",
         type: "checkbox",
@@ -73,7 +74,17 @@ export default {
       hasItems: "cart/hasItems",
       getCartTransport: "form/getCartTransport",
       getCartInvoice: "form/getCartContact"
-    })
+    }),
+    allDataSelected() {
+      if (
+        this.isEmptyObject(this.getCartTransport) ||
+        this.isEmptyObject(this.getCartInvoice)
+      ) {
+        this.error = "These fields are required!";
+        return false  
+      } 
+      return true
+    }
   },
   watch: {
     hasError() {
@@ -82,6 +93,9 @@ export default {
     }
   },
   methods: {
+    continueToShipping(value) {
+      this.isShipping = value
+    },
     submitOrder() {
       console.log("submitting...");
       this.checkForm()
@@ -98,12 +112,13 @@ export default {
         this.isEmptyObject(this.getCartInvoice)
       ) {
         this.error = "These fields are required!";
-        return false
+        return false  
       } 
       return true
       console.log(this.error)
     },
     isEmptyObject(obj) {
+      console.log("Is empty epta")
       console.log(obj)
       console.log(obj.constructor === Object)
       console.log(Object.entries(obj).length === 0)

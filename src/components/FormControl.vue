@@ -27,6 +27,29 @@
       <span class="form-control__focus-border"></span>
     </div>
 
+    <div v-if="choice.type === 'radio'">
+      <div v-for="option in options" :key="option">
+        <input
+          :value="option"
+          :name="choice.name"
+          :type="choice.type"
+          v-model="currentFormControlValue"
+          @change="update"
+          :class="{
+            'form-control': true,
+            'form-control--filled': currentFormControlValue,
+            'form-control--error': hasError
+          }"
+        />
+        <span class=""> 
+          {{ option }}
+          <!-- To Do: Add Validation and error prevention --
+          <!- <span v-show="invalid" class="form-control__placeholder-warn">{{ ' - ' + warning }}</span> -->
+        </span> 
+      </div>
+      <!-- <span class="form-control__focus-border"></span> -->
+    </div>
+
     <div
       v-if="choice.type === 'checkbox'"
       :class="{
@@ -143,7 +166,6 @@ export default {
       this.$emit('validated', this.errorMessage)
     },
     update() {
-      console.log(this.currentFormControlValue)
       // Put to store only necessary data
       if (this.choice.type === "select") {
         this.objectToEmit = { ...this.currentFormControlValue };
@@ -152,6 +174,8 @@ export default {
         this.objectToEmit.label = this.choice.label;
       }
       this.isUpdated = true
+      console.log(this.currentFormControlValue)
+      console.log(this.objectToEmit)
       this.validate(this.currentFormControlValue)
       this.$emit("input", this.objectToEmit);
     }

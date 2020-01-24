@@ -10,7 +10,7 @@
         @validated="(error) => {choice.error = error}"
       />
     </div>
-    <form-control :key="companyCheckbox.index" :choice="companyCheckbox" @input="handleCheckbox" />
+    <!-- <form-control :key="companyCheckbox.index" :choice="companyCheckbox" @input="handleCheckbox" />
     <slide-up-down
       :active="isCompany"
       :duration="300"
@@ -22,22 +22,12 @@
         :choice="choice"
         @input="handleInput"
       />
-    </slide-up-down>
-    <!-- <Button
-      class="the-order__button"
-      :disabled="!isFormValid()"
-      @click.native="continueToShipping"
-      type="button"
-      title="Continue to shipping"
-      big
-      dark
-    /> -->
+    </slide-up-down> -->
   </form>
 </template>
 
 <script>
 import FormControl from "./FormControl";
-import Button from "./Button";
 import SlideUpDown from "vue-slide-up-down";
 import validator from 'validator'
 
@@ -45,35 +35,28 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
-    Button, 
     FormControl,
     SlideUpDown
   },
-  props: {
-    error: {
-      type: Boolean,
-      default: false
-    }
-  },
-  mounted() {
-    if(this.getCartInvoice) {
-      Object.keys(this.getCartInvoice).forEach(field => {
-        Object.keys(this.form).forEach(input => {
-          let inputComponent = this.form[input]
-          if(inputComponent)
-          console.log(inputComponent)
-        })
-      })
-    }
-  },
+  // mounted() {
+  //   if(this.getCartInvoice) {
+  //     Object.keys(this.getCartInvoice).forEach(field => {
+  //       Object.keys(this.form).forEach(input => {
+  //         let inputComponent = this.form[input]
+  //         if(inputComponent)
+  //         console.log(inputComponent)
+  //       })
+  //     })
+  //   }
+  // },
   data() {
     return {
       orderInvoice: {},
       isCompany: false,
-      allData: false,
       form: [
         {
           label: "name",
+          value: "",
           type: "text",
           name: "name",
           placeholder: "Name",
@@ -199,12 +182,9 @@ export default {
     };
   },
   computed: {
-    hasError() {
-      return this.invoiceError;
-    },
-    ...mapGetters({
-      getCartContact: "form/getCartContact"
-    })
+    // ...mapGetters({
+    //   getCartContact: "form/getCartContact"
+    // }),
   },
   methods: {
     ...mapMutations({
@@ -215,30 +195,23 @@ export default {
     },
     isFormValid() { 
       try {
-        Object.keys(this.form).forEach(input => {
-          const inputComponent = this.form[input]
-          if (inputComponent.error) {
-            throw new Error(inputComponent.error)
+        (this.form).forEach(input => {
+          if (input.error) {
+            throw new Error(input.error)
           }
-          console.log("error")
-          console.log(inputComponent)
         })
       } catch (e) {
-        this.errorMessage = e
+        console.log(e)
         return false
       }
       return true
     },
-    continueToShipping() {
-      if (this.isFormValid()) {
-        this.addContact(this.orderInvoice);
-      }
-    },
     handleInput(inputValue) {
-      console.log("ordinvoice")
-      console.log(inputValue)
       this.orderInvoice[inputValue.label] = inputValue.value;
-      
+      if(this.isFormValid()) {
+        this.addContact(inputValue)
+        this.$emit("next-step", true)
+      }
     }
   }
 };

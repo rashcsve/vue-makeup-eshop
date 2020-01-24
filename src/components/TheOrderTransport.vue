@@ -4,10 +4,7 @@
     <div class="the-order__form">
       <!-- TO DO: radio button nebo checkbox -->
       <form-control
-        :options="[
-          { label: 'PPL', value: 'ppl' },
-          { label: 'DHL', value: 'dhl' }
-        ]"
+        :options="['ppl', 'dhl']"
         :choice="choice"
         :error="error"
         @input="handleFormControl"
@@ -37,7 +34,7 @@ export default {
       requiredFields: [],
       choice: {
         label: "Choose transport type",
-        type: "select",
+        type: "radio",
         name: "transport",
         required: true,
         placeholder: "Choose transport type..."
@@ -56,7 +53,6 @@ export default {
     handleFormControl(selectedValue) {
       this.transport.id = this.choice.name;
       this.transport.value = selectedValue.value;
-      this.transport.label = selectedValue.label;
       this.setTransport(this.transport);
     }
   }
