@@ -1,9 +1,11 @@
 <template>
   <header class="the-hero">
+    <container>
     <div class="the-hero__blur">
       <div class="the-hero__blur-background"></div>
       <div class="the-hero__info">{{ perex }}</div>
       <div class="the-hero__button">
+        <!-- To Do : Anchor to products -->
         <Button
           :title="buttonTitle"
           :link="buttonLink"
@@ -12,19 +14,22 @@
         />
       </div>
     </div>
+    </container>
   </header>
 </template>
 
 <script>
 import Button from './Button';
+import Container from '../components/Container';
 export default {
   components: {
-    Button
+    Button,
+    Container
   },
   data() {
     return {
-      perex: 'Giraffes are cool! Giraffes spend most of their lives standing up, they even sleep and give birth standing up',
-      buttonTitle: 'About us',
+      perex: 'Cruelty-free cosmetics is a category containing all cosmetics that have not been tested on animals.',
+      buttonTitle: 'Learn more',
       buttonLink: '/about',
       buttonAlignment: 'center'
     };
@@ -35,6 +40,12 @@ export default {
 <style lang="scss" scoped>
 .the-hero {
   text-align: center;
+  background: url("../assets/images/hero.jpg");
+  width: 100%;
+  height: 700px;
+  background-position: center;
+  background-size: cover;
+  // background: lighten(black, 40%);
 }
 
 .the-hero__image {
@@ -45,7 +56,8 @@ export default {
 }
 
 .the-hero__blur {
-  margin-top: -140px;
+  // margin-top: -140px;
+  top: 100px;
   overflow: hidden;
   position: relative;
   padding: 56px 0 64px;
@@ -66,7 +78,7 @@ export default {
   top: -10%;
   width: 110%;
   height: 120%;
-  background-image: url('../assets/images/hero.png');
+  background-image: url('../assets/images/hero.jpg');
   background-position: center;
   background-size: cover;
   opacity: 0.25;

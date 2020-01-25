@@ -9,8 +9,12 @@
       <span class="button__title">{{ title }}</span>
     </a>
 
+    <router-link v-if="routerLink" :to="routerLink" :class="{ button: true, 'button--dark': dark, }">
+      <span class="button__title">{{ title }}</span>
+    </router-link>
+
     <button
-      v-if="!link"
+      v-if="!link && !routerLink"
       type="button"
       :class="{
         button: true,
@@ -39,7 +43,8 @@ export default {
     medium: Boolean,
     big: Boolean,
     link: String,
-    alignment: String
+    alignment: String,
+    routerLink: String
   }
 };
 </script>

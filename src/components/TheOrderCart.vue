@@ -8,19 +8,16 @@
             class="the-order-cart__image"
             :style="{
               'background-image':
-                'url(' + require(`@/assets/${product.image}`) + ')'
+                `url(${product.api_featured_image})`
             }"
           ></div>
         </div>
 
         <div class="the-order-cart__other">
-          <div class="the-order-cart__title">{{ product.label }}</div>
+          <div class="the-order-cart__title">{{ product.name }}</div>
+          <div class="the-order-cart__perex">{{ product.brand }}</div>
           <div class="the-order-cart__total">
-            {{ product.stock }} {{ product.stock > 1 ? "items" : "item" }}
-            <span
-              v-if="product.additionalValue"
-            >- "{{ product.additionalLabel }}"</span>
-            <span v-if="product.dateTimeValue">- {{ product.dateTimeValue }}</span>
+            {{ product.stock }} {{ product.stock > 1 ? "items" : "item" }} - {{ product.value.colour_name}}
           </div>
           <div class="the-order-cart__price">
             <b>{{ product.price * product.stock }} $</b>
@@ -52,14 +49,7 @@ export default {
 
   methods: {
     removeItem(product) {
-      this.$store.commit("removeProduct", product);
-    },
-    productTotalPrice(product) {
-      let extraPrice = 0;
-      if (product.extraPrice !== undefined) {
-        extraPrice = product.extraPrice;
-      }
-      return product.price + extraPrice;
+      this.$store.commit("cart/removeProduct", product);
     }
   }
 };

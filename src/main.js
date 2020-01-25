@@ -7,11 +7,6 @@ import { currency } from '@/services/currency';
 Vue.config.productionTip = false;
 Vue.filter('currency', currency);
 
-// Store Watcher
-store.subscribe(state => {
-  localStorage.setItem('product', JSON.stringify(state));
-});
-
 new Vue({
   router,
   store,

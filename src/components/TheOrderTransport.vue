@@ -1,12 +1,10 @@
 <template>
   <div class="the-order-transport">
-    <h4 class="title title--medium">Transport</h4>
+    <h4 class="title title--medium">Shipping Method</h4>
     <div class="the-order__form">
+      <!-- TO DO: radio button nebo checkbox -->
       <form-control
-        :options="[
-          { label: 'PPL', value: 'ppl' },
-          { label: 'DHL', value: 'dhl' }
-        ]"
+        :options="['ppl', 'dhl']"
         :choice="choice"
         :error="error"
         @input="handleFormControl"
@@ -18,7 +16,7 @@
 <script>
 import FormControl from "./FormControl";
 
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   components: {
@@ -36,7 +34,7 @@ export default {
       requiredFields: [],
       choice: {
         label: "Choose transport type",
-        type: "select",
+        type: "radio",
         name: "transport",
         required: true,
         placeholder: "Choose transport type..."
@@ -45,18 +43,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getCartTransport: "cart/getCartTransport"
+      getCartTransport: "form/getCartTransport"
     })
   },
   methods: {
-    ...mapActions({
-      addTransportToCart: "cart/addTransportToCart"
+    ...mapMutations({
+      setTransport: "form/setTransport"
     }),
     handleFormControl(selectedValue) {
       this.transport.id = this.choice.name;
       this.transport.value = selectedValue.value;
-      this.transport.label = selectedValue.label;
-      this.addTransportToCart(this.transport);
+      this.setTransport(this.transport);
     }
   }
 };

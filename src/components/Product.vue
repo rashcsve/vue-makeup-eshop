@@ -1,26 +1,29 @@
 <template>
-  <div class="product">
-    <product-gallery :images="info.images" :master-image="info.images[0].src" />
+  <loading v-if="loading" />
+  <div v-else class="product">
+    <!-- <product-gallery :images="info.images" :master-image="info.images[0].src" /> -->
+    <img :src="product.api_featured_image" class="product__image" />
     <div class="product__info">
-      <h3 class="title title--h1">{{ info.title }}</h3>
-      <div class="product__price">{{ info.subtitle }}$</div>
-      <product-order :choices="choices" :options="options" />
+      <h3 class="title title--h1">{{ product.name }}</h3>
+      <p class="product__perex">{{ product.brand }}</p>
+      <div class="product__price">{{ product.price }}$</div>
+      <form-control
+        :choice="choice"
+        :options="product.product_colors"
+        @input="handleFormControl"
+      />
+      <Button
+        @click.native="addToCart(product)"
+        title="Add To Cart"
+        :disabled="!isSelected"
+        medium
+        dark
+      />
       <div class="product__perex">
         <div
-          ref="textContainer"
-          :class="{
-            'product__perex-text': true,
-            'product__perex-text--collapsed': textCollapsed
-          }"
-          v-html="info.description"
+          class="product__perex-text"
+          v-html="product.description"
         ></div>
-        <Button
-          v-if="showMoreButton"
-          :title="textCollapsed ? 'More' : 'Less'"
-          @click.native="handleTextCollapsing()"
-          more
-          :close="!textCollapsed"
-        />
       </div>
     </div>
   </div>
@@ -28,53 +31,54 @@
 
 <script>
 import ProductGallery from "../components/ProductGallery";
-import ProductOrder from "../components/ProductOrder";
+import FormControl from '../components/FormControl';
+import Loading from "../components/Loading";
 import Button from "../components/Button";
+
+import { mapActions } from 'vuex';
+
+import MakeupService from '../services/api/MakeupService'
 
 export default {
   components: {
     ProductGallery,
-    ProductOrder,
+    FormControl,
+    Loading,
     Button
-  },
-  props: {
-    product: {
-      type: Object,
-      default: null
-    },
-    info: {
-      type: Object,
-      default: null
-    },
-    choices: {
-      type: Array,
-      default: null
-    },
-    options: {
-      type: Array,
-      default: null
-    }
   },
   data() {
     return {
-      textCollapsed: true,
-      showMoreButton: false,
-      isCollapsed: false
+      product: null,
+      loading: false,
+      isSelected: false,
+      choice: {
+        label: "Color: ",
+        type: "select",
+        name: "product",
+        required: true,
+        placeholder: "Choose color..."
+      }
     };
   },
-  mounted() {
-    this.handleOverflow();
-  },
   methods: {
-    handleTextCollapsing() {
-      this.textCollapsed = !this.textCollapsed;
-    },
-    handleOverflow() {
-      let textContainer = this.$refs.textContainer;
-      if (textContainer.scrollHeight > textContainer.clientHeight) {
-        this.showMoreButton = true;
+    ...mapActions({
+      addToCart: 'cart/addItemToCart'
+    }),
+    handleFormControl(selectedValue) {
+      console.log(selectedValue)
+      // console.log(this.)
+      if(selectedValue) {
+        this.product.value = selectedValue;
+        this.isSelected = true
       }
-    }
+      console.log(this.product)
+    },
+  },
+  async created() {
+    this.loading = true
+    const response = await MakeupService.getProduct(this.$route.params.id)
+    this.product = response.data
+    this.loading = false
   }
 };
 </script>
@@ -82,6 +86,7 @@ export default {
 <style lang="scss" scoped>
 .product {
   display: flex;
+  justify-content: center;
   width: 100%;
   height: 100%;
   margin: 55px 0 100px;
@@ -91,7 +96,9 @@ export default {
     margin: 48px 0 32px;
   }
 }
-
+.product__image {
+  max-width: 600px;
+}
 .product__info {
   width: 40%;
   padding: 32px 24px 32px 48px;
