@@ -1,0 +1,17 @@
+@mixin create-box-shadow() {
+  box-shadow: 0 2px 4px 0 rgba(32, 32, 32, 0.5);
+}
+
+@mixin create-light-box-shadow() {
+  box-shadow: 0 -1px 3px 0 rgba(32, 32, 32, 0.5);
+}
+
+@mixin create-box-shadow-blur-old() {
+  box-shadow: 0 8px 8px 0 rgba(32, 32, 32, 0.2),
+    0 16px 16px 0 rgba(32, 32, 32, 0.15), 0 32px 32px 0 rgba(32, 32, 32, 0.1);
+}
+
+@mixin create-box-shadow-blur() {
+  box-shadow: 0 10px 12px 0 rgba(32, 32, 32, 0.09),
+    0 20px 14px 0 rgba(32, 32, 32, 0.1), 0 30px 15px 0 rgba(32, 32, 32, 0.05);
+}
