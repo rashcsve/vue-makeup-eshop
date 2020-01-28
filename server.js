@@ -15,7 +15,13 @@ app.use(history({
 // Serve static assets from the build files (images, etc)
 app.use(serveStatic(path.join(__dirname, '/dist')));
 
-let port = process.env.PORT || 5000;
+// let port = process.env.PORT || 5000;
 
-app.listen(port);
-console.log('server started ' + port);
+app.listen(process.env.PORT || 3000, function() {
+  console.log(
+    'Express server listening on port %d in %s mode',
+    this.address().port,
+    app.settings.env
+  );
+});
+// console.log('server started ' + port);
