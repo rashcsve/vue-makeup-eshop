@@ -6,6 +6,7 @@
           @click="show()"
           :class="{
             'the-navigation__menu': true,
+            'the-navigation__hover': true,
             'the-navigation__menu--open': showModal
           }"
         >
@@ -22,7 +23,7 @@
         <router-link class="the-navigation__logo" to="/">
           <h3 class="title title--h1">cosmetics</h3>
         </router-link>
-        <div @click="openSidebar" class="the-navigation__basket">
+        <div @click="openSidebar" class="the-navigation__basket the-navigation__hover">
           <div class="the-navigation__link the-navigation__link--cart">Cart</div>
           <transition>
             <div :style="{visibility: hasItems ? 'visible' : 'hidden'}" class="the-navigation__count">
@@ -32,9 +33,9 @@
         </div>
       </div>
       <div class="the-navigation__products">
-        <router-link class="the-navigation__link the-navigation__link--center" to="/face">Face</router-link>
-        <router-link class="the-navigation__link the-navigation__link--center" to="/products">All</router-link>
-        <router-link class="the-navigation__link the-navigation__link--center" to="/lips">Lips</router-link>
+        <router-link class="the-navigation__hover the-navigation__link the-navigation__link--center" to="/face">Face</router-link>
+        <router-link class="the-navigation__hover the-navigation__link the-navigation__link--center" to="/products">All</router-link>
+        <router-link class="the-navigation__hover the-navigation__link the-navigation__link--center" to="/lips">Lips</router-link>
       </div>
     </div>
     <div class="the-navigation__other" v-if="showModal">
@@ -252,6 +253,15 @@ export default {
   }
 }
 
+.the-navigation__hover {
+  &:hover {
+    background-color: $color-basic;
+    .the-navigation__link, .the-navigation__count, &.the-navigation__link {
+      color: $color-light;
+    }
+  }
+}
+
 .the-navigation__basket {
   position: relative;
   display: flex;
@@ -260,12 +270,6 @@ export default {
   @media screen and (min-width: 769px) {
     padding-left: 10px;
     padding-right: 14px;
-  }
-  &:hover {
-    background-color: $color-basic;
-    .the-navigation__link, .the-navigation__count {
-      color: $color-light;
-    }
   }
   &::after {
     content: '';
