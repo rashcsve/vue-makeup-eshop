@@ -1,5 +1,6 @@
 <template>
-  <span v-html="` ${tweeningValue} `" />
+  <span v-if="float">{{ tweeningValue | currency }}</span>
+  <span v-else>{{ tweeningValue }}</span>
 </template>
 
 <script>
@@ -8,6 +9,10 @@ export default {
     value: {
       type: Number,
       required: true
+    },
+    float: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -34,7 +39,7 @@ export default {
       new TWEEN.Tween({ tweeningValue: startValue })
         .to({ tweeningValue: endValue }, 500)
         .onUpdate(function() {
-          vm.tweeningValue = this.tweeningValue.toFixed(0);
+          vm.float ? vm.tweeningValue = this.tweeningValue.toFixed(1) : vm.tweeningValue = this.tweeningValue.toFixed(0)
         })
         .start();
 

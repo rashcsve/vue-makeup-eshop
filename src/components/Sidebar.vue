@@ -16,7 +16,7 @@
       <footer class="sidebar__footer">
         <div class="sidebar__subtotal">
           <h3 class="title title--h3 sidebar__title">Subtotal:</h3>
-          <p class="sidebar__perex">${{ getCartTotal }}</p>
+          <animated-integer :value="+getCartTotal" float class="sidebar__perex" />
         </div>
         <Button title="View Bag" :router-link="hasItems ? '/order' : '#'"  :disabled="!hasItems" wide dark @click.native="closeSidebar" />
       </footer>
@@ -28,11 +28,13 @@
 import { mapGetters } from "vuex";
 import Button from "../components/Button";
 import TheOrderCart from "../components/TheOrderCart";
+import AnimatedInteger from "./AnimatedInteger";
 
   export default {
     components: {
       Button,
-      TheOrderCart
+      TheOrderCart,
+      AnimatedInteger
     },
     computed: {
       ...mapGetters({

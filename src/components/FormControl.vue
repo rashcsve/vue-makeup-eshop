@@ -176,8 +176,6 @@ export default {
         this.objectToEmit.label = this.choice.label;
       }
       this.isUpdated = true
-      console.log(this.currentFormControlValue)
-      console.log(this.objectToEmit)
       this.validate(this.currentFormControlValue)
       this.$emit("input", this.objectToEmit);
     }

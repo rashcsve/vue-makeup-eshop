@@ -63,7 +63,6 @@ export default {
   },
   actions: {
     addItemToCart({ state, commit }, product) {
-      console.log("adding to cart")
       const cartItem = state.items.find(
         item => item.id === product.id &&
           item.value.colour_name === product.value.colour_name
@@ -78,9 +77,7 @@ export default {
     submitOrder({ state, commit }) {
       alert('Order was sent! The data is in console');
       const dataToSend = JSON.stringify(state);
-      console.log(dataToSend);
       commit('emptyCart');
-      console.log(state);
     }
   }
 };

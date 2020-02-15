@@ -19,7 +19,7 @@
         {{ textFor }}
         <b>
           <!-- <animated-integer :value="productsTotal" /> -->
-          {{ getCartTotal + currency }}
+          {{ getCartTotal | currency }}
         </b>
       </span>
       <div v-else>
@@ -50,8 +50,6 @@ export default {
   },
   data() {
     return {
-      // currency: this.$root.$options.config.currency,
-      currency: "$",
       isFixed: false,
       isStatic: false,
       timer: null,

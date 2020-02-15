@@ -4,7 +4,7 @@
       <div class="order__tax -total">
         <label class="order__tax-title">Subtotal</label>
         <label class="order__tax-price">
-          <animated-integer :value="getCartTotal" />$
+          <animated-integer :value="+getCartTotal" float />
         </label>
       </div>
     </div>

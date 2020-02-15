@@ -34,7 +34,6 @@ export default {
   async created() {
     this.loading = true
     this.products = await MakeupService.getLipsProducts()
-    console.log(this.products)
     this.loading = false
   }
 }

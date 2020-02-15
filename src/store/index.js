@@ -22,10 +22,8 @@ export default new Vuex.Store({
     submitOrder({ state, commit }) {
       alert('Order was sent! The data is in console');
       const dataToSend = JSON.stringify({ ...state.cart, ... state.form});
-      console.log(dataToSend);
       commit('cart/emptyCart');
       commit('form/emptyForm');
-      console.log(state);
     }
   },
   plugins: [vuexPersist.plugin]

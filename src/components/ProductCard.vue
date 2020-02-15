@@ -9,7 +9,7 @@
         </h3>
       <div class="product-card__other">
         <p class="product-card__perex">{{ perex }}</p>
-        <p class="product-card__price">{{ price }} $</p>
+        <p class="product-card__price">{{ price | currency }}</p>
       </div>
     </div>
   </router-link>

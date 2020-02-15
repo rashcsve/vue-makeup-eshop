@@ -24,7 +24,7 @@
         <div class="the-order-cart__right">
           <div class="the-order-cart__icon" @click="removeItem(product)"></div>
           <div class="the-order-cart__price">
-            <b>{{ product.price * product.stock }} $</b>
+            <b>{{ product.price * product.stock | currency}} </b>
           </div>
         </div>
       </div>
@@ -38,9 +38,7 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      message: "",
-      // currency: this.$root.$options.config.currency
-      currency: "$"
+      message: ""
     };
   },
 

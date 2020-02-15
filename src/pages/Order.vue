@@ -96,7 +96,6 @@ export default {
   },
   watch: {
     hasError() {
-      console.log("watching");
       console.log(this.hasError);
     }
   },
@@ -108,13 +107,12 @@ export default {
       console.log("submitting...");
       this.checkForm()
         ? this.$store.dispatch("submitOrder")
-        : console.log("sosi");
+        : console.log("error");
     },
     handleCheckbox(checkboxValue) {
       this.isTradeTermsAgreed = checkboxValue.value;
     },
     checkForm() {
-      console.log("zalupa")
       if (
         this.isEmptyObject(this.getCartTransport) ||
         this.isEmptyObject(this.getCartInvoice)
@@ -123,13 +121,8 @@ export default {
         return false  
       } 
       return true
-      console.log(this.error)
     },
     isEmptyObject(obj) {
-      console.log("Is empty epta")
-      console.log(obj)
-      console.log(obj.constructor === Object)
-      console.log(Object.entries(obj).length === 0)
       return Object.entries(obj).length === 0 && obj.constructor === Object;
     }
   }

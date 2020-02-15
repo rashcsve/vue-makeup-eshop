@@ -6,7 +6,7 @@
     <div class="product__info">
       <h3 class="title title--h1">{{ product.name }}</h3>
       <p class="product__perex">{{ product.brand }}</p>
-      <div class="product__price">{{ product.price }}$</div>
+      <div class="product__price">{{ product.price | currency }}</div>
       <form-control
         :choice="choice"
         :options="product.product_colors"
@@ -65,13 +65,10 @@ export default {
       addToCart: 'cart/addItemToCart'
     }),
     handleFormControl(selectedValue) {
-      console.log(selectedValue)
-      // console.log(this.)
       if(selectedValue) {
         this.product.value = selectedValue;
         this.isSelected = true
       }
-      console.log(this.product)
     },
   },
   async created() {
