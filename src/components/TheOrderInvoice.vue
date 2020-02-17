@@ -38,17 +38,6 @@ export default {
     FormControl,
     SlideUpDown
   },
-  // mounted() {
-  //   if(this.getCartInvoice) {
-  //     Object.keys(this.getCartInvoice).forEach(field => {
-  //       Object.keys(this.form).forEach(input => {
-  //         let inputComponent = this.form[input]
-  //         if(inputComponent)
-  //         console.log(inputComponent)
-  //       })
-  //     })
-  //   }
-  // },
   data() {
     return {
       orderInvoice: {},
@@ -194,7 +183,6 @@ export default {
       try {
         (this.form).forEach(input => {
           if (input.error) {
-            console.log("zalllll")
             this.$emit("error", true)
             return false
           }
@@ -207,8 +195,6 @@ export default {
     },
     handleInput(inputValue) {
       this.orderInvoice[inputValue.label] = inputValue.value;
-      console.log(inputValue)
-      console.log(this.orderInvoice[inputValue.label])
       this.addContact(this.orderInvoice)  
       if(this.isFormValid()) {
         this.$emit("error", false)

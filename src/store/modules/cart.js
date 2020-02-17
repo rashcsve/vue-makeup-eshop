@@ -75,9 +75,6 @@ export default {
       commit('incrementItemsCount');
     },
     submitOrder({ state, commit }) {
-      alert('Order was sent! The data is in console');
-      const dataToSend = JSON.stringify(state);
-      console.log(dataToSend)
       commit('emptyCart');
     }
   }

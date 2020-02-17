@@ -84,8 +84,6 @@ export default {
       getCartInvoice: "form/getCartContact"
     }),
     isEmpty() {
-      console.log(!this.checkForm() || this.hasError)
-      console.log(this.hasError)
       return !this.checkForm() || this.hasError
     }
   },

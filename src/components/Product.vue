@@ -65,7 +65,6 @@ export default {
       addToCart: 'cart/addItemToCart'
     }),
     handleFormControl(selectedValue) {
-      console.log(selectedValue)
       if(selectedValue) {
         this.product.value = selectedValue;
         this.isSelected = true
