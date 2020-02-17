@@ -34,21 +34,22 @@
     </div>
 
     <div v-if="choice.type === 'radio'">
-      <div v-for="option in options" :key="option" class="form-control__radio">
-        <input
-          :value="option"
-          :name="choice.name"
-          :type="choice.type"
-          v-model="currentFormControlValue"
-          @change="update"
-          :class="{
-            'form-control': true,
-            'form-control__radio-input': true,
-            'form-control--filled': currentFormControlValue,
-            'form-control--error': hasError
-          }"
-        />
-        <div class="form-control__radio-label">{{ option }}</div> 
+      <div v-for="option in options" :key="option" class="form-control form-control__radio">
+          <input
+          :id="option"
+            :value="option"
+            :name="choice.name"
+            :type="choice.type"
+            v-model="currentFormControlValue"
+            @change="update"
+            :class="{
+              'form-control': true,
+              'form-control__radio-input': true,
+              'form-control--filled': currentFormControlValue,
+              'form-control--error': hasError
+            }"
+          />
+        <label class="form-control__radio-label" :for="option">{{ option }}</label>
       </div>
     </div>
 
@@ -671,16 +672,38 @@ export default {
   background-color: inherit;
 }
 .form-control__radio {
-  display: flex;
+  // display: flex;
+  // position: relative;
+  // background-color: $color-light;
+  height: 48px;
+  margin-bottom: 16px;
+  padding: 0;
 }
 .form-control__radio-input {
-  width: 20px;
+  width: 100%;
+  display: none;
+
+  &:checked ~ .form-control__radio-label {
+    background-color: $color-background;
+  }
 }
-.form-control__radio-label {
+.form-control__radio-text {
   display: flex;
   width: 100%;
 }
 .form-control__radio-label {
   font-weight: bold;
+  text-transform: uppercase;
+  line-height: 16px;
+  position: absolute;
+  left: 0;
+  padding: 0 16px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  display: flex;
+  position: relative;
+  background-color: $color-light;
 }
 </style>

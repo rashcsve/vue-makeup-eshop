@@ -4,7 +4,7 @@
     <div class="the-order__form">
       <!-- TO DO: radio button nebo checkbox -->
       <form-control
-        :options="['ppl', 'dhl']"
+        :options="options"
         :choice="choice"
         :error="error"
         @input="handleFormControl"
@@ -32,6 +32,7 @@ export default {
     return {
       transport: {},
       requiredFields: [],
+      options: ['ppl', 'dhl'],
       choice: {
         label: "Choose transport type",
         type: "radio",

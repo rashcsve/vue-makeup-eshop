@@ -16,6 +16,7 @@ export default {
       return state.transport;
     },
     getCartContact(state) {
+      console.log("get")
       console.log(state.contact)
       return state.contact;
     }
@@ -25,6 +26,8 @@ export default {
       state.transport = transport;
     },
     setContact(state, contact) {
+      console.log("pidoras")
+      console.log(contact)
       state.contact = contact;
     },
     emptyForm(state) {

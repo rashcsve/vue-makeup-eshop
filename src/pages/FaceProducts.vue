@@ -1,10 +1,10 @@
 <template>
   <loading v-if="loading"/>
-  <container v-else >
+  <container v-else>
   <div class="products">
     <h2 class="title title--h1">Face Products</h2>
     <div class="products__container">
-      <section v-for="(product, index) in products" :key="index">
+      <section v-for="(product, index) in products" :key="index" class="products__item">
         <ProductCard :id="product.id" :image="product.api_featured_image" :title="product.name" :perex="product.brand" :price="product.price" />
       </section>
     </div>

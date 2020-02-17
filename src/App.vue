@@ -1,15 +1,22 @@
 <template>
   <div id="app">
     <section>
-      <the-navigation @show-modal="modalIsOpened"  @show-sidebar="showCartSidebar" />
+      <transition name="fade" mode="out-in">
+        <the-navigation @show-modal="modalIsOpened"  @show-sidebar="showCartSidebar" />
+      </transition>
       <div
         :class="{ home__container: true, 'home__container--modal': showModal }"
       >
+       <transition
+        name="fade"
+        mode="out-in"
+      >
         <router-view />
+       </transition>
       </div>
       <the-footer />  
     </section>
-    <transition>
+    <transition name="fade" mode="out-in">
       <Sidebar v-if="isCartSidebarOpen" @sidebar-status="showCartSidebar" class="the-order-navigation__sidebar the-order-navigation__sidebar--cart" />
     </transition>
   </div>
@@ -53,9 +60,21 @@ export default {
 }
 
 .home__image {
-  background: lighten(black, 40%);
+  background: lighten($color-basic, 40%);
   width: 100%;
   background-size: cover;
   background-position: center;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.5s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0
 }
 </style>

@@ -7,7 +7,6 @@
         'the-order-navigation--fixed': isFixed,
         'the-order-navigation--static': isStatic
       }"
-      @click="scrollToOrder"
     >
       <img src="../assets/svg/lipstick-white.svg" alt="lipstick" class="the-order-navigation__icon" />
       <transition>
@@ -40,7 +39,6 @@
 
 <script>
 import AnimatedInteger from "./AnimatedInteger";
-import ScrollTo from "vue-scrollto";
 
 import { mapGetters } from "vuex";
 
@@ -58,56 +56,12 @@ export default {
       textFor: " for "
     };
   },
-  mounted() {
-    window.addEventListener("scroll", this.handleChange);
-    window.addEventListener("resize", this.handleChange);
-    this.handleChange();
-  },
-  destroyed() {
-    window.removeEventListener("scroll", this.handleChange);
-    window.removeEventListener("resize", this.handleChange);
-  },
   computed: {
     ...mapGetters({
       hasItems: "cart/hasItems",
       getItemsCount: "cart/getCartItemsCount",
       getCartTotal: "cart/getCartTotal"
     })
-  },
-  // TO DO - Do I need it?
-  watch: {
-    hasItems(newCount, oldCount) {
-      this.checkFixedAttribute();
-    }
-  },
-  methods: {
-    handleChange() {
-      this.checkFixedAttribute();
-    },
-    checkFixedAttribute() {
-      var navigationHeight = this.$refs.navigation.getBoundingClientRect()
-        .height;
-      var currentViewportBottomLine = window.scrollY + window.innerHeight;
-      var containerFromTop =
-        this.$refs.container.getBoundingClientRect().top +
-        window.scrollY +
-        navigationHeight;
-
-      if (containerFromTop - currentViewportBottomLine < 0) {
-        this.isStatic = true;
-        if (this.isFixed !== false && this.hasItems) {
-          this.isFixed = false;
-        }
-      } else {
-        this.isStatic = false;
-        if (this.isFixed !== true && this.hasItems) {
-          this.isFixed = true;
-        }
-      }
-    },
-    scrollToOrder() {
-      ScrollTo.scrollTo("#order");
-    }
   }
 };
 </script>

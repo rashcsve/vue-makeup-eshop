@@ -7,6 +7,7 @@ import form from './modules/form';
 
 Vue.use(Vuex);
 
+// Save cart products to Local storage
 const vuexPersist = new VuexPersist({
   key: 'cart',
   modules: ['cart'],
@@ -24,6 +25,7 @@ export default new Vuex.Store({
       const dataToSend = JSON.stringify({ ...state.cart, ... state.form});
       commit('cart/emptyCart');
       commit('form/emptyForm');
+      console.log(dataToSend)
     }
   },
   plugins: [vuexPersist.plugin]

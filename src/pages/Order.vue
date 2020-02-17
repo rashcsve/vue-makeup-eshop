@@ -3,7 +3,7 @@
   <div class="the-order__container" id="order">
     <div class="the-order__section">
       <form class="the-order__other" v-if="hasItems">
-        <the-order-invoice @next-step="continueToShipping" />
+        <the-order-invoice @next-step="continueToShipping" @error="hasEmptyField" />
         <the-order-transport v-if="isShipping" />
         <div class="the-order__finish-order">
           <!-- TO DO - Add transition -->
@@ -23,7 +23,7 @@
         </div>
         <Button
           class="the-order__button"
-          :disabled="!isTradeTermsAgreed"
+          :disabled="!isTradeTermsAgreed || isEmpty"
           router-link="/"
           @click.native="submitOrder"
           type="button"
@@ -48,7 +48,7 @@ import FormControl from "../components/FormControl";
 import Container from '../components/Container';
 import Button from "../components/Button";
 
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   components: {
@@ -83,15 +83,10 @@ export default {
       getCartTransport: "form/getCartTransport",
       getCartInvoice: "form/getCartContact"
     }),
-    allDataSelected() {
-      if (
-        this.isEmptyObject(this.getCartTransport) ||
-        this.isEmptyObject(this.getCartInvoice)
-      ) {
-        this.error = "These fields are required!";
-        return false  
-      } 
-      return true
+    isEmpty() {
+      console.log(!this.checkForm() || this.hasError)
+      console.log(this.hasError)
+      return !this.checkForm() || this.hasError
     }
   },
   watch: {
@@ -102,6 +97,9 @@ export default {
   methods: {
     continueToShipping(value) {
       this.isShipping = value
+    },
+    hasEmptyField(value) {
+      this.hasError = value;
     },
     submitOrder() {
       console.log("submitting...");

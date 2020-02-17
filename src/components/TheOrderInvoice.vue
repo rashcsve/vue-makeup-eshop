@@ -194,7 +194,9 @@ export default {
       try {
         (this.form).forEach(input => {
           if (input.error) {
-            throw new Error(input.error)
+            console.log("zalllll")
+            this.$emit("error", true)
+            return false
           }
         })
       } catch (e) {
@@ -205,8 +207,11 @@ export default {
     },
     handleInput(inputValue) {
       this.orderInvoice[inputValue.label] = inputValue.value;
+      console.log(inputValue)
+      console.log(this.orderInvoice[inputValue.label])
+      this.addContact(this.orderInvoice)  
       if(this.isFormValid()) {
-        this.addContact(inputValue)
+        this.$emit("error", false)
         this.$emit("next-step", true)
       }
     }
