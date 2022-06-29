@@ -2,14 +2,27 @@
   <div
     :class="{
       button__wrapper: true,
-      'button__wrapper--center': alignment === 'center'
+      'button__wrapper--center': alignment === 'center',
     }"
   >
-    <a v-if="link" :href="link" :class="{ button: true, 'button--transparent': transparent }">
+    <a
+      v-if="link"
+      :href="link"
+      :class="{ button: true, 'button--transparent': transparent }"
+    >
       <span class="button__title">{{ title }}</span>
     </a>
 
-    <router-link v-if="routerLink" :to="routerLink" :class="{ button: true, 'button--dark': dark, 'button--wide': wide, 'button--disabled': disabled}">
+    <router-link
+      v-if="routerLink"
+      :to="routerLink"
+      :class="{
+        button: true,
+        'button--dark': dark,
+        'button--wide': wide,
+        'button--disabled': disabled,
+      }"
+    >
       <span class="button__title">{{ title }}</span>
     </router-link>
 
@@ -23,7 +36,7 @@
         'button--medium': medium,
         'button--dark': dark,
         'button--big': big,
-        'button--disabled': disabled
+        'button--disabled': disabled,
       }"
     >
       <span class="button__title">{{ title }}</span>
@@ -45,8 +58,8 @@ export default {
     wide: Boolean,
     link: String,
     alignment: String,
-    routerLink: String
-  }
+    routerLink: String,
+  },
 };
 </script>
 

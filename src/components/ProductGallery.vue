@@ -34,7 +34,7 @@
       :navigation-enabled="false"
       :per-page-custom="[
         [0, 4.35],
-        [568, 8]
+        [568, 8],
       ]"
       :autoplay="false"
       :loop="false"
@@ -47,7 +47,7 @@
       <slide
         :class="{
           'product-gallery__slide': true,
-          'product-gallery__slide--active': index === active
+          'product-gallery__slide--active': index === active,
         }"
         class="product-gallery__slide"
         v-for="(image, index) in images"
@@ -65,19 +65,19 @@
 </template>
 
 <script>
-import { Carousel, Slide } from 'vue-carousel';
+import { Carousel, Slide } from "vue-carousel";
 export default {
   components: {
     Carousel,
-    Slide
+    Slide,
   },
   props: {
     images: Array,
-    masterImage: String
+    masterImage: String,
   },
-  data: function() {
+  data: function () {
     return {
-      active: 0
+      active: 0,
     };
   },
   methods: {
@@ -88,8 +88,8 @@ export default {
     handleChange(index) {
       this.$refs.navigation.goToPage(index);
       this.active = index;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -205,13 +205,13 @@ export default {
   margin: 0 1em;
   transform: translateX(0) translateY(-50%) scale(2) !important;
   color: transparent !important;
-  background: url('../assets/svg/arrowleft.svg') no-repeat center / 13px;
+  background: url("../assets/svg/arrowleft.svg") no-repeat center / 13px;
   &:focus {
     outline: 0 !important;
   }
 }
 .VueCarousel-navigation-prev {
-  background-image: url('../assets/svg/arrowright.svg');
+  background-image: url("../assets/svg/arrowright.svg");
 }
 
 .product-gallery .VueCarousel-navigation {
@@ -230,7 +230,7 @@ export default {
   font-size: 12px;
   padding: 16px 0;
   line-height: 16px;
-  font-family: 'alliance_no.1';
+  font-family: "alliance_no.1";
   height: auto;
   bottom: auto;
   width: 90%;
@@ -249,7 +249,7 @@ export default {
 }
 
 .vue-lb-footer-count {
-  font-family: 'alliance_no.1';
+  font-family: "alliance_no.1";
   padding-left: 0;
   color: $color-light;
 }
@@ -284,8 +284,8 @@ img.vue-lb-modal-image {
   right: 40px;
 
   &::before {
-    content: '';
-    background: url('/svg/close_light.svg') no-repeat;
+    content: "";
+    background: url("../assets/svg/close_light.svg") no-repeat;
     background-size: 32px;
     background-position: center;
     left: 0;
@@ -320,8 +320,8 @@ img.vue-lb-modal-image {
 
 .vue-lb-right {
   &::before {
-    content: '';
-    background: url('/svg/right-chevron_white.svg') no-repeat;
+    content: "";
+    background: url("../assets/svg/right-chevron_white.svg") no-repeat;
     background-size: 20px;
     background-position: center;
     left: 0;
@@ -338,8 +338,8 @@ img.vue-lb-modal-image {
 
 .vue-lb-left {
   &::before {
-    content: '';
-    background: url('/svg/left-chevron_white.svg') no-repeat;
+    content: "";
+    background: url("../assets/svg/left-chevron_white.svg") no-repeat;
     background-size: 20px;
     background-position: center;
     left: 0;
@@ -356,8 +356,8 @@ img.vue-lb-modal-image {
 
 .vue-lb-thumbnail-right {
   &::before {
-    content: '';
-    background: url('/svg/right-chevron_white.svg') no-repeat;
+    content: "";
+    background: url("../assets/svg/right-chevron_white.svg") no-repeat;
     background-size: 12px;
     background-position: center;
     left: 0;
@@ -374,8 +374,8 @@ img.vue-lb-modal-image {
 
 .vue-lb-thumbnail-left {
   &::before {
-    content: '';
-    background: url('/svg/left-chevron_white.svg') no-repeat;
+    content: "";
+    background: url("../assets/svg/left-chevron_white.svg") no-repeat;
     background-size: 12px;
     background-position: center;
     left: 0;
