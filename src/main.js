@@ -1,14 +1,8 @@
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
-import { currency } from '@/services/currency';
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
 
-Vue.config.productionTip = false;
-Vue.filter('currency', currency);
-
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app');
+const app = createApp({ router, store, ...App });
+// actually mount to DOM
+app.mount("#app");
