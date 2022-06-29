@@ -46,6 +46,7 @@
 
 <script>
 export default {
+  emits: ["addToCart", "closeSidebar", "submitOrder"],
   props: {
     title: String,
     transparent: Boolean,

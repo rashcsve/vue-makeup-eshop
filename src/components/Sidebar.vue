@@ -5,20 +5,33 @@
       <nav class="sidebar__nav" @click="closeSidebar">
         <div class="sidebar__icon"></div>
         <h3 class="title title--h3 sidebar__title">Shopping Cart</h3>
-        <div v-if="hasItems" class="sidebar__perex">{{ getItemsCount }} {{ getItemsCount > 1 ? "items" : "item" }}</div>
+        <div v-if="hasItems" class="sidebar__perex">
+          {{ getItemsCount }} {{ getItemsCount > 1 ? "items" : "item" }}
+        </div>
       </nav>
       <!-- To Do: Add Divider -->
       <section class="sidebar__items">
-        <the-order-cart v-if="hasItems"/>
+        <the-order-cart v-if="hasItems" />
         <p v-else class="sidebar__perex">Your bag is empty.</p>
-      <!-- To Do: Add Divider -->
+        <!-- To Do: Add Divider -->
       </section>
       <footer class="sidebar__footer">
         <div class="sidebar__subtotal">
           <h3 class="title title--h3 sidebar__title">Subtotal:</h3>
-          <animated-integer :value="+getCartTotal" float class="sidebar__perex" />
+          <animated-integer
+            :value="+getCartTotal"
+            float
+            class="sidebar__perex"
+          />
         </div>
-        <Button title="View Bag" :router-link="hasItems ? '/order' : '#'"  :disabled="!hasItems" wide dark @click.native="closeSidebar" />
+        <Button
+          title="View Bag"
+          :router-link="hasItems ? '/order' : '#'"
+          :disabled="!hasItems"
+          wide
+          dark
+          @closeSidebar="closeSidebar"
+        />
       </footer>
     </aside>
   </section>
@@ -30,26 +43,26 @@ import Button from "../components/Button";
 import TheOrderCart from "../components/TheOrderCart";
 import AnimatedInteger from "./AnimatedInteger";
 
-  export default {
-    components: {
-      Button,
-      TheOrderCart,
-      AnimatedInteger
+export default {
+  components: {
+    Button,
+    TheOrderCart,
+    AnimatedInteger,
+  },
+  computed: {
+    ...mapGetters({
+      hasItems: "cart/hasItems",
+      getItemsCount: "cart/getCartItemsCount",
+      getItems: "cart/getCartItems",
+      getCartTotal: "cart/getCartTotal",
+    }),
+  },
+  methods: {
+    closeSidebar() {
+      this.$emit("sidebar-status", false);
     },
-    computed: {
-      ...mapGetters({
-        hasItems: "cart/hasItems",
-        getItemsCount: "cart/getCartItemsCount",
-        getItems: "cart/getCartItems",
-        getCartTotal: "cart/getCartTotal"
-      })
-    },
-    methods: {
-      closeSidebar() {
-        this.$emit('sidebar-status', false)
-      }
-    }
-  }
+  },
+};
 </script>
 
 <style lang="scss" scoped>

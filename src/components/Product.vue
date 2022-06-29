@@ -6,24 +6,21 @@
     <div class="product__info">
       <h3 class="title title--h1">{{ product.name }}</h3>
       <p class="product__perex">{{ product.brand }}</p>
-      <div class="product__price">{{ product.price | currency }}</div>
+      <div class="product__price">${{ product.price }}</div>
       <form-control
         :choice="choice"
         :options="product.product_colors"
         @input="handleFormControl"
       />
       <Button
-        @click.native="addToCart(product)"
+        @addToCart="addToCart(product)"
         title="Add To Cart"
         :disabled="!isSelected"
         medium
         dark
       />
       <div class="product__perex">
-        <div
-          class="product__perex-text"
-          v-html="product.description"
-        ></div>
+        <div class="product__perex-text" v-html="product.description"></div>
       </div>
     </div>
   </div>
@@ -31,20 +28,20 @@
 
 <script>
 import ProductGallery from "../components/ProductGallery";
-import FormControl from '../components/FormControl';
+import FormControl from "../components/FormControl";
 import Loading from "../components/Loading";
 import Button from "../components/Button";
 
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
-import MakeupService from '../services/api/MakeupService'
+import MakeupService from "../services/api/MakeupService";
 
 export default {
   components: {
     ProductGallery,
     FormControl,
     Loading,
-    Button
+    Button,
   },
   data() {
     return {
@@ -56,27 +53,27 @@ export default {
         type: "select",
         name: "product",
         required: true,
-        placeholder: "Choose color..."
-      }
+        placeholder: "Choose color...",
+      },
     };
   },
   methods: {
     ...mapActions({
-      addToCart: 'cart/addItemToCart'
+      addToCart: "cart/addItemToCart",
     }),
     handleFormControl(selectedValue) {
-      if(selectedValue) {
+      if (selectedValue) {
         this.product.value = selectedValue;
-        this.isSelected = true
+        this.isSelected = true;
       }
     },
   },
   async created() {
-    this.loading = true
-    const response = await MakeupService.getProduct(this.$route.params.id)
-    this.product = response.data
-    this.loading = false
-  }
+    this.loading = true;
+    const response = await MakeupService.getProduct(this.$route.params.id);
+    this.product = response.data;
+    this.loading = false;
+  },
 };
 </script>
 

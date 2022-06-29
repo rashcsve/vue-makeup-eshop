@@ -2,13 +2,19 @@
   <div class="the-order-cart__products">
     <div class="the-order-cart">
       <!-- <h4 class="title title--medium">Shopping Cart</h4> -->
-      <div class="the-order-cart__item" v-for="(product, index) in getCartItems" :key="index">
-        <router-link :to="`/products/${product.id}`" class="the-order-cart__image-wrapper">
+      <div
+        class="the-order-cart__item"
+        v-for="(product, index) in getCartItems"
+        :key="index"
+      >
+        <router-link
+          :to="`/products/${product.id}`"
+          class="the-order-cart__image-wrapper"
+        >
           <div
             class="the-order-cart__image"
             :style="{
-              'background-image':
-                `url(${product.api_featured_image})`
+              'background-image': `url(${product.api_featured_image})`,
             }"
           />
         </router-link>
@@ -18,13 +24,18 @@
           <div class="the-order-cart__perex">{{ product.brand }}</div>
           <div class="the-order-cart__total">
             <!-- To Do: computed prop instead of this -->
-            {{ product.stock }} {{ product.stock > 1 ? "items" : "item" }} - {{ product.value.colour_name}} <div class="the-order-cart__color" :style="{backgroundColor: product.value.hex_value}" />
+            {{ product.stock }} {{ product.stock > 1 ? "items" : "item" }} -
+            {{ product.value.colour_name }}
+            <div
+              class="the-order-cart__color"
+              :style="{ backgroundColor: product.value.hex_value }"
+            />
           </div>
         </div>
         <div class="the-order-cart__right">
           <div class="the-order-cart__icon" @click="removeItem(product)"></div>
           <div class="the-order-cart__price">
-            <b>{{ product.price * product.stock | currency}} </b>
+            <b>${{ product.price * product.stock }} </b>
           </div>
         </div>
       </div>
@@ -38,21 +49,21 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      message: ""
+      message: "",
     };
   },
 
   computed: {
     ...mapGetters({
-      getCartItems: "cart/getCartItems"
-    })
+      getCartItems: "cart/getCartItems",
+    }),
   },
 
   methods: {
     removeItem(product) {
       this.$store.commit("cart/removeProduct", product);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -87,7 +98,7 @@ export default {
   padding-left: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
+  justify-content: space-between;
   line-height: 24px;
   text-align: left;
   width: 100%;
@@ -128,7 +139,7 @@ export default {
   border-radius: 50%;
   margin-left: 8px;
   @media #{$media-min-tablet} {
-    margin: 0;  
+    margin: 0;
   }
 }
 </style>

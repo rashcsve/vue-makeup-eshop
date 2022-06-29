@@ -5,27 +5,36 @@
       :class="{
         'the-order-navigation': true,
         'the-order-navigation--fixed': isFixed,
-        'the-order-navigation--static': isStatic
+        'the-order-navigation--static': isStatic,
       }"
     >
-      <img src="../assets/svg/lipstick-white.svg" alt="lipstick" class="the-order-navigation__icon" />
+      <img
+        src="../assets/svg/lipstick-white.svg"
+        alt="lipstick"
+        class="the-order-navigation__icon"
+      />
       <transition>
-        <div v-show="hasItems" class="the-order-navigation__count">{{ getItemsCount }}</div>
+        <div v-show="hasItems" class="the-order-navigation__count">
+          {{ getItemsCount }}
+        </div>
       </transition>
       <span v-if="hasItems">
         {{ label }}
-        <b>{{ getItemsCount }} {{ getItemsCount > 1 ? 'items' : 'item' }}</b>
+        <b>{{ getItemsCount }} {{ getItemsCount > 1 ? "items" : "item" }}</b>
         {{ textFor }}
         <b>
           <!-- <animated-integer :value="productsTotal" /> -->
-          {{ getCartTotal | currency }}
+          ${{ getCartTotal }}
         </b>
       </span>
       <div v-else>
         <span>Your cart is empty</span>
       </div>
       <div
-        :class="{'the-order-navigation__icon-right':true, 'the-order-navigation__icon-right--open':hasItems}"
+        :class="{
+          'the-order-navigation__icon-right': true,
+          'the-order-navigation__icon-right--open': hasItems,
+        }"
       >
         <img
           src="../assets/svg/dropdown_light.svg"
@@ -44,7 +53,7 @@ import { mapGetters } from "vuex";
 
 export default {
   components: {
-    AnimatedInteger
+    AnimatedInteger,
   },
   data() {
     return {
@@ -53,16 +62,16 @@ export default {
       timer: null,
       showcount: false,
       label: "To order ",
-      textFor: " for "
+      textFor: " for ",
     };
   },
   computed: {
     ...mapGetters({
       hasItems: "cart/hasItems",
       getItemsCount: "cart/getCartItemsCount",
-      getCartTotal: "cart/getCartTotal"
-    })
-  }
+      getCartTotal: "cart/getCartTotal",
+    }),
+  },
 };
 </script>
 
