@@ -1,32 +1,33 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
-import VuexPersist from 'vuex-persist';
+import { createStore } from "vuex";
 
-import cart from './modules/cart';
-import form from './modules/form';
+// import VuexPersist from "vuex-persist";
 
-Vue.use(Vuex);
+import cart from "./modules/cart";
+import form from "./modules/form";
 
 // Save cart products to Local storage
-const vuexPersist = new VuexPersist({
-  key: 'cart',
-  modules: ['cart'],
-  storage: window.localStorage
-});
-
-export default new Vuex.Store({
+// const vuexPersist = new VuexPersist({
+//   key: "cart",
+//   modules: ["cart"],
+//   storage: window.localStorage,
+// });
+console.log(createStore);
+export const store = createStore({
   modules: {
     cart,
-    form
+    form,
   },
   actions: {
     submitOrder({ state, commit }) {
-      alert('Order was sent! The data is in console');
-      const dataToSend = JSON.stringify({ ...state.cart, ... state.form});
-      commit('cart/emptyCart');
-      commit('form/emptyForm');
-      console.log(dataToSend)
-    }
+      alert("Order was sent! The data is in console");
+      const dataToSend = JSON.stringify({ ...state.cart, ...state.form });
+      commit("cart/emptyCart");
+      commit("form/emptyForm");
+      console.log(dataToSend);
+    },
   },
-  plugins: [vuexPersist.plugin]
 });
+
+export function useStore() {
+  return store;
+}

@@ -51,7 +51,7 @@ import FormControl from "../components/FormControl";
 import Container from "../components/Container";
 import Button from "../components/Button";
 
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
