@@ -29,6 +29,7 @@
     <button
       v-if="!link && !routerLink"
       type="button"
+      @click="btnClick"
       :class="{
         button: true,
         'button--more': more,
@@ -60,6 +61,13 @@ export default {
     link: String,
     alignment: String,
     routerLink: String,
+  },
+  methods: {
+    btnClick() {
+      this.$emit("addToCart");
+      this.$emit("closeSidebar");
+      this.$emit("submitOrder");
+    },
   },
 };
 </script>

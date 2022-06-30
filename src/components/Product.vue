@@ -33,7 +33,7 @@ import Loading from "../components/Loading";
 import Button from "../components/Button";
 
 import { mapActions } from "vuex";
-import { isProxy, toRaw } from "vue";
+
 import MakeupService from "../services/api/MakeupService";
 
 export default {

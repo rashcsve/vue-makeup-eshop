@@ -1,9 +1,8 @@
-
 const getDefaultState = () => {
   return {
     items: [],
     total: {},
-    itemsCount: 0
+    itemsCount: 0,
   };
 };
 
@@ -25,32 +24,31 @@ export default {
     },
     getCartTotal(state) {
       let totalPrice = 0.0;
-      state.items.forEach(it => (totalPrice += it.price * it.stock));
+      state.items.forEach((it) => (totalPrice += it.price * it.stock));
       state.total.totalPrice = totalPrice;
       return totalPrice.toFixed(1);
-    }
+    },
   },
   mutations: {
     removeProduct(state, product) {
       let curItem = state.items.find(
-        item =>
-          item.id === product.id && item.value === product.value
+        (item) => item.id === product.id && item.value === product.value
       );
-      let index = state.items.findIndex(item => item.id === product.id && item.value === product.value)
+      let index = state.items.findIndex(
+        (item) => item.id === product.id && item.value === product.value
+      );
       curItem.stock > 1 ? curItem.stock-- : state.items.splice(index, 1);
       state.itemsCount--;
     },
     addItemToCart(state, product) {
+      console.log(product);
       state.items.push({
         ...product,
-        stock: 1
+        stock: 1,
       });
     },
     incrementItemQuantity(state, product) {
-      let curItem = state.items.find(
-        item =>
-          item.id === product.id
-      );
+      let curItem = state.items.find((item) => item.id === product.id);
       curItem.stock++;
       curItem = { ...product };
     },
@@ -59,23 +57,24 @@ export default {
     },
     emptyCart(state) {
       Object.assign(state, getDefaultState());
-    }
+    },
   },
   actions: {
     addItemToCart({ state, commit }, product) {
       const cartItem = state.items.find(
-        item => item.id === product.id &&
+        (item) =>
+          item.id === product.id &&
           item.value.colour_name === product.value.colour_name
-      )
+      );
       if (!cartItem) {
-        commit('addItemToCart', product);
+        commit("addItemToCart", product);
       } else {
-        commit('incrementItemQuantity', product);
+        commit("incrementItemQuantity", product);
       }
-      commit('incrementItemsCount');
+      commit("incrementItemsCount");
     },
     submitOrder({ state, commit }) {
-      commit('emptyCart');
-    }
-  }
+      commit("emptyCart");
+    },
+  },
 };
