@@ -9,8 +9,8 @@
       <div class="product__price">${{ product.price }}</div>
       <form-control
         :choice="choice"
-        :options="product.product_colors"
-        @input="handleFormControl"
+        :options="colors"
+        @handle="handleFormControl"
       />
       <Button
         @addToCart="addToCart(product)"
@@ -33,7 +33,7 @@ import Loading from "../components/Loading";
 import Button from "../components/Button";
 
 import { mapActions } from "vuex";
-
+import { isProxy, toRaw } from "vue";
 import MakeupService from "../services/api/MakeupService";
 
 export default {
@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       product: null,
+      colors: [],
       loading: false,
       isSelected: false,
       choice: {
@@ -69,10 +70,19 @@ export default {
     },
   },
   async created() {
-    this.loading = true;
-    const response = await MakeupService.getProduct(this.$route.params.id);
-    this.product = response.data;
-    this.loading = false;
+    try {
+      this.loading = true;
+      const response = await MakeupService.getProduct(this.$route.params.id);
+      this.product = response.data;
+      const colors = response.data.product_colors;
+      colors.forEach((color) => {
+        let newColor = { value: color.colour_name, ...color };
+        this.colors.push(newColor);
+      });
+      this.loading = false;
+    } catch (e) {
+      console.log(e);
+    }
   },
 };
 </script>

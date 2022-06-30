@@ -1,42 +1,50 @@
 <template>
-<div class="form-control__wrapper">
-  <div
-    :class="{
-      'form-control__container': true,
-      'form-control__container--type-checkbox': choice.type === 'checkbox',
-      'form-control__container--type-radio': choice.type === 'radio',
-      'form-control__container--type-text': choice.type === 'text',
-      'form-control__container--type-select': choice.type === 'select'
-    }"
-  >
-    <div v-if="choice.type === 'text' || choice.type === 'password'">
-      <input
-        :name="choice.name"
-        :type="choice.type"
-        @input="update"
-        v-model="currentFormControlValue"
-        :class="{
-          'form-control': true,
-          'form-control--filled': currentFormControlValue,
-          'form-control--error': hasError
-        }"
-      />
-      <span :class="{
-          'form-control__placeholder': true,
-          'form-control__placeholder--error': hasError
-        }">
-        {{ choice.placeholder }}
-      </span>
-      <span :class="{
-        'form-control__focus-border': true,
-        'form-control__focus-border--error': hasError
-      }"></span>
-    </div>
+  <div class="form-control__wrapper">
+    <div
+      :class="{
+        'form-control__container': true,
+        'form-control__container--type-checkbox': choice.type === 'checkbox',
+        'form-control__container--type-radio': choice.type === 'radio',
+        'form-control__container--type-text': choice.type === 'text',
+        'form-control__container--type-select': choice.type === 'select',
+      }"
+    >
+      <div v-if="choice.type === 'text' || choice.type === 'password'">
+        <input
+          :name="choice.name"
+          :type="choice.type"
+          @input="update"
+          v-model="currentFormControlValue"
+          :class="{
+            'form-control': true,
+            'form-control--filled': currentFormControlValue,
+            'form-control--error': hasError,
+          }"
+        />
+        <span
+          :class="{
+            'form-control__placeholder': true,
+            'form-control__placeholder--error': hasError,
+          }"
+        >
+          {{ choice.placeholder }}
+        </span>
+        <span
+          :class="{
+            'form-control__focus-border': true,
+            'form-control__focus-border--error': hasError,
+          }"
+        ></span>
+      </div>
 
-    <div v-if="choice.type === 'radio'">
-      <div v-for="option in options" :key="option" class="form-control form-control__radio">
+      <div v-if="choice.type === 'radio'">
+        <div
+          v-for="option in options"
+          :key="option"
+          class="form-control form-control__radio"
+        >
           <input
-          :id="option"
+            :id="option"
             :value="option"
             :name="choice.name"
             :type="choice.type"
@@ -46,127 +54,139 @@
               'form-control': true,
               'form-control__radio-input': true,
               'form-control--filled': currentFormControlValue,
-              'form-control--error': hasError
+              'form-control--error': hasError,
             }"
           />
-        <label class="form-control__radio-label" :for="option">{{ option }}</label>
+          <label class="form-control__radio-label" :for="option">{{
+            option
+          }}</label>
+        </div>
       </div>
-    </div>
 
-    <div
-      v-if="choice.type === 'checkbox'"
-      :class="{
-        checkbox__container: true,
-        'checkbox__container--product': choice.product
-      }"
-    >
-      <label
+      <div
+        v-if="choice.type === 'checkbox'"
         :class="{
-          checkbox__label: true,
-          'checkbox__label--product': choice.product
+          checkbox__container: true,
+          'checkbox__container--product': choice.product,
         }"
       >
-        <input
-          :type="choice.type"
-          :name="choice.name"
-          @change="update"
-          v-model="currentFormControlValue"
-          class="checkbox__input"
-        />
-        <span
+        <label
           :class="{
-            checkbox__phrase: true,
-            'checkbox__phrase--product': choice.product
+            checkbox__label: true,
+            'checkbox__label--product': choice.product,
           }"
         >
-          {{ choice.label }}
-        </span>
-      </label>
-    </div>
+          <input
+            :type="choice.type"
+            :name="choice.name"
+            @change="update"
+            v-model="currentFormControlValue"
+            class="checkbox__input"
+          />
+          <span
+            :class="{
+              checkbox__phrase: true,
+              'checkbox__phrase--product': choice.product,
+            }"
+          >
+            {{ choice.label }}
+          </span>
+        </label>
+      </div>
 
-    <div v-if="choice.type === 'select'" :class="{ 'form-control__select--error': hasError}">
-      <!--To Do: Label as props as well -->
-      <v-select
-        ref="control"
-        :options="options"
-        :placeholder="choice.placeholder"
-        @input="update"
-        label="colour_name" 
-        :clearable="false"
-        v-model="currentFormControlValue"
+      <div
+        v-if="choice.type === 'select'"
+        :class="{ 'form-control__select--error': hasError }"
       >
-        <template v-slot:option="option">
-          <div class="vue-select__options-container" v-if="choice.name === 'product'">
-            <span>{{ option.colour_name }}</span>
-            <span class="vue-select__color" :style="{backgroundColor: option.hex_value}" />
-          </div>
-          <div v-else>
-            <span>{{ option.label }}</span>
-          </div>
-        </template>
-      </v-select>
+        <!--To Do: Label as props as well -->
+        <Multiselect
+          ref="control"
+          :options="rawOptions"
+          :placeholder="choice.placeholder"
+          v-model="currentFormControlValue"
+          @change="update"
+          label="colour_name"
+        >
+          <!-- <template v-slot:option="{ option }">
+            <div
+              class="vue-select__options-container"
+              v-if="choice.name === 'product'"
+            >
+              <span
+                class="vue-select__color"
+                :style="{ backgroundColor: option.hex_value }"
+              />
+              <span>{{ option.colour_name }}</span>
+            </div>
+            <div v-else>
+              <span>{{ option.label }}</span>
+            </div>
+          </template> -->
+        </Multiselect>
+      </div>
+    </div>
+    <div class="form-control__error" v-if="hasError">
+      <p>{{ errorMessage }}</p>
     </div>
   </div>
-  <div class="form-control__error" v-if="hasError">
-    <p>{{ errorMessage }}</p>
-  </div>
-</div>
 </template>
 
 <script>
-import vSelect from "vue-select";
-
+import { isProxy, toRaw } from "vue";
+import Multiselect from "@vueform/multiselect";
 export default {
-  components: {
-    vSelect
-  },
+  components: { Multiselect },
+  emits: ["handle"],
   props: {
     choice: {
       type: Object,
       default: () => {
         return {
-          type: 'text',
-          placeholder: 'text',
-          label: '',
-          name: '',
-          validator: null
-        }
-      }
+          type: "text",
+          placeholder: "text",
+          label: "",
+          name: "",
+          validator: null,
+        };
+      },
     },
     options: {
-      type: Array
-    }
+      type: Array,
+    },
   },
   data() {
     return {
-      currentFormControlValue: "",
+      currentFormControlValue: null,
       errorMessage: null,
       isUpdated: false,
-      objectToEmit: {}
-    }
+      objectToEmit: {},
+    };
   },
   computed: {
+    rawOptions() {
+      return toRaw(this.options);
+    },
     hasError() {
       if (this.isUpdated) {
-        return this.errorMessage === null ? false : true
+        return this.errorMessage === null ? false : true;
       }
-      return false
-    }
+      return false;
+    },
   },
   created() {
-    this.validate(this.currentFormControlValue)
+    this.validate(this.currentFormControlValue);
   },
   methods: {
     validate(value) {
-      this.errorMessage = null
+      this.errorMessage = null;
       if (this.choice.validator) {
         try {
-          this.choice.validator(value)
-        } catch(e) {
+          this.choice.validator(value);
+        } catch (e) {
           this.errorMessage = e.message;
         }
       }
-      this.$emit('validated', this.errorMessage)
+      // this.$emit("validated", this.errorMessage); // TODO Fix
     },
     update() {
       // Put to store only necessary data
@@ -176,17 +196,16 @@ export default {
         this.objectToEmit.value = this.currentFormControlValue;
         this.objectToEmit.label = this.choice.label;
       }
-      this.isUpdated = true
-      this.validate(this.currentFormControlValue)
-      this.$emit("input", this.objectToEmit);
-    }
-  }
-}
+      this.isUpdated = true;
+      this.validate(this.currentFormControlValue);
+      this.$emit("handle", this.objectToEmit);
+    },
+  },
+};
 </script>
 
+<style src="@vueform/multiselect/themes/default.css"></style>
 <style lang="scss">
-@import "vue-select/src/scss/vue-select.scss";
-
 .checkbox__container {
   padding: 32px 0;
 
@@ -478,6 +497,7 @@ export default {
   width: 20px;
   height: 20px;
   border-radius: 50%;
+  margin-right: 8px;
 }
 
 .vue-select__extra {
@@ -705,5 +725,11 @@ export default {
   display: flex;
   position: relative;
   background-color: $color-light;
+}
+:root {
+  --ms-option-bg-selected: white;
+  --ms-option-color-selected: black;
+  --ms-option-bg-pointed: white;
+  --ms-option-bg-selected-pointed: gray;
 }
 </style>

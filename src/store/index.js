@@ -11,7 +11,7 @@ import form from "./modules/form";
 //   modules: ["cart"],
 //   storage: window.localStorage,
 // });
-console.log(createStore);
+
 export const store = createStore({
   modules: {
     cart,

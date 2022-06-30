@@ -3,15 +3,13 @@ import App from "./App.vue";
 import { router } from "./router";
 import { store } from "./store";
 
-console.log(store);
-
 configureCompat({
   MODE: 3,
+  ATTR_FALSE_VALUE: false,
 });
 
 const app = createApp(App);
 app.use(store);
 app.use(router);
 
-// actually mount to DOM
 app.mount("#app");

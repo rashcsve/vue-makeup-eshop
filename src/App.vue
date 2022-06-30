@@ -2,52 +2,58 @@
   <div id="app">
     <section>
       <transition name="fade" mode="out-in">
-        <the-navigation @show-modal="modalIsOpened"  @show-sidebar="showCartSidebar" />
+        <the-navigation
+          @show-modal="modalIsOpened"
+          @show-sidebar="showCartSidebar"
+        />
       </transition>
       <div
         :class="{ home__container: true, 'home__container--modal': showModal }"
       >
-       <transition
-        name="fade"
-        mode="out-in"
-      >
-        <router-view />
-       </transition>
+        <router-view v-slot="{ Component }">
+          <transition name="fade" mode="out-in">
+            <component :is="Component"
+          /></transition>
+        </router-view>
       </div>
-      <the-footer />  
+      <the-footer />
     </section>
     <transition name="fade" mode="out-in">
-      <Sidebar v-if="isCartSidebarOpen" @sidebar-status="showCartSidebar" class="the-order-navigation__sidebar the-order-navigation__sidebar--cart" />
+      <Sidebar
+        v-if="isCartSidebarOpen"
+        @sidebar-status="showCartSidebar"
+        class="the-order-navigation__sidebar the-order-navigation__sidebar--cart"
+      />
     </transition>
   </div>
 </template>
 
 <script>
-import TheNavigation from './components/TheNavigation';
-import TheFooter from './components/TheFooter';
+import TheNavigation from "./components/TheNavigation";
+import TheFooter from "./components/TheFooter";
 import Sidebar from "./components/Sidebar";
 
 export default {
   components: {
     TheNavigation,
     TheFooter,
-    Sidebar
+    Sidebar,
   },
   data() {
     return {
       showModal: false,
-      isCartSidebarOpen: false
-    }
+      isCartSidebarOpen: false,
+    };
   },
   methods: {
     modalIsOpened(value) {
       this.showModal = value;
     },
     showCartSidebar(value) {
-      this.isCartSidebarOpen = value
-    }
-  }
-}
+      this.isCartSidebarOpen = value;
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -75,6 +81,6 @@ export default {
 
 .fade-enter,
 .fade-leave-active {
-  opacity: 0
+  opacity: 0;
 }
 </style>
