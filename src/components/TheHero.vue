@@ -21,8 +21,8 @@
 </template>
 
 <script setup>
-import Button from "./Button";
-import Container from "../components/Container";
+import Button from "./Button.vue";
+import Container from "../components/Container.vue";
 
 const button = {
   title: "Learn more",

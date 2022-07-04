@@ -39,9 +39,9 @@
 import { computed, defineEmits } from "vue";
 import { useStore } from "vuex";
 
-import Button from "../components/Button";
-import TheOrderCart from "../components/TheOrderCart";
-import AnimatedInteger from "./AnimatedInteger";
+import Button from "../components/Button.vue";
+import TheOrderCart from "../components/TheOrderCart.vue";
+import AnimatedInteger from "./AnimatedInteger.vue";
 
 const emit = defineEmits(["sidebarStatus"]);
 
