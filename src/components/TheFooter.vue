@@ -2,8 +2,7 @@
   <footer
     class="the-footer"
     :style="{
-      'background-image':
-        'url(' + require(`@/assets/${contactInfo.image}`) + ')',
+      'background-image': getBackgroundImage,
     }"
   >
     <div class="the-footer__main">
@@ -25,11 +24,10 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
 import Contact from "../components/ContactInfo.vue";
 import SocialLink from "../components/SocialLink.vue";
 
-const contactInfo = reactive({
+const contactInfo = {
   name: "Cosmetics",
   address: {
     street: "Love",
@@ -38,7 +36,10 @@ const contactInfo = reactive({
   phone: "123456789",
   email: "cruelty@free",
   image: "images/footer.jpg",
-});
+};
+const getBackgroundImage = () => {
+  return new URL(`@/assets/${contactInfo.image}`, import.meta.url).href;
+};
 </script>
 
 <style lang="scss" scoped>

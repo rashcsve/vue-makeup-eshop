@@ -1,9 +1,6 @@
 <template>
   <a :href="link" target="_blank" class="social-link">
-    <img
-      :src="require('../assets/svg/' + name + '.svg')"
-      alt="Social Link Icon"
-    />
+    <img :src="getImage" alt="Social Link Icon" />
   </a>
 </template>
 
@@ -11,6 +8,10 @@
 import { defineProps } from "vue";
 
 const props = defineProps({ link: String, name: String });
+
+const getImage = () => {
+  return new URL(`@/assets/svg/${props.name}.svg`, import.meta.url).href;
+};
 </script>
 
 <style lang="scss" scoped>

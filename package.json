@@ -3,15 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
-    "dev": "vue-cli-service serve",
-    "start": "node server.js"
+    "build": "vite build",
+    "dev": "vite",
+    "serve": "vite preview"
   },
   "dependencies": {
-    "@vue/compiler-sfc": "^3.2.37",
     "@vueform/multiselect": "^2.4.2",
     "axios": "^0.19.1",
-    "core-js": "^3.3.2",
     "epic-spinners": "^1.1.0",
     "es6-tween": "^5.5.10",
     "express": "^4.17.1",
@@ -25,10 +23,9 @@
     "vuex-persist": "^2.2.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^5.0.6",
-    "@vue/cli-service": "^5.0.6",
+    "@vitejs/plugin-vue": "^2.3.3",
     "sass": "^1.19.0",
-    "sass-loader": "^8.0.2"
+    "vite": "^2.9.13"
   },
   "engines": {
     "node": "10.15.0"
