@@ -3,7 +3,7 @@
     <h4 class="title title--medium">Shipping Method</h4>
     <div class="the-order__form">
       <!-- TO DO: radio button nebo checkbox -->
-      <form-control
+      <FormControl
         :options="options"
         :choice="choice"
         :error="error"
@@ -13,49 +13,44 @@
   </div>
 </template>
 
-<script>
-import FormControl from "./FormControl";
+<script setup>
+import FormControl from "./FormControl.vue";
 
-import { mapGetters, mapMutations } from "vuex";
+import { ref, defineProps, computed } from "vue";
+import { useStore } from "vuex";
+const store = useStore();
 
-export default {
-  components: {
-    FormControl
+const props = defineProps({
+  error: {
+    type: Boolean,
+    default: false,
   },
-  props: {
-    error: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      transport: {},
-      requiredFields: [],
-      options: ['ppl', 'dhl'],
-      choice: {
-        label: "Choose transport type",
-        type: "radio",
-        name: "transport",
-        required: true,
-        placeholder: "Choose transport type..."
-      }
-    };
-  },
-  computed: {
-    ...mapGetters({
-      getCartTransport: "form/getCartTransport"
-    })
-  },
-  methods: {
-    ...mapMutations({
-      setTransport: "form/setTransport"
-    }),
-    handleFormControl(selectedValue) {
-      this.transport.id = this.choice.name;
-      this.transport.value = selectedValue.value;
-      this.setTransport(this.transport);
-    }
-  }
+});
+
+const transport = ref({});
+const requiredFields = ref([]);
+const options = ["ppl", "dhl"];
+const choice = {
+  label: "Choose transport type",
+  type: "radio",
+  name: "transport",
+  required: true,
+  placeholder: "Choose transport type...",
 };
+
+// import { mapGetters, mapMutations } from "vuex";
+
+// Computed
+const getCartTransport = computed(() => store.getters["form/getCartTransport"]);
+
+// Methods
+function setTransport() {
+  store.dispatch("form/setTransport", transport);
+}
+
+function handleFormControl(selectedValue) {
+  transport.value.id = choice.name;
+  transport.value.value = selectedValue.value;
+  setTransport();
+}
 </script>

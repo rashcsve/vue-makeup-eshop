@@ -1,14 +1,15 @@
 <template>
   <div
+    class="button__wrapper"
     :class="{
-      button__wrapper: true,
       'button__wrapper--center': alignment === 'center',
     }"
   >
     <a
       v-if="link"
       :href="link"
-      :class="{ button: true, 'button--transparent': transparent }"
+      class="button"
+      :class="{ 'button--transparent': transparent }"
     >
       <span class="button__title">{{ title }}</span>
     </a>
@@ -16,8 +17,8 @@
     <router-link
       v-if="routerLink"
       :to="routerLink"
+      class="button"
       :class="{
-        button: true,
         'button--dark': dark,
         'button--wide': wide,
         'button--disabled': disabled,
@@ -30,8 +31,8 @@
       v-if="!link && !routerLink"
       type="button"
       @click="btnClick"
+      class="button"
       :class="{
-        button: true,
         'button--more': more,
         'button--more-close': close,
         'button--medium': medium,
@@ -45,31 +46,30 @@
   </div>
 </template>
 
-<script>
-export default {
-  emits: ["addToCart", "closeSidebar", "submitOrder"],
-  props: {
-    title: String,
-    transparent: Boolean,
-    more: Boolean,
-    close: Boolean,
-    dark: Boolean,
-    disabled: Boolean,
-    medium: Boolean,
-    big: Boolean,
-    wide: Boolean,
-    link: String,
-    alignment: String,
-    routerLink: String,
-  },
-  methods: {
-    btnClick() {
-      this.$emit("addToCart");
-      this.$emit("closeSidebar");
-      this.$emit("submitOrder");
-    },
-  },
-};
+<script setup>
+import { defineEmits, defineProps } from "vue";
+
+const emit = defineEmits(["addToCart", "closeSidebar", "submitOrder"]);
+const props = defineProps({
+  title: String,
+  transparent: Boolean,
+  more: Boolean,
+  close: Boolean,
+  dark: Boolean,
+  disabled: Boolean,
+  medium: Boolean,
+  big: Boolean,
+  wide: Boolean,
+  link: String,
+  alignment: String,
+  routerLink: String,
+});
+
+function btnClick() {
+  emit("addToCart");
+  emit("closeSidebar");
+  emit("submitOrder");
+}
 </script>
 
 <style lang="scss">

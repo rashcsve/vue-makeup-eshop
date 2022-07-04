@@ -2,25 +2,28 @@
   <div id="app">
     <section>
       <transition name="fade" mode="out-in">
-        <the-navigation
-          @show-modal="modalIsOpened"
+        <TheNavigation
+          @show-menu="menuIsOpened"
           @show-sidebar="showCartSidebar"
         />
       </transition>
       <div
-        :class="{ home__container: true, 'home__container--modal': showModal }"
+        class="home__container"
+        :class="{
+          'home__container--modal': isOpenMenu,
+        }"
       >
         <router-view v-slot="{ Component }">
           <transition name="fade" mode="out-in">
-            <component :is="Component"
-          /></transition>
+            <component :is="Component" />
+          </transition>
         </router-view>
       </div>
-      <the-footer />
+      <TheFooter />
     </section>
     <transition name="fade" mode="out-in">
       <Sidebar
-        v-if="isCartSidebarOpen"
+        v-if="isOpenCartSidebar"
         @sidebar-status="showCartSidebar"
         class="the-order-navigation__sidebar the-order-navigation__sidebar--cart"
       />
@@ -28,32 +31,22 @@
   </div>
 </template>
 
-<script>
-import TheNavigation from "./components/TheNavigation";
-import TheFooter from "./components/TheFooter";
-import Sidebar from "./components/Sidebar";
+<script setup>
+import { ref } from "vue";
+import TheNavigation from "./components/TheNavigation.vue";
+import TheFooter from "./components/TheFooter.vue";
+import Sidebar from "./components/Sidebar.vue";
 
-export default {
-  components: {
-    TheNavigation,
-    TheFooter,
-    Sidebar,
-  },
-  data() {
-    return {
-      showModal: false,
-      isCartSidebarOpen: false,
-    };
-  },
-  methods: {
-    modalIsOpened(value) {
-      this.showModal = value;
-    },
-    showCartSidebar(value) {
-      this.isCartSidebarOpen = value;
-    },
-  },
-};
+const isOpenMenu = ref(false);
+const isOpenCartSidebar = ref(false);
+
+// Methods
+function menuIsOpened(value) {
+  isOpenMenu.value = value;
+}
+function showCartSidebar(value) {
+  isOpenCartSidebar.value = value;
+}
 </script>
 
 <style lang="scss">

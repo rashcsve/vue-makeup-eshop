@@ -46,33 +46,24 @@
   </div>
 </template>
 
-<script>
-import AnimatedInteger from "./AnimatedInteger";
+<script setup>
+import { ref, computed } from "vue";
+import AnimatedInteger from "./AnimatedInteger.vue";
 
-import { mapGetters } from "vuex";
+import { useStore } from "vuex";
+const store = useStore();
 
-export default {
-  components: {
-    AnimatedInteger,
-  },
-  data() {
-    return {
-      isFixed: false,
-      isStatic: false,
-      timer: null,
-      showcount: false,
-      label: "To order ",
-      textFor: " for ",
-    };
-  },
-  computed: {
-    ...mapGetters({
-      hasItems: "cart/hasItems",
-      getItemsCount: "cart/getCartItemsCount",
-      getCartTotal: "cart/getCartTotal",
-    }),
-  },
-};
+const isFixed = ref(false);
+const isStatic = ref(false);
+const timer = ref(null);
+const showcount = ref(false);
+const label = "To order ";
+const textFor = " for ";
+
+// Computed
+const hasItems = computed(() => store.getters["cart/hasItems"]);
+const getItemsCount = computed(() => store.getters["cart/getCartItemsCount"]);
+const getCartTotal = computed(() => store.getters["cart/getCartTotal"]);
 </script>
 
 <style lang="scss" scoped>

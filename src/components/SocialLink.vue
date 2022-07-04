@@ -1,22 +1,16 @@
 <template>
   <a :href="link" target="_blank" class="social-link">
-    <img :src="require('../assets/svg/'+name+'.svg')" alt="Social Link Icon" />
+    <img
+      :src="require('../assets/svg/' + name + '.svg')"
+      alt="Social Link Icon"
+    />
   </a>
 </template>
 
-<script>
-export default {
-  props: {
-    link: {
-      type: String,
-      default: ""
-    },
-    name: {
-      type: String,
-      default: ""
-    }
-  }
-};
+<script setup>
+import { defineProps } from "vue";
+
+const props = defineProps({ link: String, name: String });
 </script>
 
 <style lang="scss" scoped>

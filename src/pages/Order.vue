@@ -41,91 +41,67 @@
   </container>
 </template>
 
-<script>
-import TheOrderNavigation from "../components/TheOrderNavigation";
-import TheOrderTransport from "../components/TheOrderTransport";
-import TheOrderInvoice from "../components/TheOrderInvoice";
-import TheOrderTotal from "../components/TheOrderTotal";
-import TheOrderCart from "../components/TheOrderCart";
-import FormControl from "../components/FormControl";
-import Container from "../components/Container";
-import Button from "../components/Button";
+<script setup>
+import TheOrderNavigation from "../components/TheOrderNavigation.vue";
+import TheOrderTransport from "../components/TheOrderTransport.vue";
+import TheOrderInvoice from "../components/TheOrderInvoice.vue";
+import TheOrderTotal from "../components/TheOrderTotal.vue";
+import TheOrderCart from "../components/TheOrderCart.vue";
+import FormControl from "../components/FormControl.vue";
+import Container from "../components/Container.vue";
+import Button from "../components/Button.vue";
 
-import { mapGetters } from "vuex";
+import { ref, computed } from "vue";
 
-export default {
-  components: {
-    TheOrderNavigation,
-    TheOrderTransport,
-    TheOrderInvoice,
-    TheOrderTotal,
-    TheOrderCart,
-    FormControl,
-    Container,
-    Button,
-  },
-  data() {
-    return {
-      allData: false,
-      isTradeTermsAgreed: null,
-      error: "",
-      hasError: false,
-      isShipping: false,
-      agreementCheckbox: {
-        label: "I agree with the terms and conditions",
-        type: "checkbox",
-        name: "trade-terms",
-        id: "trade-terms",
-        options: null,
-      },
-    };
-  },
-  computed: {
-    ...mapGetters({
-      hasItems: "cart/hasItems",
-      getCartTransport: "form/getCartTransport",
-      getCartInvoice: "form/getCartContact",
-    }),
-    isEmpty() {
-      return !this.checkForm() || this.hasError;
-    },
-  },
-  watch: {
-    hasError() {
-      console.log(this.hasError);
-    },
-  },
-  methods: {
-    continueToShipping(value) {
-      this.isShipping = value;
-    },
-    hasEmptyField(value) {
-      this.hasError = value;
-    },
-    submitOrder() {
-      console.log("submitting...");
-      this.checkForm()
-        ? this.$store.dispatch("submitOrder")
-        : console.log("error");
-    },
-    handleCheckbox(checkboxValue) {
-      this.isTradeTermsAgreed = checkboxValue.value;
-    },
-    checkForm() {
-      if (
-        this.isEmptyObject(this.getCartTransport) ||
-        this.isEmptyObject(this.getCartInvoice)
-      ) {
-        this.error = "These fields are required!";
-        return false;
-      }
-      return true;
-    },
-    isEmptyObject(obj) {
-      return Object.entries(obj).length === 0 && obj.constructor === Object;
-    },
-  },
+import { useStore } from "vuex";
+const store = useStore();
+// import { mapGetters } from "vuex";
+
+const allData = ref(false);
+const isTradeTermsAgreed = ref(null);
+const error = ref(null);
+const hasError = ref(false);
+const isShipping = ref(false);
+const agreementCheckbox = {
+  label: "I agree with the terms and conditions",
+  type: "checkbox",
+  name: "trade-terms",
+  id: "trade-terms",
+  options: null,
 };
+
+// Computed
+const getCartTransport = computed(() => store.getters["form/getCartTransport"]);
+const hasItems = computed(() => store.getters["cart/hasItems"]);
+const getCartInvoice = computed(() => store.getters["form/getCartContact"]);
+
+const isEmpty = computed(() => !checkForm() || hasError.value);
+
+// Methods
+function continueToShipping(value) {
+  isShipping.value = value;
+}
+function hasEmptyField(value) {
+  hasError.value = value;
+}
+function submitOrder() {
+  console.log("submitting...");
+  checkForm() ? store.dispatch("submitOrder") : console.log("error");
+}
+function handleCheckbox(checkboxValue) {
+  isTradeTermsAgreed.value = checkboxValue.value;
+}
+function checkForm() {
+  // TODO Make computed
+  if (isEmptyObject(getCartTransport) || isEmptyObject(getCartInvoice)) {
+    error.value = "These fields are required!";
+    return false;
+  }
+  return true;
+}
+function isEmptyObject(obj) {
+  return Object.entries(obj).length === 0 && obj.constructor === Object;
+}
 </script>
 
 <style lang="scss" scoped>

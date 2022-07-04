@@ -43,28 +43,21 @@
   </div>
 </template>
 
-<script>
-import { mapGetters, mapActions } from "vuex";
+<script setup>
+import { ref } from "vue";
+// import { mapGetters, mapActions } from "../store/helper";
+import { useStore } from "vuex";
+const store = useStore();
 
-export default {
-  data() {
-    return {
-      message: "",
-    };
-  },
+const message = ref("");
 
-  computed: {
-    ...mapGetters({
-      getCartItems: "cart/getCartItems",
-    }),
-  },
+// Computed
+const getCartItems = computed(() => store.getters["cart/getCartItems"]);
 
-  methods: {
-    removeItem(product) {
-      this.$store.commit("cart/removeProduct", product);
-    },
-  },
-};
+// Methods
+function removeItem(product) {
+  store.commit("cart/removeProduct", product);
+}
 </script>
 
 <style lang="scss" scoped>

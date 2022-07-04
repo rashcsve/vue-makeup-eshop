@@ -15,41 +15,17 @@
   </router-link>
 </template>
 
-<script>
-import Button from "../components/Button";
+<script setup>
+import { defineProps } from "vue";
+import Button from "../components/Button.vue";
 
-export default {
-  components: {
-    Button,
-  },
-  data() {
-    return {
-      buttonTitle: "Buy",
-    };
-  },
-  props: {
-    id: {
-      type: Number,
-      default: 0,
-    },
-    image: {
-      type: String,
-      default: "",
-    },
-    title: {
-      type: String,
-      default: "",
-    },
-    perex: {
-      type: String,
-      default: "",
-    },
-    price: {
-      type: String,
-      default: "",
-    },
-  },
-};
+const props = defineProps({
+  id: Number,
+  image: String,
+  title: String,
+  perex: String,
+  price: String,
+});
 </script>
 
 <style lang="scss" scoped>

@@ -1,17 +1,16 @@
 <template>
-  <nav :class="{ 'the-navigation': true, 'the-navigation--open': showModal }">
+  <nav :class="{ 'the-navigation': true, 'the-navigation--open': isOpenMenu }">
     <div class="the-navigation__main">
       <div class="the-navigation__first">
         <div
-          @click="show()"
+          @click="toggleMenu"
+          class="the-navigation__menu the-navigation__hover"
           :class="{
-            'the-navigation__menu': true,
-            'the-navigation__hover': true,
-            'the-navigation__menu--open': showModal,
+            'the-navigation__menu--open': isOpenMenu,
           }"
         >
           <div
-            v-if="!showModal"
+            v-if="!isOpenMenu"
             class="the-navigation__link the-navigation__link--menu"
           >
             Menu
@@ -35,41 +34,38 @@
               :style="{ visibility: hasItems ? 'visible' : 'hidden' }"
               class="the-navigation__count"
             >
-              <animated-integer :value="getItemsCount" />
+              <AnimatedInteger :value="getItemsCount" />
             </div>
           </transition>
         </div>
       </div>
       <div class="the-navigation__products">
         <router-link
+          v-for="link in links"
+          :to="link.to"
+          :key="link.name"
           class="the-navigation__hover the-navigation__link the-navigation__link--center"
-          to="/face"
-          >Face</router-link
         >
-        <router-link
-          class="the-navigation__hover the-navigation__link the-navigation__link--center"
-          to="/products"
-          >All</router-link
-        >
-        <router-link
-          class="the-navigation__hover the-navigation__link the-navigation__link--center"
-          to="/lips"
-          >Lips</router-link
-        >
+          {{ link.name }}
+        </router-link>
       </div>
     </div>
-    <div class="the-navigation__other" v-if="showModal">
+    <div class="the-navigation__other" v-if="isOpenMenu">
       <div class="the-navigation__items">
         <ul class="the-navigation__ul">
-          <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="/about">About</a>
+          <li
+            class="the-navigation__li"
+            v-for="link in menuLinks"
+            :key="link.name"
+          >
+            <router-link
+              class="the-navigation__li-link"
+              :to="link.to"
+              @click="toggleMenu"
+            >
+              {{ link.name }}
+            </router-link>
           </li>
-          <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="/">Cosmetics</a>
-          </li>
-          <!-- <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="#contact">Contact</a>
-          </li> -->
         </ul>
       </div>
       <div class="the-navigation__information">
@@ -82,38 +78,42 @@
   </nav>
 </template>
 
-<script>
-import SocialLink from "./SocialLink";
-import AnimatedInteger from "./AnimatedInteger";
+<script setup>
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
 
-import { mapGetters } from "vuex";
+import SocialLink from "./SocialLink.vue";
+import AnimatedInteger from "./AnimatedInteger.vue";
 
-export default {
-  components: {
-    SocialLink,
-    AnimatedInteger,
-  },
-  data() {
-    return {
-      showModal: false,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      hasItems: "cart/hasItems",
-      getItemsCount: "cart/getCartItemsCount",
-    }),
-  },
-  methods: {
-    show() {
-      this.showModal = !this.showModal;
-      this.$emit("show-modal", this.showModal);
-    },
-    openSidebar() {
-      this.$emit("show-sidebar", true);
-    },
-  },
-};
+const emit = defineEmits(["showMenu", "showSidebar"]);
+const store = useStore();
+
+// Data
+const isOpenMenu = ref(false);
+const links = [
+  { name: "Face", to: "/face" },
+  { name: "All", to: "/products" },
+  { name: "Lips", to: "/lips" },
+];
+const menuLinks = [
+  { name: "About", to: "/about" },
+  { name: "All", to: "/products" },
+];
+
+// Computed
+const hasItems = computed(() => store.getters["cart/hasItems"]);
+const getItemsCount = computed(() => store.getters["cart/getCartItemsCount"]);
+console.log(getItemsCount.value);
+
+// Methods
+function toggleMenu() {
+  isOpenMenu.value = !isOpenMenu.value;
+  emit("showMenu", isOpenMenu.value);
+}
+
+function openSidebar() {
+  emit("showSidebar", true);
+}
 </script>
 
 <style lang="scss" scoped>

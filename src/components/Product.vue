@@ -1,5 +1,5 @@
 <template>
-  <loading v-if="loading" />
+  <Loading v-if="loading" />
   <div v-else class="product">
     <!-- <product-gallery :images="info.images" :master-image="info.images[0].src" /> -->
     <img :src="product.api_featured_image" class="product__image" />
@@ -26,65 +26,58 @@
   </div>
 </template>
 
-<script>
-import ProductGallery from "../components/ProductGallery";
-import FormControl from "../components/FormControl";
-import Loading from "../components/Loading";
-import Button from "../components/Button";
-
-import { mapActions } from "vuex";
+<script setup>
+import ProductGallery from "../components/ProductGallery.vue";
+import FormControl from "../components/FormControl.vue";
+import Loading from "../components/Loading.vue";
+import Button from "../components/Button.vue";
 
 import MakeupService from "../services/api/MakeupService";
 
-export default {
-  components: {
-    ProductGallery,
-    FormControl,
-    Loading,
-    Button,
-  },
-  data() {
-    return {
-      product: null,
-      colors: [],
-      loading: false,
-      isSelected: false,
-      choice: {
-        label: "Color: ",
-        type: "select",
-        name: "product",
-        required: true,
-        placeholder: "Choose color...",
-      },
-    };
-  },
-  methods: {
-    ...mapActions({
-      addToCart: "cart/addItemToCart",
-    }),
-    handleFormControl(selectedValue) {
-      if (selectedValue) {
-        this.product.value = selectedValue;
-        this.isSelected = true;
-      }
-    },
-  },
-  async created() {
-    try {
-      this.loading = true;
-      const response = await MakeupService.getProduct(this.$route.params.id);
-      this.product = response.data;
-      const colors = response.data.product_colors;
-      colors.forEach((color) => {
-        let newColor = { value: color.colour_name, ...color };
-        this.colors.push(newColor);
-      });
-      this.loading = false;
-    } catch (e) {
-      console.log(e);
-    }
-  },
+import { ref, onMounted } from "vue";
+import { useStore } from "vuex";
+import { useRoute } from "vue-router";
+
+const store = useStore();
+const route = useRoute();
+
+const product = ref({});
+const colors = ref([]);
+const loading = ref(false);
+const isSelected = ref(false);
+const choice = {
+  label: "Color: ",
+  type: "select",
+  name: "product",
+  required: true,
+  placeholder: "Choose color...",
 };
+
+const addToCart = (product) => store.dispatch("cart/addItemToCart", product);
+
+function handleFormControl(selectedValue) {
+  if (selectedValue) {
+    product.value.value = selectedValue;
+    isSelected.value = true;
+  }
+}
+
+onMounted(async () => {
+  try {
+    loading.value = true;
+    const response = await MakeupService.getProduct(route.params.id);
+    product.value = response.data;
+    const allColors = response.data.product_colors;
+    allColors.forEach((color) => {
+      let newColor = { value: color.colour_name, ...color };
+      colors.value.push(newColor);
+    });
+    loading.value = false;
+  } catch (e) {
+    console.log(e);
+    loading.value = false;
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -102,6 +95,10 @@ export default {
 }
 .product__image {
   max-width: 600px;
+  @media #{$media-max-tablet} {
+    max-width: 300px;
+    margin: auto;
+  }
 }
 .product__info {
   width: 40%;

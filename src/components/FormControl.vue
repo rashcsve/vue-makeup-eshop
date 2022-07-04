@@ -110,7 +110,7 @@
           <!-- <template v-slot:option="{ option }">
             <div
               class="vue-select__options-container"
-              v-if="choice.name === 'product'"
+              v-if="props.choice.name === 'product'"
             >
               <span
                 class="vue-select__color"
@@ -131,77 +131,67 @@
   </div>
 </template>
 
-<script>
-import { isProxy, toRaw } from "vue";
+<script setup>
+import { isProxy, toRaw, defineEmits, defineProps, ref, computed } from "vue";
 import Multiselect from "@vueform/multiselect";
-export default {
-  components: { Multiselect },
-  emits: ["handle"],
-  props: {
-    choice: {
-      type: Object,
-      default: () => {
-        return {
-          type: "text",
-          placeholder: "text",
-          label: "",
-          name: "",
-          validator: null,
-        };
-      },
-    },
-    options: {
-      type: Array,
+const emit = defineEmits(["handle"]);
+const props = defineProps({
+  choice: {
+    type: Object,
+    default: () => {
+      return {
+        type: "text",
+        placeholder: "text",
+        label: "",
+        name: "",
+        validator: null,
+      };
     },
   },
-  data() {
-    return {
-      currentFormControlValue: null,
-      errorMessage: null,
-      isUpdated: false,
-      objectToEmit: {},
-    };
+  options: {
+    type: Array,
   },
-  computed: {
-    rawOptions() {
-      return toRaw(this.options);
-    },
-    hasError() {
-      if (this.isUpdated) {
-        return this.errorMessage === null ? false : true;
-      }
-      return false;
-    },
-  },
-  created() {
-    this.validate(this.currentFormControlValue);
-  },
-  methods: {
-    validate(value) {
-      this.errorMessage = null;
-      if (this.choice.validator) {
-        try {
-          this.choice.validator(value);
-        } catch (e) {
-          this.errorMessage = e.message;
-        }
-      }
-      // this.$emit("validated", this.errorMessage); // TODO Fix
-    },
-    update() {
-      // Put to store only necessary data
-      if (this.choice.type === "select") {
-        this.objectToEmit = { ...this.currentFormControlValue };
-      } else {
-        this.objectToEmit.value = this.currentFormControlValue;
-        this.objectToEmit.label = this.choice.label;
-      }
-      this.isUpdated = true;
-      this.validate(this.currentFormControlValue);
-      this.$emit("handle", this.objectToEmit);
-    },
-  },
-};
+});
+
+const currentFormControlValue = ref(null);
+const errorMessage = ref(null);
+const isUpdated = ref(false);
+const objectToEmit = ref({});
+
+// Computed
+const rawOptions = computed(() => toRaw(props.options));
+const hasError = computed(() =>
+  isUpdated.value ? (errorMessage.value === null ? false : true) : false
+);
+
+// created() {
+//   this.validate(this.currentFormControlValue);
+// },
+
+// Methods
+function validate(value) {
+  errorMessage.value = null;
+  if (props.choice.validator) {
+    try {
+      props.choice.validator(value);
+    } catch (e) {
+      errorMessage.value = e.message;
+    }
+  }
+  // this.$emit("validated", this.errorMessage); // TODO Fix
+}
+function update() {
+  // Put to store only necessary data
+  if (props.choice.type === "select") {
+    objectToEmit.value = { ...currentFormControlValue.value };
+  } else {
+    objectToEmit.value.value = currentFormControlValue.value;
+    objectToEmit.value.label = props.choice.label;
+  }
+  isUpdated.value = true;
+  validate(currentFormControlValue);
+  emit("handle", objectToEmit);
+}
 </script>
 
 <style src="@vueform/multiselect/themes/default.css"></style>

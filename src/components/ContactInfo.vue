@@ -1,9 +1,9 @@
 <template>
   <div
     id="contact-info"
+    class="contact-info__address"
     :class="{
-      'contact-info__address': true,
-      'contact-info__address--header': header
+      'contact-info__address--header': header,
     }"
   >
     <div class="contact-info__name">
@@ -20,17 +20,17 @@
     <div class="contact-info__phone-email">
       <a
         :href="`tel:${contactInfo.phone}`"
+        class="contact-info__link"
         :class="{
-          'contact-info__link': true,
-          'contact-info__link--header': header
+          'contact-info__link--header': header,
         }"
         >{{ contactInfo.phone }}</a
       >
       <a
         :href="`mailto:${contactInfo.email}`"
+        class="contact-info__link"
         :class="{
-          'contact-info__link': true,
-          'contact-info__link--header': header
+          'contact-info__link--header': header,
         }"
         >{{ contactInfo.email }}</a
       >
@@ -38,13 +38,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    contactInfo: Object,
-    header: Boolean
-  }
-};
+<script setup>
+import { defineProps } from "vue";
+const props = defineProps({ contactInfo: Object, header: Boolean });
 </script>
 
 <style lang="scss" scoped>

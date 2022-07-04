@@ -11,20 +11,19 @@
   </div>
 </template>
 
-<script>
-import FormControl from "./FormControl";
-import AnimatedInteger from "./AnimatedInteger";
+<script setup>
+import FormControl from "./FormControl.vue";
+import AnimatedInteger from "./AnimatedInteger.vue";
 
-import { mapGetters } from "vuex";
+import { computed } from "vue";
 
-export default {
-  components: { AnimatedInteger, FormControl },
-  computed: {
-    ...mapGetters({
-      getCartTotal: "cart/getCartTotal"
-    })
-  }
-};
+import { useStore } from "vuex";
+const store = useStore();
+
+// import { mapGetters } from "vuex";
+
+// Computed
+const getCartTotal = computed(() => store.getters["cart/getCartTotal"]);
 </script>
 
 <style lang="scss" scoped>

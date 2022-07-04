@@ -1,43 +1,47 @@
 <template>
-  <loading v-if="loading"/>
+  <Loading v-if="loading" />
   <div v-else class="the-home-products">
     <h2 class="title title--h1 the-home-products__title">Featured Products</h2>
     <div class="the-home-products__products">
       <section v-for="(product, index) in products" :key="index">
-        <ProductCard :id="product.id" :image="product.api_featured_image" :title="product.name" :perex="product.brand" :price="product.price" />
+        <ProductCard
+          :id="product.id"
+          :image="product.api_featured_image"
+          :title="product.name"
+          :perex="product.brand"
+          :price="product.price"
+        />
       </section>
     </div>
-    <Button dark class="the-home-products__button" router-link="/products" :title="buttonTitle" />
+    <Button
+      dark
+      class="the-home-products__button"
+      router-link="/products"
+      title="See All"
+    />
   </div>
 </template>
 
-<script>
-import Button from './Button'
-import Loading from './Loading'
-import ProductCard from './ProductCard'
+<script setup>
+import { ref, onMounted } from "vue";
+import Button from "./Button.vue";
+import ProductCard from "./ProductCard.vue";
+import MakeupService from "../services/api/MakeupService";
 
-import MakeupService from '../services/api/MakeupService'
+const products = ref([]);
+const loading = ref(false);
 
-export default {
-  components: {
-    Button,
-    Loading,
-    ProductCard
-  },
-  data() {
-    return {
-      products: [],
-      loading: false,
-      buttonTitle: 'See All'
-    }
-  },
-  async created() {
-    this.loading = true
-    const response = await MakeupService.getHomepageProducts()
-    this.products = response.data
-    this.loading = false
+onMounted(async () => {
+  try {
+    loading.value = true;
+    const response = await MakeupService.getHomepageProducts();
+    products.value = response.data;
+    loading.value = false;
+  } catch (e) {
+    console.log(e);
+    loading.value = false;
   }
-}
+});
 </script>
 
 <style lang="scss" scoped>

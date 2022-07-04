@@ -22,7 +22,7 @@ export default {
       "products.json?product_tags=cruelty+free&product_type=foundation"
     );
   },
-  getAllCrueltyFree() {
+  getAllProducts() {
     return Api().get(`products.json?product_tags=cruelty+free`);
   },
   getHomepageProducts() {

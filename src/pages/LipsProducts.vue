@@ -1,40 +1,47 @@
 <template>
-  <loading v-if="loading"/>
-  <container v-else >
-  <div class="products">
-    <h2 class="title title--h1">Lips Products</h2>
-    <div class="products__container">
-      <section v-for="(product, index) in products" :key="index" class="products__item">
-        <ProductCard :id="product.id" :image="product.api_featured_image" :title="product.name" :perex="product.brand" :price="product.price" />
-      </section>
+  <loading v-if="loading" />
+  <container v-else>
+    <div class="products">
+      <h2 class="title title--h1">Lips Products</h2>
+      <div class="products__container">
+        <section
+          v-for="(product, index) in products"
+          :key="index"
+          class="products__item"
+        >
+          <ProductCard
+            :id="product.id"
+            :image="product.api_featured_image"
+            :title="product.name"
+            :perex="product.brand"
+            :price="product.price"
+          />
+        </section>
+      </div>
     </div>
-  </div>
-   </container>
+  </container>
 </template>
 
 <script>
-import Loading from '../components/Loading'
-import Container from '../components/Container';
-import ProductCard from '../components/ProductCard'
+import { ref, onMounted } from "vue";
+import Loading from "../components/Loading.vue";
+import Container from "../components/Container.vue";
+import ProductCard from "../components/ProductCard.vue";
 
-import MakeupService from '../services/api/MakeupService'
+import MakeupService from "../services/api/MakeupService";
 
-export default {
-  components: {
-    Loading,
-    Container,
-    ProductCard
-  },
-  data() {
-    return {
-      products: [],
-      loading: false,
-    }
-  },
-  async created() {
-    this.loading = true
-    this.products = await MakeupService.getLipsProducts()
-    this.loading = false
+const products = ref([]);
+const loading = ref(false);
+
+onMounted(async () => {
+  try {
+    loading.value = true;
+    const response = await MakeupService.getLipsProducts();
+    products.value = response.data;
+    loading.value = false;
+  } catch (e) {
+    loading.value = false;
+    console.log(e);
   }
-}
+});
 </script>
