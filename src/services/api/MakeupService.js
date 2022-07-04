@@ -30,9 +30,7 @@ export default {
       `products.json?product_tags=cruelty+free&price_greater_than=6`
     );
   },
-  async getProduct(id) {
-    const kek = await Api().get("products/" + id, { crossdomain: true });
-    console.log(kek, typeof kek);
-    return kek;
+  getProduct(id) {
+    return Api().get("products/" + id);
   },
 };
