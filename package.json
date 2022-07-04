@@ -22,7 +22,6 @@
     "vue-carousel": "^0.18.0",
     "vue-cli": "^2.9.6",
     "vue-router": "^4.0.16",
-    "vue-slide-up-down": "^2.0.0",
     "vuex": "^4.0.2",
     "vuex-persist": "^2.2.0"
   },

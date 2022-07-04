@@ -19,24 +19,17 @@
       :choice="companyCheckbox"
       @input="handleCheckbox"
     />
-    <slide-up-down
-      :active="isCompany"
-      :duration="300"
-      :class="{ order__business: true, 'order__business--active': isCompany }"
-    >
-      <FormControl
-        v-for="(choice, index) in companyChoices"
-        :key="index"
-        :choice="choice"
-        @input="handleInput"
-      />
-    </slide-up-down>
+    <FormControl
+      v-for="(choice, index) in companyChoices"
+      :key="index"
+      :choice="choice"
+      @input="handleInput"
+    />
   </form>
 </template>
 
 <script setup>
 import FormControl from "./FormControl.vue";
-import SlideUpDown from "vue-slide-up-down";
 import validator from "validator";
 
 import { ref, defineEmits } from "vue";

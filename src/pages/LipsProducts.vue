@@ -22,7 +22,7 @@
   </container>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from "vue";
 import Loading from "../components/Loading.vue";
 import Container from "../components/Container.vue";
@@ -37,7 +37,7 @@ onMounted(async () => {
   try {
     loading.value = true;
     const response = await MakeupService.getLipsProducts();
-    products.value = response.data;
+    products.value = response;
     loading.value = false;
   } catch (e) {
     loading.value = false;

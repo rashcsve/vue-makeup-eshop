@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 // import { mapGetters, mapActions } from "../store/helper";
 import { useStore } from "vuex";
 const store = useStore();
