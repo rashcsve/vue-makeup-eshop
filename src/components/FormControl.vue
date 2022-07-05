@@ -132,7 +132,7 @@
 </template>
 
 <script setup>
-import { isProxy, toRaw, defineEmits, defineProps, ref, computed } from "vue";
+import { toRaw, defineEmits, defineProps, ref, computed } from "vue";
 import Multiselect from "@vueform/multiselect";
 const emit = defineEmits(["handle"]);
 const props = defineProps({

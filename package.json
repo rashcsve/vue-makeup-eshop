@@ -13,6 +13,8 @@
     "epic-spinners": "^1.1.0",
     "es6-tween": "^5.5.10",
     "express": "^4.17.1",
+    "pinia": "^2.0.14",
+    "pinia-plugin-persistedstate": "^1.6.1",
     "serve-static": "^1.14.1",
     "validator": "^12.1.0",
     "vue": "^3.1.0",

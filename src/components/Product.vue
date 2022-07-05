@@ -35,10 +35,10 @@ import Button from "../components/Button.vue";
 import MakeupService from "../services/api/MakeupService";
 
 import { ref, onMounted } from "vue";
-import { useStore } from "vuex";
+import { useCartStore } from "../store/CartStore";
 import { useRoute } from "vue-router";
 
-const store = useStore();
+const cartStore = useCartStore();
 const route = useRoute();
 
 const product = ref({});
@@ -53,7 +53,7 @@ const choice = {
   placeholder: "Choose color...",
 };
 
-const addToCart = (product) => store.dispatch("cart/addItemToCart", product);
+const addToCart = (product) => cartStore.addItemToCart(product);
 
 function handleFormControl(selectedValue) {
   if (selectedValue) {

@@ -4,7 +4,7 @@
       <div class="order__tax -total">
         <label class="order__tax-title">Subtotal</label>
         <label class="order__tax-price">
-          <animated-integer :value="+getCartTotal" float />
+          <animated-integer :value="getCartTotal" float />
         </label>
       </div>
     </div>
@@ -15,15 +15,11 @@
 import FormControl from "./FormControl.vue";
 import AnimatedInteger from "./AnimatedInteger.vue";
 
-import { computed } from "vue";
-
-import { useStore } from "vuex";
-const store = useStore();
-
-// import { mapGetters } from "vuex";
+import { useCartStore } from "../store/CartStore";
+const cartStore = useCartStore();
 
 // Computed
-const getCartTotal = computed(() => store.getters["cart/getCartTotal"]);
+const getCartTotal = cartStore.getCartTotal;
 </script>
 
 <style lang="scss" scoped>

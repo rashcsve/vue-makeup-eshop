@@ -80,13 +80,14 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useStore } from "vuex";
+import { useCartStore } from "@/store/CartStore";
 
 import SocialLink from "./SocialLink.vue";
 import AnimatedInteger from "./AnimatedInteger.vue";
 
 const emit = defineEmits(["showMenu", "showSidebar"]);
-const store = useStore();
+
+const cartStore = useCartStore();
 
 // Data
 const isOpenMenu = ref(false);
@@ -101,9 +102,8 @@ const menuLinks = [
 ];
 
 // Computed
-const hasItems = computed(() => store.getters["cart/hasItems"]);
-const getItemsCount = computed(() => store.getters["cart/getCartItemsCount"]);
-console.log(getItemsCount.value);
+const hasItems = computed(() => cartStore.hasItems);
+const getItemsCount = computed(() => cartStore.getCartItemsCount);
 
 // Methods
 function toggleMenu() {

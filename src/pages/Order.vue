@@ -52,12 +52,16 @@ import Container from "../components/Container.vue";
 import Button from "../components/Button.vue";
 
 import { ref, computed } from "vue";
+import { storeToRefs } from "pinia";
 
-import { useStore } from "vuex";
+import { useCartStore } from "../store/CartStore";
+import { useFormStore } from "../store/FormStore";
+import { useStore } from "../store/MainStore";
+
+const cartStore = useCartStore();
+const formStore = useFormStore();
 const store = useStore();
-// import { mapGetters } from "vuex";
 
-const allData = ref(false);
 const isTradeTermsAgreed = ref(null);
 const error = ref(null);
 const hasError = ref(false);
@@ -70,11 +74,11 @@ const agreementCheckbox = {
   options: null,
 };
 
-// Computed
-const getCartTransport = computed(() => store.getters["form/getCartTransport"]);
-const hasItems = computed(() => store.getters["cart/hasItems"]);
-const getCartInvoice = computed(() => store.getters["form/getCartContact"]);
+const { transport: getCartTransport, contact: getCartInvoice } =
+  storeToRefs(formStore);
 
+// Computed
+const hasItems = cartStore.hasItems;
 const isEmpty = computed(() => !checkForm() || hasError.value);
 
 // Methods
@@ -86,7 +90,7 @@ function hasEmptyField(value) {
 }
 function submitOrder() {
   console.log("submitting...");
-  checkForm() ? store.dispatch("submitOrder") : console.log("error");
+  checkForm() ? store.submitOrder() : console.log("error");
 }
 function handleCheckbox(checkboxValue) {
   isTradeTermsAgreed.value = checkboxValue.value;

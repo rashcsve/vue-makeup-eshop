@@ -23,7 +23,6 @@
           <div class="the-order-cart__title">{{ product.name }}</div>
           <div class="the-order-cart__perex">{{ product.brand }}</div>
           <div class="the-order-cart__total">
-            <!-- To Do: computed prop instead of this -->
             {{ product.stock }} {{ product.stock > 1 ? "items" : "item" }} -
             {{ product.value.colour_name }}
             <div
@@ -44,19 +43,17 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-// import { mapGetters, mapActions } from "../store/helper";
-import { useStore } from "vuex";
-const store = useStore();
+import { ref } from "vue";
+import { useCartStore } from "../store/CartStore";
 
-const message = ref("");
+const cartStore = useCartStore();
 
 // Computed
-const getCartItems = computed(() => store.getters["cart/getCartItems"]);
+const getCartItems = cartStore.getCartItems;
 
 // Methods
 function removeItem(product) {
-  store.commit("cart/removeProduct", product);
+  cartStore.removeProduct(product);
 }
 </script>
 

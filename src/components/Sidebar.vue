@@ -36,8 +36,8 @@
 </template>
 
 <script setup>
-import { computed, defineEmits } from "vue";
-import { useStore } from "vuex";
+import { defineEmits } from "vue";
+import { useCartStore } from "../store/CartStore";
 
 import Button from "../components/Button.vue";
 import TheOrderCart from "../components/TheOrderCart.vue";
@@ -45,13 +45,13 @@ import AnimatedInteger from "./AnimatedInteger.vue";
 
 const emit = defineEmits(["sidebarStatus"]);
 
-const store = useStore();
+const cartStore = useCartStore();
 
 // Computed
-const hasItems = computed(() => store.getters["cart/hasItems"]);
-const getItemsCount = computed(() => store.getters["cart/getCartItemsCount"]);
-const getItems = computed(() => store.getters["cart/getCartItems"]);
-const getCartTotal = computed(() => store.getters["cart/getCartTotal"]);
+const hasItems = cartStore.hasItems;
+const getItemsCount = cartStore.getCartItemsCount;
+const getItems = cartStore.getCartItems;
+const getCartTotal = cartStore.getCartTotal;
 
 // Methods
 function closeSidebar() {

@@ -34,12 +34,10 @@ import validator from "validator";
 
 import { ref, defineEmits } from "vue";
 
-import { useStore } from "vuex";
-const store = useStore();
+import { useFormStore } from "../store/FormStore";
+const formStore = useFormStore();
 
 const emit = defineEmits("error", "nextStep");
-
-// import { mapActions, mapGetters, mapMutations } from "vuex";
 
 const orderInvoice = ref({});
 const isCompany = ref(false);
@@ -169,9 +167,6 @@ const companyChoices = [
   },
 ];
 
-// ...mapMutations({
-//   addContact: "form/setContact",
-// }),
 function handleCheckbox(inputValue) {
   isCompany.value = inputValue;
 }
@@ -193,7 +188,7 @@ function isFormValid() {
 }
 function handleInput(inputValue) {
   orderInvoice[inputValue.label] = inputValue.value;
-  addContact(orderInvoice);
+  formStore.setContact(orderInvoice);
   if (isFormValid()) {
     emit("error", false);
     emit("nextStep", true);

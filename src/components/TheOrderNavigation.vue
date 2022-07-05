@@ -50,8 +50,8 @@
 import { ref, computed } from "vue";
 import AnimatedInteger from "./AnimatedInteger.vue";
 
-import { useStore } from "vuex";
-const store = useStore();
+import { useCartStore } from "../store/CartStore";
+const cartStore = useCartStore();
 
 const isFixed = ref(false);
 const isStatic = ref(false);
@@ -61,9 +61,9 @@ const label = "To order ";
 const textFor = " for ";
 
 // Computed
-const hasItems = computed(() => store.getters["cart/hasItems"]);
-const getItemsCount = computed(() => store.getters["cart/getCartItemsCount"]);
-const getCartTotal = computed(() => store.getters["cart/getCartTotal"]);
+const hasItems = cartStore.hasItems;
+const getItemsCount = cartStore.getCartItemsCount;
+const getCartTotal = cartStore.getCartTotal;
 </script>
 
 <style lang="scss" scoped>
