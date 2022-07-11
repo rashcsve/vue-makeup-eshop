@@ -108,10 +108,7 @@
           label="colour_name"
         >
           <template v-slot:option="{ option }">
-            <div
-              class="vue-select__options-container"
-              v-if="choice.name === 'product'"
-            >
+            <div class="vue-select__options" v-if="choice.name === 'product'">
               <span
                 class="vue-select__color"
                 :style="{ backgroundColor: option.hex_value }"
@@ -493,9 +490,14 @@ function update() {
   }
 }
 
+.vue-select__options {
+  display: flex;
+}
+
 .vue-select__options-container {
   display: flex;
-  justify-content: space-between;
+  width: 100%;
+  margin-left: 12px;
 }
 
 .vue-select__color {
@@ -732,9 +734,11 @@ function update() {
   background-color: $color-light;
 }
 :root {
-  --ms-option-bg-selected: white;
+  --ms-option-bg-selected: #dcdcdc;
   --ms-option-color-selected: black;
-  --ms-option-bg-pointed: white;
-  --ms-option-bg-selected-pointed: gray;
+  --ms-option-bg-pointed: #f5f5f5;
+  --ms-option-bg-selected-pointed: #dcdcdc;
+  --ms-option-color-selected-pointed: black;
+  --ms-ring-width: 0px;
 }
 </style>
