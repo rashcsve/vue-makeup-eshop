@@ -3,7 +3,7 @@
     <div class="order__taxes">
       <div class="order__tax -total">
         <label class="order__tax-title">Subtotal</label>
-        <label class="order__tax-price"> ${{ getCartTotal }} </label>
+        <label class="order__tax-price"> ${{ getTotal }} </label>
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@ import { useCartStore } from "../store/CartStore";
 const cartStore = useCartStore();
 
 // Computed
-const { getCartTotal } = storeToRefs(cartStore);
+const { getTotal } = storeToRefs(cartStore);
 </script>
 
 <style lang="scss" scoped>

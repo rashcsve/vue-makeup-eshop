@@ -2,20 +2,22 @@ import { defineStore } from "pinia";
 
 export const useCartStore = defineStore("CartStore", {
   persist: true,
-  state: () => {
-    return getDefaultState();
-  },
+  state: () => ({
+    items: [],
+    total: {},
+    itemsCount: 0,
+  }),
   getters: {
-    hasItems(state) {
-      return state.items && state.items.length !== 0;
+    hasItems() {
+      return this.items && this.items.length !== 0;
     },
-    getCartItemsCount() {
+    getItemsCount() {
       return this.itemsCount;
     },
-    getCartItems(state) {
-      return state.items;
+    getItems() {
+      return this.items;
     },
-    getCartTotal(state) {
+    getTotal(state) {
       let totalPrice = 0.0;
       this.items.forEach((it) => (totalPrice += it.price * it.stock));
       this.total.totalPrice = totalPrice;
@@ -23,7 +25,7 @@ export const useCartStore = defineStore("CartStore", {
     },
   },
   actions: {
-    addItemToCart(product) {
+    addItem(product) {
       let cartItem = this.items.find(
         (item) =>
           item.id === product.id &&
@@ -50,10 +52,12 @@ export const useCartStore = defineStore("CartStore", {
       }
       this.itemsCount++;
     },
-    submitOrder({ state }) {
-      Object.assign(state, getDefaultState());
+    emptyCart() {
+      this.itemsCount = 0;
+      this.items = [];
+      this.total = {};
     },
-    removeProduct(product) {
+    removeItem(product) {
       let curItem = this.items.find(
         (item) => item.id === product.id && item.value === product.value
       );

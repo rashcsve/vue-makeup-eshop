@@ -102,7 +102,7 @@ const menuLinks = [
 ];
 
 // Computed
-const { getCartItemsCount: getItemsCount, hasItems } = storeToRefs(cartStore);
+const { getItemsCount, hasItems } = storeToRefs(cartStore);
 
 // Methods
 function toggleMenu() {

@@ -24,7 +24,7 @@
         {{ textFor }}
         <b>
           <!-- <animated-integer :value="productsTotal" /> -->
-          ${{ getCartTotal }}
+          ${{ getTotal }}
         </b>
       </span>
       <div v-else>
@@ -62,14 +62,7 @@ const label = "To order ";
 const textFor = " for ";
 
 // Computed
-// const hasItems = cartStore.hasItems;
-// const getItemsCount = cartStore.getCartItemsCount;
-// const getCartTotal = cartStore.getCartTotal;
-const {
-  getCartItemsCount: getItemsCount,
-  hasItems,
-  getCartTotal,
-} = storeToRefs(cartStore);
+const { getItemsCount, hasItems, getTotal } = storeToRefs(cartStore);
 </script>
 
 <style lang="scss" scoped>

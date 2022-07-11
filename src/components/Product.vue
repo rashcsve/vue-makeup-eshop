@@ -52,7 +52,7 @@ const choice = {
 };
 
 const addToCart = (product) => {
-  cartStore.addItemToCart(product);
+  cartStore.addItem(product);
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 

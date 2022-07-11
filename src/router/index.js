@@ -42,9 +42,3 @@ export const router = createRouter({
   base: import.meta.env.BASE_URL,
   routes,
 });
-
-// router.beforeEach((to, from, next) => {
-//   // if (to.name === "order") {
-//   //   next();
-//   // }
-// });

@@ -16,7 +16,7 @@
       <footer class="sidebar__footer">
         <div class="sidebar__subtotal">
           <h3 class="title title--h3 sidebar__title">Subtotal:</h3>
-          <span class="sidebar__perex">${{ getCartTotal }}</span>
+          <span class="sidebar__perex">${{ getTotal }}</span>
         </div>
         <Button
           title="View Bag"
@@ -44,12 +44,7 @@ const emit = defineEmits(["sidebarStatus"]);
 const cartStore = useCartStore();
 
 // Computed
-const {
-  getCartItemsCount: getItemsCount,
-  hasItems,
-  getCartTotal,
-  getItems,
-} = storeToRefs(cartStore);
+const { getItemsCount, hasItems, getTotal } = storeToRefs(cartStore);
 
 // Methods
 function closeSidebar() {

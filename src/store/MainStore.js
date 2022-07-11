@@ -13,14 +13,15 @@ export const useStore = defineStore("MainStore", {
       this.isOpenSidebar = value;
     },
     submitOrder() {
-      alert("Order was sent! The data is in console");
+      alert("Order was sent! The data are in console");
       const cart = useCartStore();
       const form = useFormStore();
+      console.log(cart);
 
       const dataToSend = JSON.stringify({ ...cart.$state, ...form.$state });
+      console.log(dataToSend);
       cart.emptyCart();
       form.emptyForm();
-      console.log(dataToSend);
     },
   },
 });

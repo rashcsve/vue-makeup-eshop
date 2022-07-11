@@ -39,7 +39,6 @@
         </div>
         <p v-else class="the-order__perex">Your cart is empty</p>
       </section>
-      {{ isEmpty }}
     </div>
   </container>
 </template>
@@ -56,6 +55,7 @@ import Button from "../components/Button.vue";
 
 import { ref, computed } from "vue";
 import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 
 import { useCartStore } from "../store/CartStore";
 import { useFormStore } from "../store/FormStore";
@@ -64,6 +64,8 @@ import { useStore } from "../store/MainStore";
 const cartStore = useCartStore();
 const formStore = useFormStore();
 const store = useStore();
+
+const router = useRouter();
 
 const isTradeTermsAgreed = ref(null);
 const error = ref(null);
@@ -77,10 +79,9 @@ const agreementCheckbox = {
   options: null,
 };
 
-const { transport, contact } = storeToRefs(formStore);
-
 // Computed
-const hasItems = cartStore.hasItems;
+const { hasItems } = storeToRefs(cartStore);
+const { transport, contact } = storeToRefs(formStore);
 const isEmpty = computed(() => isFormEmpty() || hasError.value);
 
 // Methods
@@ -92,7 +93,12 @@ function hasEmptyField(value) {
 }
 function submitOrder() {
   console.log("submitting...");
-  checkForm() ? store.submitOrder() : console.log("error");
+  if (isFormEmpty()) {
+    console.log("error");
+  } else {
+    store.submitOrder();
+    router.push("/");
+  }
 }
 function handleCheckbox(checkboxValue) {
   isTradeTermsAgreed.value = checkboxValue.value;

@@ -15,13 +15,10 @@
 <script setup>
 import FormControl from "./FormControl.vue";
 
-import { ref, defineProps } from "vue";
-import { storeToRefs } from "pinia";
+import { defineProps } from "vue";
 
 import { useFormStore } from "../store/FormStore";
 const formStore = useFormStore();
-
-const { transport: getCartTransport } = storeToRefs(formStore);
 
 const props = defineProps({
   error: {
@@ -30,7 +27,6 @@ const props = defineProps({
   },
 });
 
-const transport = ref({});
 const options = ["ppl", "dhl"];
 const choice = {
   label: "Choose transport type",
@@ -42,8 +38,11 @@ const choice = {
 
 // Methods
 function handleFormControl(selectedValue) {
-  transport.value.id = choice.name;
-  transport.value.value = selectedValue.value;
+  const transport = {
+    id: choice.name,
+    value: selectedValue.value,
+  };
+  console.log(transport);
   formStore.setTransport(transport);
 }
 </script>

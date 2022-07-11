@@ -3,7 +3,7 @@
     <div class="the-order-cart">
       <div
         class="the-order-cart__item"
-        v-for="(product, index) in getCartItems"
+        v-for="(product, index) in getItems"
         :key="index"
       >
         <router-link
@@ -42,15 +42,16 @@
 </template>
 
 <script setup>
+import { storeToRefs } from "pinia";
 import { useCartStore } from "../store/CartStore";
 const cartStore = useCartStore();
 
 // Computed
-const getCartItems = cartStore.getCartItems;
+const { getItems } = storeToRefs(cartStore);
 
 // Methods
 function removeItem(product) {
-  cartStore.removeProduct(product);
+  cartStore.removeItem(product);
 }
 </script>
 
