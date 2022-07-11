@@ -2,8 +2,8 @@
   <section class="sidebar__wrapper">
     <section class="sidebar__backdrop" @click="closeSidebar" />
     <aside class="sidebar">
-      <nav class="sidebar__nav" @click="closeSidebar">
-        <div class="sidebar__icon"></div>
+      <nav class="sidebar__nav">
+        <div class="sidebar__icon" @click="closeSidebar" />
         <h3 class="title title--h3 sidebar__title">Shopping Cart</h3>
         <div v-if="hasItems" class="sidebar__perex">
           {{ getItemsCount }} {{ getItemsCount > 1 ? "items" : "item" }}
@@ -100,7 +100,6 @@ function closeSidebar() {
 .sidebar__nav {
   display: flex;
   align-items: center;
-  cursor: pointer;
   margin-bottom: 16px;
 }
 .sidebar__icon {
@@ -111,6 +110,7 @@ function closeSidebar() {
   width: 16px;
   background-size: contain;
   margin-right: 20px;
+  cursor: pointer;
 }
 .sidebar__subtotal {
   display: flex;
