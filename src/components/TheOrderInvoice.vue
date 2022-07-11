@@ -170,21 +170,12 @@ const companyChoices = [
 ];
 
 function handleCheckbox(inputValue) {
-  console.log(inputValue.value);
   isCompany.value = inputValue.value;
 }
 function isFormValid() {
-  console.log(form);
-  try {
-    form.forEach((input) => {
-      console.log(input);
-      if (input.error) {
-        emit("error", true);
-        return false;
-      }
-    });
-  } catch (e) {
-    console.log(e);
+  const inputWithError = form.find((input) => input.error);
+  if (inputWithError) {
+    emit("error", true);
     return false;
   }
   return true;

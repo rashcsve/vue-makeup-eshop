@@ -143,9 +143,10 @@
 </template>
 
 <script setup>
-import { toRaw, defineEmits, defineProps, ref, computed } from "vue";
+import { toRaw, defineEmits, defineProps, ref, computed, onMounted } from "vue";
 import Multiselect from "@vueform/multiselect";
-const emit = defineEmits(["handle", "trade", "company"]);
+
+const emit = defineEmits(["handle", "validated"]);
 const props = defineProps({
   choice: {
     type: Object,
@@ -172,16 +173,20 @@ const objectToEmit = ref({});
 // Computed
 const rawOptions = computed(() => toRaw(props.options));
 const hasError = computed(() =>
-  isUpdated.value ? (errorMessage.value === null ? false : true) : false
+  isUpdated.value ? (errorMessage.value ? true : false) : false
 );
 
-// created() {
-//   this.validate(this.currentFormControlValue);
-// },
+// Created
+onMounted(() => {
+  if (currentFormControlValue.value) {
+    validate();
+  }
+});
 
 // Methods
-function validate(value) {
-  errorMessage.value = null;
+function validate() {
+  const value = currentFormControlValue.value;
+  errorMessage.value = "";
   if (props.choice.validator) {
     try {
       props.choice.validator(value);
@@ -189,7 +194,7 @@ function validate(value) {
       errorMessage.value = e.message;
     }
   }
-  // this.$emit("validated", this.errorMessage); // TODO Fix
+  emit("validated", errorMessage.value);
 }
 function update() {
   // Put to store only necessary data
@@ -200,12 +205,8 @@ function update() {
     objectToEmit.value.label = props.choice.label;
   }
   isUpdated.value = true;
-  validate(currentFormControlValue.value);
+  validate();
   emit("handle", objectToEmit.value);
-  // if (props.choice.name === "trade-terms") {
-  //   console.log(currentFormControlValue);
-  //   emit("trade", currentFormControlValue.value);
-  // }
 }
 </script>
 

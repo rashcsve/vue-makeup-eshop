@@ -88,7 +88,6 @@ function continueToShipping(value) {
   isShipping.value = value;
 }
 function hasEmptyField(value) {
-  console.log(value);
   hasError.value = value;
 }
 function submitOrder() {
@@ -97,7 +96,6 @@ function submitOrder() {
 }
 function handleCheckbox(checkboxValue) {
   isTradeTermsAgreed.value = checkboxValue.value;
-  isFormEmpty();
 }
 function isFormEmpty() {
   if (isEmptyObject(transport) || isEmptyObject(contact)) {
