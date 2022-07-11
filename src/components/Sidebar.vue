@@ -16,11 +16,12 @@
       <footer class="sidebar__footer">
         <div class="sidebar__subtotal">
           <h3 class="title title--h3 sidebar__title">Subtotal:</h3>
-          <AnimatedInteger
+          <span class="sidebar__perex">{{ getCartTotal }}</span>
+          <!-- <AnimatedInteger
             :value="+getCartTotal"
             float
             class="sidebar__perex"
-          />
+          /> -->
         </div>
         <Button
           title="View Bag"
@@ -38,6 +39,7 @@
 <script setup>
 import { defineEmits } from "vue";
 import { useCartStore } from "../store/CartStore";
+import { storeToRefs } from "pinia";
 
 import Button from "../components/Button.vue";
 import TheOrderCart from "../components/TheOrderCart.vue";
@@ -48,10 +50,12 @@ const emit = defineEmits(["sidebarStatus"]);
 const cartStore = useCartStore();
 
 // Computed
-const hasItems = cartStore.hasItems;
-const getItemsCount = cartStore.getCartItemsCount;
-const getItems = cartStore.getCartItems;
-const getCartTotal = cartStore.getCartTotal;
+const {
+  getCartItemsCount: getItemsCount,
+  hasItems,
+  getCartTotal,
+  getItems,
+} = storeToRefs(cartStore);
 
 // Methods
 function closeSidebar() {

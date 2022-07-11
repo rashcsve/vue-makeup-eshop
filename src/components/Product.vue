@@ -1,7 +1,6 @@
 <template>
   <Loading v-if="loading" />
   <div v-else class="product">
-    <!-- <product-gallery :images="info.images" :master-image="info.images[0].src" /> -->
     <img :src="product.api_featured_image" class="product__image" />
     <div class="product__info">
       <h3 class="title title--h1">{{ product.name }}</h3>
@@ -27,14 +26,13 @@
 </template>
 
 <script setup>
-import ProductGallery from "../components/ProductGallery.vue";
 import FormControl from "../components/FormControl.vue";
 import Loading from "../components/Loading.vue";
 import Button from "../components/Button.vue";
 
 import MakeupService from "../services/api/MakeupService";
 
-import { ref, onMounted } from "vue";
+import { ref, onMounted, toRaw } from "vue";
 import { useCartStore } from "../store/CartStore";
 import { useRoute } from "vue-router";
 
@@ -56,8 +54,9 @@ const choice = {
 const addToCart = (product) => cartStore.addItemToCart(product);
 
 function handleFormControl(selectedValue) {
-  if (selectedValue) {
-    product.value.value = selectedValue;
+  const rawValue = toRaw(selectedValue);
+  if (rawValue) {
+    product.value.selectedValue = rawValue;
     isSelected.value = true;
   }
 }

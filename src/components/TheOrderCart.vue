@@ -1,7 +1,6 @@
 <template>
   <div class="the-order-cart__products">
     <div class="the-order-cart">
-      <!-- <h4 class="title title--medium">Shopping Cart</h4> -->
       <div
         class="the-order-cart__item"
         v-for="(product, index) in getCartItems"
@@ -24,10 +23,10 @@
           <div class="the-order-cart__perex">{{ product.brand }}</div>
           <div class="the-order-cart__total">
             {{ product.stock }} {{ product.stock > 1 ? "items" : "item" }} -
-            {{ product.value.colour_name }}
+            {{ product.selectedValue.name }}
             <div
               class="the-order-cart__color"
-              :style="{ backgroundColor: product.value.hex_value }"
+              :style="{ backgroundColor: product.selectedValue.color }"
             />
           </div>
         </div>
@@ -43,9 +42,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useCartStore } from "../store/CartStore";
-
 const cartStore = useCartStore();
 
 // Computed

@@ -5,9 +5,14 @@ import { useFormStore } from "./FormStore";
 
 export const useStore = defineStore("MainStore", {
   persist: true,
-  state: () => {},
+  state: () => {
+    isOpenSidebar: false;
+  },
   actions: {
-    submitOrder({ state, commit }) {
+    setOpenSidebar(value) {
+      this.isOpenSidebar = value;
+    },
+    submitOrder() {
       alert("Order was sent! The data is in console");
       const cart = useCartStore();
       const form = useFormStore();

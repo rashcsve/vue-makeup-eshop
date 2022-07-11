@@ -1,10 +1,5 @@
 <template>
-  <footer
-    class="the-footer"
-    :style="{
-      'background-image': getBackgroundImage,
-    }"
-  >
+  <footer class="the-footer">
     <div class="the-footer__main">
       <Contact :contactInfo="contactInfo" class="the-footer__contact" />
     </div>
@@ -35,10 +30,6 @@ const contactInfo = {
   },
   phone: "123456789",
   email: "cruelty@free",
-  image: "images/footer.jpg",
-};
-const getBackgroundImage = () => {
-  return new URL(`@/assets/${contactInfo.image}`, import.meta.url).href;
 };
 </script>
 
@@ -51,6 +42,7 @@ const getBackgroundImage = () => {
   height: 497px;
   padding: 80px 0 48px 0;
 
+  background-image: url("../assets/images/footer.jpg");
   background-position: center;
   background-size: cover;
   color: $color-light;

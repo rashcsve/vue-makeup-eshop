@@ -29,14 +29,13 @@
           <div class="the-navigation__link the-navigation__link--cart">
             Cart
           </div>
-          <transition>
-            <div
-              :style="{ visibility: hasItems ? 'visible' : 'hidden' }"
-              class="the-navigation__count"
-            >
-              <AnimatedInteger :value="getItemsCount" />
-            </div>
-          </transition>
+          <div
+            :style="{ visibility: hasItems ? 'visible' : 'hidden' }"
+            class="the-navigation__count"
+          >
+            <!-- <AnimatedInteger :value="getItemsCount" /> -->
+            {{ getItemsCount }}
+          </div>
         </div>
       </div>
       <div class="the-navigation__products">
@@ -81,6 +80,7 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useCartStore } from "@/store/CartStore";
+import { storeToRefs } from "pinia";
 
 import SocialLink from "./SocialLink.vue";
 import AnimatedInteger from "./AnimatedInteger.vue";
@@ -102,8 +102,11 @@ const menuLinks = [
 ];
 
 // Computed
-const hasItems = computed(() => cartStore.hasItems);
-const getItemsCount = computed(() => cartStore.getCartItemsCount);
+const { getCartItemsCount: getItemsCount, hasItems } = storeToRefs(cartStore);
+
+// const hasItems = computed(() => cartStore.hasItems);
+// const getItemsCount = computed(() => cartStore.getCartItemsCount);
+console.log(getItemsCount);
 
 // Methods
 function toggleMenu() {

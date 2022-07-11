@@ -48,6 +48,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { storeToRefs } from "pinia";
 import AnimatedInteger from "./AnimatedInteger.vue";
 
 import { useCartStore } from "../store/CartStore";
@@ -61,9 +62,14 @@ const label = "To order ";
 const textFor = " for ";
 
 // Computed
-const hasItems = cartStore.hasItems;
-const getItemsCount = cartStore.getCartItemsCount;
-const getCartTotal = cartStore.getCartTotal;
+// const hasItems = cartStore.hasItems;
+// const getItemsCount = cartStore.getCartItemsCount;
+// const getCartTotal = cartStore.getCartTotal;
+const {
+  getCartItemsCount: getItemsCount,
+  hasItems,
+  getCartTotal,
+} = storeToRefs(cartStore);
 </script>
 
 <style lang="scss" scoped>

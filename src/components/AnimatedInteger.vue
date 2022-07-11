@@ -12,8 +12,6 @@ const props = defineProps({
   value: { type: Number, required: true },
 });
 
-console.log(props.value);
-
 const tweeningValue = ref(0);
 
 // onMounted(() => {

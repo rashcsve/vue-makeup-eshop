@@ -107,10 +107,10 @@
           @change="update"
           label="colour_name"
         >
-          <!-- <template v-slot:option="{ option }">
+          <template v-slot:option="{ option }">
             <div
               class="vue-select__options-container"
-              v-if="props.choice.name === 'product'"
+              v-if="choice.name === 'product'"
             >
               <span
                 class="vue-select__color"
@@ -121,7 +121,22 @@
             <div v-else>
               <span>{{ option.label }}</span>
             </div>
-          </template> -->
+          </template>
+          <template v-slot:singlelabel="{ value }">
+            <div
+              class="vue-select__options-container"
+              v-if="choice.name === 'product'"
+            >
+              <span
+                class="vue-select__color"
+                :style="{ backgroundColor: value.hex_value }"
+              />
+              <span>{{ value.colour_name }}</span>
+            </div>
+            <div v-else>
+              <span>{{ value.label }}</span>
+            </div>
+          </template>
         </Multiselect>
       </div>
     </div>
@@ -183,14 +198,14 @@ function validate(value) {
 function update() {
   // Put to store only necessary data
   if (props.choice.type === "select") {
-    objectToEmit.value = { ...currentFormControlValue.value };
+    objectToEmit.value = currentFormControlValue;
   } else {
     objectToEmit.value.value = currentFormControlValue.value;
     objectToEmit.value.label = props.choice.label;
   }
   isUpdated.value = true;
   validate(currentFormControlValue);
-  emit("handle", objectToEmit);
+  emit("handle", objectToEmit.value);
 }
 </script>
 
