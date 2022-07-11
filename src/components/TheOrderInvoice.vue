@@ -6,7 +6,7 @@
         v-for="(choice, index) in form"
         :key="index"
         :choice="choice"
-        @input="handleInput"
+        @handle="handleInput"
         @validated="
           (error) => {
             choice.error = error;
@@ -17,14 +17,16 @@
     <FormControl
       :key="companyCheckbox.index"
       :choice="companyCheckbox"
-      @input="handleCheckbox"
+      @handle="handleCheckbox"
     />
-    <FormControl
-      v-for="(choice, index) in companyChoices"
-      :key="index"
-      :choice="choice"
-      @input="handleInput"
-    />
+    <div v-if="isCompany">
+      <FormControl
+        v-for="(choice, index) in companyChoices"
+        :key="index"
+        :choice="choice"
+        @input="handleInput"
+      />
+    </div>
   </form>
 </template>
 
@@ -32,16 +34,16 @@
 import FormControl from "./FormControl.vue";
 import validator from "validator";
 
-import { ref, defineEmits } from "vue";
+import { ref, reactive, defineEmits } from "vue";
 
 import { useFormStore } from "../store/FormStore";
 const formStore = useFormStore();
 
 const emit = defineEmits("error", "nextStep");
 
-const orderInvoice = ref({});
+const orderInvoice = reactive({});
 const isCompany = ref(false);
-const form = ref([
+const form = reactive([
   {
     label: "name",
     value: "",
@@ -168,12 +170,14 @@ const companyChoices = [
 ];
 
 function handleCheckbox(inputValue) {
-  isCompany.value = inputValue;
+  console.log(inputValue.value);
+  isCompany.value = inputValue.value;
 }
 function isFormValid() {
-  // TODO Make computed
+  console.log(form);
   try {
     form.forEach((input) => {
+      console.log(input);
       if (input.error) {
         emit("error", true);
         return false;
@@ -183,7 +187,6 @@ function isFormValid() {
     console.log(e);
     return false;
   }
-  t;
   return true;
 }
 function handleInput(inputValue) {

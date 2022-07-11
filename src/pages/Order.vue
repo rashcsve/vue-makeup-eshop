@@ -9,7 +9,6 @@
           />
           <the-order-transport v-if="isShipping" />
           <div class="the-order__finish-order">
-            <!-- TO DO - Add transition -->
             <div v-if="hasError" class="error">
               <p>{{ error }}</p>
             </div>
@@ -22,7 +21,10 @@
           <the-order-cart />
           <the-order-total />
           <div class="the-order__trade-terms">
-            <form-control :choice="agreementCheckbox" @input="handleCheckbox" />
+            <form-control
+              :choice="agreementCheckbox"
+              @handle="handleCheckbox"
+            />
           </div>
           <Button
             class="the-order__button"
@@ -37,6 +39,7 @@
         </div>
         <p v-else class="the-order__perex">Your cart is empty</p>
       </section>
+      {{ isEmpty }}
     </div>
   </container>
 </template>
@@ -74,18 +77,18 @@ const agreementCheckbox = {
   options: null,
 };
 
-const { transport: getCartTransport, contact: getCartInvoice } =
-  storeToRefs(formStore);
+const { transport, contact } = storeToRefs(formStore);
 
 // Computed
 const hasItems = cartStore.hasItems;
-const isEmpty = computed(() => !checkForm() || hasError.value);
+const isEmpty = computed(() => isFormEmpty() || hasError.value);
 
 // Methods
 function continueToShipping(value) {
   isShipping.value = value;
 }
 function hasEmptyField(value) {
+  console.log(value);
   hasError.value = value;
 }
 function submitOrder() {
@@ -94,17 +97,17 @@ function submitOrder() {
 }
 function handleCheckbox(checkboxValue) {
   isTradeTermsAgreed.value = checkboxValue.value;
+  isFormEmpty();
 }
-function checkForm() {
-  // TODO Make computed
-  if (isEmptyObject(getCartTransport) || isEmptyObject(getCartInvoice)) {
+function isFormEmpty() {
+  if (isEmptyObject(transport) || isEmptyObject(contact)) {
     error.value = "These fields are required!";
-    return false;
+    return true;
   }
-  return true;
+  return false;
 }
 function isEmptyObject(obj) {
-  return Object.entries(obj).length === 0 && obj.constructor === Object;
+  return Object.entries(obj).length === 0;
 }
 </script>
 

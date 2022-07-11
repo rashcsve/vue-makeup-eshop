@@ -2,12 +2,11 @@
   <div class="the-order-transport">
     <h4 class="title title--medium">Shipping Method</h4>
     <div class="the-order__form">
-      <!-- TO DO: radio button nebo checkbox -->
       <FormControl
         :options="options"
         :choice="choice"
         :error="error"
-        @input="handleFormControl"
+        @handle="handleFormControl"
       />
     </div>
   </div>

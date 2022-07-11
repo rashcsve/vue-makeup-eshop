@@ -98,7 +98,6 @@
         v-if="choice.type === 'select'"
         :class="{ 'form-control__select--error': hasError }"
       >
-        <!--To Do: Label as props as well -->
         <Multiselect
           ref="control"
           :options="rawOptions"
@@ -146,7 +145,7 @@
 <script setup>
 import { toRaw, defineEmits, defineProps, ref, computed } from "vue";
 import Multiselect from "@vueform/multiselect";
-const emit = defineEmits(["handle"]);
+const emit = defineEmits(["handle", "trade", "company"]);
 const props = defineProps({
   choice: {
     type: Object,
@@ -201,8 +200,12 @@ function update() {
     objectToEmit.value.label = props.choice.label;
   }
   isUpdated.value = true;
-  validate(currentFormControlValue);
+  validate(currentFormControlValue.value);
   emit("handle", objectToEmit.value);
+  // if (props.choice.name === "trade-terms") {
+  //   console.log(currentFormControlValue);
+  //   emit("trade", currentFormControlValue.value);
+  // }
 }
 </script>
 
@@ -719,6 +722,7 @@ function update() {
   width: 100%;
 }
 .form-control__radio-label {
+  cursor: pointer;
   font-weight: bold;
   text-transform: uppercase;
   line-height: 16px;

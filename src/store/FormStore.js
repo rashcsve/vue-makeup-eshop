@@ -1,16 +1,16 @@
 import { defineStore } from "pinia";
 
 export const useFormStore = defineStore("FormStore", {
-  persist: true,
-  state: () => {
-    return getDefaultState();
-  },
+  state: () => ({
+    transport: {},
+    contact: {},
+  }),
   actions: {
-    setTransport(state, transport) {
-      state.transport = transport;
+    setTransport(transport) {
+      this.transport = transport;
     },
-    setContact(state, contact) {
-      state.contact = contact;
+    setContact(contact) {
+      this.contact = JSON.parse(JSON.stringify(contact));
     },
     emptyForm(state) {
       Object.assign(state, getDefaultState());
