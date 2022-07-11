@@ -1,40 +1,33 @@
 <template>
   <header class="the-hero">
-    <container>
-    <div class="the-hero__blur">
-      <div class="the-hero__blur-background"></div>
-      <div class="the-hero__info">
-        <p>Cruelty Free Cosmetics is not just a brand.</p>
-        <p>It means making a conscious choice on cosmetics.</p>
+    <Container>
+      <div class="the-hero__blur">
+        <div class="the-hero__blur-background"></div>
+        <div class="the-hero__info">
+          <p>Cruelty Free Cosmetics is not just a brand.</p>
+          <p>It means making a conscious choice on cosmetics.</p>
+        </div>
+        <div class="the-hero__button">
+          <Button
+            :title="button.title"
+            :link="button.link"
+            :alignment="button.alignment"
+            transparent
+          />
+        </div>
       </div>
-      <div class="the-hero__button">
-        <Button
-          :title="buttonTitle"
-          :link="buttonLink"
-          :alignment="buttonAlignment"
-          transparent
-        />
-      </div>
-    </div>
-    </container>
+    </Container>
   </header>
 </template>
 
-<script>
-import Button from './Button';
-import Container from '../components/Container';
-export default {
-  components: {
-    Button,
-    Container
-  },
-  data() {
-    return {
-      buttonTitle: 'Learn more',
-      buttonLink: '/about',
-      buttonAlignment: 'center'
-    };
-  }
+<script setup>
+import Button from "./Button.vue";
+import Container from "../components/Container.vue";
+
+const button = {
+  title: "Learn more",
+  link: "/about",
+  alignment: "center",
 };
 </script>
 
@@ -47,10 +40,10 @@ export default {
   background-position: center;
   background-size: cover;
   @media #{$media-min-tablet} {
-    margin-top: 96px; 
+    margin-top: 96px;
   }
   @media #{$media-phone-L} {
-    margin-top: 64px; 
+    margin-top: 64px;
   }
 }
 
@@ -83,7 +76,7 @@ export default {
   top: -10%;
   width: 110%;
   height: 120%;
-  background-image: url('../assets/images/hero.jpg');
+  background-image: url("../assets/images/hero.jpg");
   background-position: center;
   background-size: cover;
   opacity: 0.25;
@@ -96,7 +89,7 @@ export default {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    content: '';
+    content: "";
   }
 }
 

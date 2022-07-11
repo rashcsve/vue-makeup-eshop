@@ -1,128 +1,118 @@
 <template>
-<container>
-  <div class="the-order__container" id="order">
-    <div class="the-order__section">
-      <form class="the-order__other" v-if="hasItems">
-        <the-order-invoice @next-step="continueToShipping" @error="hasEmptyField" />
-        <the-order-transport v-if="isShipping" />
-        <div class="the-order__finish-order">
-          <!-- TO DO - Add transition -->
-          <div v-if="hasError" class="error">
-            <p>{{ error }}</p>
+  <container>
+    <div class="the-order__container" id="order">
+      <div class="the-order__section">
+        <form class="the-order__other" v-if="hasItems">
+          <the-order-invoice
+            @next-step="continueToShipping"
+            @error="hasEmptyField"
+          />
+          <the-order-transport v-if="isShipping" />
+          <div class="the-order__finish-order">
+            <div v-if="hasError" class="error">
+              <p>{{ error }}</p>
+            </div>
           </div>
-        </div>
-    </form>
-    </div>
-    <section class="the-order__section">
-      <h3 class="title title--h3 the-order__title">Shopping Cart</h3>
-      <div v-if="hasItems">
-        <the-order-cart />
-        <the-order-total  />
-        <div class="the-order__trade-terms">
-          <form-control :choice="agreementCheckbox" @input="handleCheckbox" />
-        </div>
-        <Button
-          class="the-order__button"
-          :disabled="!isTradeTermsAgreed || isEmpty"
-          router-link="/"
-          @click.native="submitOrder"
-          type="button"
-          title="Pay for it"
-          big
-          dark
-        />
+        </form>
       </div>
-      <p v-else class="the-order__perex">Your cart is empty</p>
-    </section>
-  </div>
+      <section class="the-order__section">
+        <h3 class="title title--h3 the-order__title">Shopping Cart</h3>
+        <div v-if="hasItems">
+          <the-order-cart />
+          <the-order-total />
+          <div class="the-order__trade-terms">
+            <form-control
+              :choice="agreementCheckbox"
+              @handle="handleCheckbox"
+            />
+          </div>
+          <Button
+            class="the-order__button"
+            :disabled="!isTradeTermsAgreed || isEmpty"
+            router-link="/"
+            @submitOrder="submitOrder"
+            type="button"
+            title="Pay for it"
+            big
+            dark
+          />
+        </div>
+        <p v-else class="the-order__perex">Your cart is empty</p>
+      </section>
+    </div>
   </container>
 </template>
 
-<script>
-import TheOrderNavigation from "../components/TheOrderNavigation";
-import TheOrderTransport from "../components/TheOrderTransport";
-import TheOrderInvoice from "../components/TheOrderInvoice";
-import TheOrderTotal from "../components/TheOrderTotal";
-import TheOrderCart from "../components/TheOrderCart";
-import FormControl from "../components/FormControl";
-import Container from '../components/Container';
-import Button from "../components/Button";
+<script setup>
+import TheOrderNavigation from "../components/TheOrderNavigation.vue";
+import TheOrderTransport from "../components/TheOrderTransport.vue";
+import TheOrderInvoice from "../components/TheOrderInvoice.vue";
+import TheOrderTotal from "../components/TheOrderTotal.vue";
+import TheOrderCart from "../components/TheOrderCart.vue";
+import FormControl from "../components/FormControl.vue";
+import Container from "../components/Container.vue";
+import Button from "../components/Button.vue";
 
-import { mapGetters, mapActions } from "vuex";
+import { ref, computed } from "vue";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
 
-export default {
-  components: {
-    TheOrderNavigation,
-    TheOrderTransport,
-    TheOrderInvoice,
-    TheOrderTotal,
-    TheOrderCart,
-    FormControl,
-    Container,
-    Button
-  },
-  data() {
-    return {
-      allData: false,
-      isTradeTermsAgreed: null,
-      error: "",
-      hasError: false,
-      isShipping: false,
-      agreementCheckbox: {
-        label: "I agree with the terms and conditions",
-        type: "checkbox",
-        name: "trade-terms",
-        id: "trade-terms",
-        options: null
-      }
-    };
-  },
-  computed: {
-    ...mapGetters({
-      hasItems: "cart/hasItems",
-      getCartTransport: "form/getCartTransport",
-      getCartInvoice: "form/getCartContact"
-    }),
-    isEmpty() {
-      return !this.checkForm() || this.hasError
-    }
-  },
-  watch: {
-    hasError() {
-      console.log(this.hasError);
-    }
-  },
-  methods: {
-    continueToShipping(value) {
-      this.isShipping = value
-    },
-    hasEmptyField(value) {
-      this.hasError = value;
-    },
-    submitOrder() {
-      console.log("submitting...");
-      this.checkForm()
-        ? this.$store.dispatch("submitOrder")
-        : console.log("error");
-    },
-    handleCheckbox(checkboxValue) {
-      this.isTradeTermsAgreed = checkboxValue.value;
-    },
-    checkForm() {
-      if (
-        this.isEmptyObject(this.getCartTransport) ||
-        this.isEmptyObject(this.getCartInvoice)
-      ) {
-        this.error = "These fields are required!";
-        return false  
-      } 
-      return true
-    },
-    isEmptyObject(obj) {
-      return Object.entries(obj).length === 0 && obj.constructor === Object;
-    }
-  }
+import { useCartStore } from "../store/CartStore";
+import { useFormStore } from "../store/FormStore";
+import { useStore } from "../store/MainStore";
+
+const cartStore = useCartStore();
+const formStore = useFormStore();
+const store = useStore();
+
+const router = useRouter();
+
+const isTradeTermsAgreed = ref(null);
+const error = ref(null);
+const hasError = ref(false);
+const isShipping = ref(false);
+const agreementCheckbox = {
+  label: "I agree with the terms and conditions",
+  type: "checkbox",
+  name: "trade-terms",
+  id: "trade-terms",
+  options: null,
 };
+
+// Computed
+const { hasItems } = storeToRefs(cartStore);
+const { transport, contact } = storeToRefs(formStore);
+const isEmpty = computed(() => isFormEmpty() || hasError.value);
+
+// Methods
+function continueToShipping(value) {
+  isShipping.value = value;
+}
+function hasEmptyField(value) {
+  hasError.value = value;
+}
+function submitOrder() {
+  console.log("submitting...");
+  if (isFormEmpty()) {
+    console.log("error");
+  } else {
+    store.submitOrder();
+    router.push("/");
+  }
+}
+function handleCheckbox(checkboxValue) {
+  isTradeTermsAgreed.value = checkboxValue.value;
+}
+function isFormEmpty() {
+  if (isEmptyObject(transport) || isEmptyObject(contact)) {
+    error.value = "These fields are required!";
+    return true;
+  }
+  return false;
+}
+function isEmptyObject(obj) {
+  return Object.entries(obj).length === 0;
+}
 </script>
 
 <style lang="scss" scoped>
@@ -134,7 +124,7 @@ export default {
   background-color: white;
   margin: 32px auto 64px;
   max-width: 1050px;
-  
+
   @media #{$media-laptop} {
     max-width: 100%;
   }
@@ -217,7 +207,7 @@ export default {
 
 .the-order__button {
   display: flex;
-  justify-content: center;  
+  justify-content: center;
 }
 
 .the-order__perex {

@@ -2,60 +2,46 @@
   <div class="the-order-transport">
     <h4 class="title title--medium">Shipping Method</h4>
     <div class="the-order__form">
-      <!-- TO DO: radio button nebo checkbox -->
-      <form-control
+      <FormControl
         :options="options"
         :choice="choice"
         :error="error"
-        @input="handleFormControl"
+        @handle="handleFormControl"
       />
     </div>
   </div>
 </template>
 
-<script>
-import FormControl from "./FormControl";
+<script setup>
+import FormControl from "./FormControl.vue";
 
-import { mapGetters, mapMutations } from "vuex";
+import { defineProps } from "vue";
 
-export default {
-  components: {
-    FormControl
+import { useFormStore } from "../store/FormStore";
+const formStore = useFormStore();
+
+const props = defineProps({
+  error: {
+    type: Boolean,
+    default: false,
   },
-  props: {
-    error: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      transport: {},
-      requiredFields: [],
-      options: ['ppl', 'dhl'],
-      choice: {
-        label: "Choose transport type",
-        type: "radio",
-        name: "transport",
-        required: true,
-        placeholder: "Choose transport type..."
-      }
-    };
-  },
-  computed: {
-    ...mapGetters({
-      getCartTransport: "form/getCartTransport"
-    })
-  },
-  methods: {
-    ...mapMutations({
-      setTransport: "form/setTransport"
-    }),
-    handleFormControl(selectedValue) {
-      this.transport.id = this.choice.name;
-      this.transport.value = selectedValue.value;
-      this.setTransport(this.transport);
-    }
-  }
+});
+
+const options = ["ppl", "dhl"];
+const choice = {
+  label: "Choose transport type",
+  type: "radio",
+  name: "transport",
+  required: true,
+  placeholder: "Choose transport type...",
 };
+
+// Methods
+function handleFormControl(selectedValue) {
+  const transport = {
+    id: choice.name,
+    value: selectedValue.value,
+  };
+  formStore.setTransport(transport);
+}
 </script>

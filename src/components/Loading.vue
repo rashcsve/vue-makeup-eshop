@@ -9,13 +9,8 @@
   </div>
 </template>
 
-<script>
-  import { HollowDotsSpinner } from 'epic-spinners'
-  export default {
-    components: {
-      HollowDotsSpinner
-    }
-  }
+<script setup>
+import { HollowDotsSpinner } from "epic-spinners";
 </script>
 
 <style lang="scss" scoped>

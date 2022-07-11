@@ -1,83 +1,86 @@
 <template>
-  <loading v-if="loading" />
+  <Loading v-if="loading" />
   <div v-else class="product">
-    <!-- <product-gallery :images="info.images" :master-image="info.images[0].src" /> -->
     <img :src="product.api_featured_image" class="product__image" />
     <div class="product__info">
       <h3 class="title title--h1">{{ product.name }}</h3>
       <p class="product__perex">{{ product.brand }}</p>
-      <div class="product__price">{{ product.price | currency }}</div>
+      <div class="product__price">${{ trimAmount(+product.price) }}</div>
       <form-control
         :choice="choice"
-        :options="product.product_colors"
-        @input="handleFormControl"
+        :options="colors"
+        @handle="handleFormControl"
       />
       <Button
-        @click.native="addToCart(product)"
+        @addToCart="addToCart(product)"
         title="Add To Cart"
         :disabled="!isSelected"
         medium
         dark
       />
       <div class="product__perex">
-        <div
-          class="product__perex-text"
-          v-html="product.description"
-        ></div>
+        <div class="product__perex-text" v-html="product.description"></div>
       </div>
     </div>
   </div>
 </template>
 
-<script>
-import ProductGallery from "../components/ProductGallery";
-import FormControl from '../components/FormControl';
-import Loading from "../components/Loading";
-import Button from "../components/Button";
+<script setup>
+import FormControl from "../components/FormControl.vue";
+import Loading from "../components/Loading.vue";
+import Button from "../components/Button.vue";
 
-import { mapActions } from 'vuex';
+import MakeupService from "../services/api/MakeupService";
 
-import MakeupService from '../services/api/MakeupService'
+import { ref, onMounted, toRaw } from "vue";
+import { useCartStore } from "../store/CartStore";
+import { useRoute } from "vue-router";
+import { trimAmount } from "../services/currency";
 
-export default {
-  components: {
-    ProductGallery,
-    FormControl,
-    Loading,
-    Button
-  },
-  data() {
-    return {
-      product: null,
-      loading: false,
-      isSelected: false,
-      choice: {
-        label: "Color: ",
-        type: "select",
-        name: "product",
-        required: true,
-        placeholder: "Choose color..."
-      }
-    };
-  },
-  methods: {
-    ...mapActions({
-      addToCart: 'cart/addItemToCart'
-    }),
-    handleFormControl(selectedValue) {
-      if(selectedValue) {
-        this.product.value = selectedValue;
-        this.isSelected = true
-      }
-    },
-  },
-  async created() {
-    this.loading = true
-    const response = await MakeupService.getProduct(this.$route.params.id)
-    this.product = response.data
-    this.loading = false
-  }
+const cartStore = useCartStore();
+const route = useRoute();
+
+const product = ref({});
+const colors = ref([]);
+const loading = ref(false);
+const isSelected = ref(false);
+const choice = {
+  label: "Color: ",
+  type: "select",
+  name: "product",
+  required: true,
+  placeholder: "Choose color...",
 };
+
+const addToCart = (product) => {
+  cartStore.addItem(product);
+  // window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+function handleFormControl(selectedValue) {
+  const rawValue = toRaw(selectedValue);
+  if (rawValue) {
+    product.value.selectedValue = rawValue;
+    isSelected.value = true;
+  }
+}
+
+onMounted(async () => {
+  try {
+    loading.value = true;
+    const response = await MakeupService.getProduct(route.params.id);
+    product.value = response.data;
+    const allColors = response.data.product_colors;
+    allColors.forEach((color) => {
+      let newColor = { value: color.colour_name, ...color };
+      colors.value.push(newColor);
+    });
+    loading.value = false;
+  } catch (e) {
+    console.log(e);
+    loading.value = false;
+  }
+});
 </script>
 
 <style lang="scss" scoped>
@@ -95,6 +98,10 @@ export default {
 }
 .product__image {
   max-width: 600px;
+  @media #{$media-max-tablet} {
+    max-width: 300px;
+    margin: auto;
+  }
 }
 .product__info {
   width: 40%;

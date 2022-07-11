@@ -2,54 +2,54 @@
   <section class="sidebar__wrapper">
     <section class="sidebar__backdrop" @click="closeSidebar" />
     <aside class="sidebar">
-      <nav class="sidebar__nav" @click="closeSidebar">
-        <div class="sidebar__icon"></div>
+      <nav class="sidebar__nav">
+        <div class="sidebar__icon" @click="closeSidebar" />
         <h3 class="title title--h3 sidebar__title">Shopping Cart</h3>
-        <div v-if="hasItems" class="sidebar__perex">{{ getItemsCount }} {{ getItemsCount > 1 ? "items" : "item" }}</div>
+        <div v-if="hasItems" class="sidebar__perex">
+          {{ getItemsCount }} {{ getItemsCount > 1 ? "items" : "item" }}
+        </div>
       </nav>
-      <!-- To Do: Add Divider -->
       <section class="sidebar__items">
-        <the-order-cart v-if="hasItems"/>
+        <TheOrderCart v-if="hasItems" />
         <p v-else class="sidebar__perex">Your bag is empty.</p>
-      <!-- To Do: Add Divider -->
       </section>
       <footer class="sidebar__footer">
         <div class="sidebar__subtotal">
           <h3 class="title title--h3 sidebar__title">Subtotal:</h3>
-          <animated-integer :value="+getCartTotal" float class="sidebar__perex" />
+          <span class="sidebar__perex">${{ getTotal }}</span>
         </div>
-        <Button title="View Bag" :router-link="hasItems ? '/order' : '#'"  :disabled="!hasItems" wide dark @click.native="closeSidebar" />
+        <Button
+          title="View Bag"
+          :router-link="hasItems ? '/order' : '#'"
+          :disabled="!hasItems"
+          wide
+          dark
+          @closeSidebar="closeSidebar"
+        />
       </footer>
     </aside>
   </section>
 </template>
 
-<script>
-import { mapGetters } from "vuex";
-import Button from "../components/Button";
-import TheOrderCart from "../components/TheOrderCart";
-import AnimatedInteger from "./AnimatedInteger";
+<script setup>
+import { defineEmits } from "vue";
+import { useCartStore } from "../store/CartStore";
+import { storeToRefs } from "pinia";
 
-  export default {
-    components: {
-      Button,
-      TheOrderCart,
-      AnimatedInteger
-    },
-    computed: {
-      ...mapGetters({
-        hasItems: "cart/hasItems",
-        getItemsCount: "cart/getCartItemsCount",
-        getItems: "cart/getCartItems",
-        getCartTotal: "cart/getCartTotal"
-      })
-    },
-    methods: {
-      closeSidebar() {
-        this.$emit('sidebar-status', false)
-      }
-    }
-  }
+import Button from "../components/Button.vue";
+import TheOrderCart from "../components/TheOrderCart.vue";
+
+const emit = defineEmits(["sidebarStatus"]);
+
+const cartStore = useCartStore();
+
+// Computed
+const { getItemsCount, hasItems, getTotal } = storeToRefs(cartStore);
+
+// Methods
+function closeSidebar() {
+  emit("sidebarStatus", false);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -89,7 +89,6 @@ import AnimatedInteger from "./AnimatedInteger";
 .sidebar__nav {
   display: flex;
   align-items: center;
-  cursor: pointer;
   margin-bottom: 16px;
 }
 .sidebar__icon {
@@ -100,6 +99,7 @@ import AnimatedInteger from "./AnimatedInteger";
   width: 16px;
   background-size: contain;
   margin-right: 20px;
+  cursor: pointer;
 }
 .sidebar__subtotal {
   display: flex;

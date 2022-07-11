@@ -5,27 +5,36 @@
       :class="{
         'the-order-navigation': true,
         'the-order-navigation--fixed': isFixed,
-        'the-order-navigation--static': isStatic
+        'the-order-navigation--static': isStatic,
       }"
     >
-      <img src="../assets/svg/lipstick-white.svg" alt="lipstick" class="the-order-navigation__icon" />
+      <img
+        src="../assets/svg/lipstick-white.svg"
+        alt="lipstick"
+        class="the-order-navigation__icon"
+      />
       <transition>
-        <div v-show="hasItems" class="the-order-navigation__count">{{ getItemsCount }}</div>
+        <div v-show="hasItems" class="the-order-navigation__count">
+          {{ getItemsCount }}
+        </div>
       </transition>
       <span v-if="hasItems">
         {{ label }}
-        <b>{{ getItemsCount }} {{ getItemsCount > 1 ? 'items' : 'item' }}</b>
+        <b>{{ getItemsCount }} {{ getItemsCount > 1 ? "items" : "item" }}</b>
         {{ textFor }}
         <b>
           <!-- <animated-integer :value="productsTotal" /> -->
-          {{ getCartTotal | currency }}
+          ${{ getTotal }}
         </b>
       </span>
       <div v-else>
         <span>Your cart is empty</span>
       </div>
       <div
-        :class="{'the-order-navigation__icon-right':true, 'the-order-navigation__icon-right--open':hasItems}"
+        :class="{
+          'the-order-navigation__icon-right': true,
+          'the-order-navigation__icon-right--open': hasItems,
+        }"
       >
         <img
           src="../assets/svg/dropdown_light.svg"
@@ -37,33 +46,23 @@
   </div>
 </template>
 
-<script>
-import AnimatedInteger from "./AnimatedInteger";
+<script setup>
+import { ref, computed } from "vue";
+import { storeToRefs } from "pinia";
+import AnimatedInteger from "./AnimatedInteger.vue";
 
-import { mapGetters } from "vuex";
+import { useCartStore } from "../store/CartStore";
+const cartStore = useCartStore();
 
-export default {
-  components: {
-    AnimatedInteger
-  },
-  data() {
-    return {
-      isFixed: false,
-      isStatic: false,
-      timer: null,
-      showcount: false,
-      label: "To order ",
-      textFor: " for "
-    };
-  },
-  computed: {
-    ...mapGetters({
-      hasItems: "cart/hasItems",
-      getItemsCount: "cart/getCartItemsCount",
-      getCartTotal: "cart/getCartTotal"
-    })
-  }
-};
+const isFixed = ref(false);
+const isStatic = ref(false);
+const timer = ref(null);
+const showcount = ref(false);
+const label = "To order ";
+const textFor = " for ";
+
+// Computed
+const { getItemsCount, hasItems, getTotal } = storeToRefs(cartStore);
 </script>
 
 <style lang="scss" scoped>

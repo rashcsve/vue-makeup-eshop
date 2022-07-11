@@ -2,207 +2,192 @@
   <form class="order__invoice">
     <h4 class="title title--medium">Contact information</h4>
     <div class="order__form">
-      <form-control
+      <FormControl
         v-for="(choice, index) in form"
         :key="index"
         :choice="choice"
-        @input="handleInput"
-        @validated="(error) => {choice.error = error}"
+        @handle="handleInput"
+        @validated="
+          (error) => {
+            choice.error = error;
+          }
+        "
       />
     </div>
-    <!-- <form-control :key="companyCheckbox.index" :choice="companyCheckbox" @input="handleCheckbox" />
-    <slide-up-down
-      :active="isCompany"
-      :duration="300"
-      :class="{'order__business':true, 'order__business--active': isCompany}"
-    >
-      <form-control
+    <FormControl
+      :key="companyCheckbox.index"
+      :choice="companyCheckbox"
+      @handle="handleCheckbox"
+    />
+    <div v-if="isCompany">
+      <FormControl
         v-for="(choice, index) in companyChoices"
         :key="index"
         :choice="choice"
         @input="handleInput"
       />
-    </slide-up-down> -->
+    </div>
   </form>
 </template>
 
-<script>
-import FormControl from "./FormControl";
-import SlideUpDown from "vue-slide-up-down";
-import validator from 'validator'
+<script setup>
+import FormControl from "./FormControl.vue";
+import validator from "validator";
 
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { ref, reactive, defineEmits } from "vue";
 
-export default {
-  components: {
-    FormControl,
-    SlideUpDown
-  },
-  data() {
-    return {
-      orderInvoice: {},
-      isCompany: false,
-      form: [
-        {
-          label: "name",
-          value: "",
-          type: "text",
-          name: "name",
-          placeholder: "Name",
-          error: null,
-          validator: (v) => {
-            if (validator.isEmpty(v)) {
-              throw new Error("Cannot be empty")
-            }
-          }
-        },
-        {
-          label: "email",
-          type: "text",
-          name: "email",
-          placeholder: "Email",
-          error: null,
-          validator: (v) => {
-            if (validator.isEmpty(v)) {
-              throw new Error("Cannot be empty")
-            }
-            if(!validator.isEmail(v)) {
-              throw new Error("Not email format")
-            }
-          }
-        },
-        {
-          label: "phone",
-          type: "text",
-          name: "phone",
-          placeholder: "Phone",
-          error: null,
-          validator: (v) => {
-            if (validator.isEmpty(v)) {
-              throw new Error("Cannot be empty")
-            }
-          }
-        },
-        {
-          label: "street",
-          type: "text",
-          name: "street",
-          placeholder: "Street",
-          error: null,
-          validator: (v) => {
-            if (validator.isEmpty(v)) {
-              throw new Error("Cannot be empty")
-            }
-          }
-        },
-        {
-          label: "city",
-          type: "text",
-          name: "city",
-          placeholder: "City",
-          error: null,
-          validator: (v) => {
-            if (validator.isEmpty(v)) {
-              throw new Error("Cannot be empty")
-            }
-          }
-        },
-        {
-          label: "postcode",
-          type: "text",
-          name: "postcode",
-          placeholder: "Postcode",
-          error: null,
-          validator: (v) => {
-            if (validator.isEmpty(v)) {
-              throw new Error("Cannot be empty")
-            }
-          }
-        }
-      ],
-      companyCheckbox: {
-        label: "Corporate Information",
-        type: "checkbox",
-        name: "company",
-        id: "company",
-        options: null
-      },
-      companyChoices: [
-        {
-          label: "companyName",
-          type: "text",
-          name: "companyName",
-          placeholder: "Company Name"
-        },
-        {
-          label: "companyStreet",
-          type: "text",
-          name: "companyStreet",
-          placeholder: "Company Street"
-        },
-        {
-          label: "companyCity",
-          type: "text",
-          name: "companyCity",
-          placeholder: "Company City"
-        },
-        {
-          label: "companyPostcode",
-          type: "text",
-          name: "companyPostcode",
-          placeholder: "Company Postcode"
-        },
-        {
-          label: "identificationNumber",
-          type: "text",
-          name: "identificationNumber",
-          placeholder: "Identification Number"
-        },
-        {
-          label: "taxIdentificationNumber",
-          type: "text",
-          name: "taxIdentificationNumber",
-          placeholder: "Tax Identification Number"
-        }
-      ]
-    };
-  },
-  computed: {
-    // ...mapGetters({
-    //   getCartContact: "form/getCartContact"
-    // }),
-  },
-  methods: {
-    ...mapMutations({
-      addContact: "form/setContact"
-    }),
-    handleCheckbox(inputValue) {
-      this.isCompany = inputValue;
-    },
-    isFormValid() { 
-      try {
-        (this.form).forEach(input => {
-          if (input.error) {
-            this.$emit("error", true)
-            return false
-          }
-        })
-      } catch (e) {
-        console.log(e)
-        return false
+import { useFormStore } from "../store/FormStore";
+const formStore = useFormStore();
+
+const emit = defineEmits("error", "nextStep");
+
+const orderInvoice = reactive({});
+const isCompany = ref(false);
+const form = reactive([
+  {
+    label: "name",
+    value: "",
+    type: "text",
+    name: "name",
+    placeholder: "Name",
+    error: null,
+    validator: (v) => {
+      if (validator.isEmpty(v)) {
+        throw new Error("Cannot be empty");
       }
-      return true
     },
-    handleInput(inputValue) {
-      this.orderInvoice[inputValue.label] = inputValue.value;
-      this.addContact(this.orderInvoice)  
-      if(this.isFormValid()) {
-        this.$emit("error", false)
-        this.$emit("next-step", true)
+  },
+  {
+    label: "email",
+    type: "text",
+    name: "email",
+    placeholder: "Email",
+    error: null,
+    validator: (v) => {
+      if (validator.isEmpty(v)) {
+        throw new Error("Cannot be empty");
       }
-    }
-  }
+      if (!validator.isEmail(v)) {
+        throw new Error("Not email format");
+      }
+    },
+  },
+  {
+    label: "phone",
+    type: "text",
+    name: "phone",
+    placeholder: "Phone",
+    error: null,
+    validator: (v) => {
+      if (validator.isEmpty(v)) {
+        throw new Error("Cannot be empty");
+      }
+    },
+  },
+  {
+    label: "street",
+    type: "text",
+    name: "street",
+    placeholder: "Street",
+    error: null,
+    validator: (v) => {
+      if (validator.isEmpty(v)) {
+        throw new Error("Cannot be empty");
+      }
+    },
+  },
+  {
+    label: "city",
+    type: "text",
+    name: "city",
+    placeholder: "City",
+    error: null,
+    validator: (v) => {
+      if (validator.isEmpty(v)) {
+        throw new Error("Cannot be empty");
+      }
+    },
+  },
+  {
+    label: "postcode",
+    type: "text",
+    name: "postcode",
+    placeholder: "Postcode",
+    error: null,
+    validator: (v) => {
+      if (validator.isEmpty(v)) {
+        throw new Error("Cannot be empty");
+      }
+    },
+  },
+]);
+
+const companyCheckbox = {
+  label: "Corporate Information",
+  type: "checkbox",
+  name: "company",
+  id: "company",
+  options: null,
 };
+
+const companyChoices = [
+  {
+    label: "companyName",
+    type: "text",
+    name: "companyName",
+    placeholder: "Company Name",
+  },
+  {
+    label: "companyStreet",
+    type: "text",
+    name: "companyStreet",
+    placeholder: "Company Street",
+  },
+  {
+    label: "companyCity",
+    type: "text",
+    name: "companyCity",
+    placeholder: "Company City",
+  },
+  {
+    label: "companyPostcode",
+    type: "text",
+    name: "companyPostcode",
+    placeholder: "Company Postcode",
+  },
+  {
+    label: "identificationNumber",
+    type: "text",
+    name: "identificationNumber",
+    placeholder: "Identification Number",
+  },
+  {
+    label: "taxIdentificationNumber",
+    type: "text",
+    name: "taxIdentificationNumber",
+    placeholder: "Tax Identification Number",
+  },
+];
+
+function handleCheckbox(inputValue) {
+  isCompany.value = inputValue.value;
+}
+function isFormValid() {
+  const inputWithError = form.find((input) => input.error);
+  if (inputWithError) {
+    emit("error", true);
+    return false;
+  }
+  return true;
+}
+function handleInput(inputValue) {
+  orderInvoice[inputValue.label] = inputValue.value;
+  formStore.setContact(orderInvoice);
+  if (isFormValid()) {
+    emit("error", false);
+    emit("nextStep", true);
+  }
+}
 </script>
 
 <style lang="scss" scoped>

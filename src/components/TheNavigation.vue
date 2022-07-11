@@ -1,17 +1,16 @@
 <template>
-  <nav :class="{ 'the-navigation': true, 'the-navigation--open': showModal }">
+  <nav :class="{ 'the-navigation': true, 'the-navigation--open': isOpenMenu }">
     <div class="the-navigation__main">
       <div class="the-navigation__first">
         <div
-          @click="show()"
+          @click="toggleMenu"
+          class="the-navigation__menu the-navigation__hover"
           :class="{
-            'the-navigation__menu': true,
-            'the-navigation__hover': true,
-            'the-navigation__menu--open': showModal
+            'the-navigation__menu--open': isOpenMenu,
           }"
         >
           <div
-            v-if="!showModal"
+            v-if="!isOpenMenu"
             class="the-navigation__link the-navigation__link--menu"
           >
             Menu
@@ -23,33 +22,49 @@
         <router-link class="the-navigation__logo" to="/">
           <h3 class="title title--h1">cosmetics</h3>
         </router-link>
-        <div @click="openSidebar" class="the-navigation__basket the-navigation__hover">
-          <div class="the-navigation__link the-navigation__link--cart">Cart</div>
-          <transition>
-            <div :style="{visibility: hasItems ? 'visible' : 'hidden'}" class="the-navigation__count">
-              <animated-integer :value="getItemsCount" />
-            </div>
-          </transition>
+        <div
+          @click="openSidebar"
+          class="the-navigation__basket the-navigation__hover"
+        >
+          <div class="the-navigation__link the-navigation__link--cart">
+            Cart
+          </div>
+          <div
+            :style="{ visibility: hasItems ? 'visible' : 'hidden' }"
+            class="the-navigation__count"
+          >
+            <!-- <AnimatedInteger :value="getItemsCount" /> -->
+            {{ getItemsCount }}
+          </div>
         </div>
       </div>
       <div class="the-navigation__products">
-        <router-link class="the-navigation__hover the-navigation__link the-navigation__link--center" to="/face">Face</router-link>
-        <router-link class="the-navigation__hover the-navigation__link the-navigation__link--center" to="/products">All</router-link>
-        <router-link class="the-navigation__hover the-navigation__link the-navigation__link--center" to="/lips">Lips</router-link>
+        <router-link
+          v-for="link in links"
+          :to="link.to"
+          :key="link.name"
+          class="the-navigation__hover the-navigation__link the-navigation__link--center"
+        >
+          {{ link.name }}
+        </router-link>
       </div>
     </div>
-    <div class="the-navigation__other" v-if="showModal">
+    <div class="the-navigation__other" v-if="isOpenMenu">
       <div class="the-navigation__items">
         <ul class="the-navigation__ul">
-          <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="/about">About</a>
+          <li
+            class="the-navigation__li"
+            v-for="link in menuLinks"
+            :key="link.name"
+          >
+            <router-link
+              class="the-navigation__li-link"
+              :to="link.to"
+              @click="toggleMenu"
+            >
+              {{ link.name }}
+            </router-link>
           </li>
-          <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="/">Cosmetics</a>
-          </li>
-          <!-- <li class="the-navigation__li">
-            <a class="the-navigation__li-link" href="#contact">Contact</a>
-          </li> -->
         </ul>
       </div>
       <div class="the-navigation__information">
@@ -62,38 +77,42 @@
   </nav>
 </template>
 
-<script>
-import SocialLink from './SocialLink';
-import AnimatedInteger from "./AnimatedInteger";
+<script setup>
+import { ref, computed } from "vue";
+import { useCartStore } from "@/store/CartStore";
+import { storeToRefs } from "pinia";
 
-import { mapGetters } from "vuex";
+import SocialLink from "./SocialLink.vue";
+import AnimatedInteger from "./AnimatedInteger.vue";
 
-export default {
-  components: {
-    SocialLink,
-    AnimatedInteger
-  },
-  data() {
-    return {
-      showModal: false
-    };
-  },
-  computed: {
-    ...mapGetters({
-      hasItems: "cart/hasItems",
-      getItemsCount: "cart/getCartItemsCount"
-    })
-  },
-  methods: {
-    show() {
-      this.showModal = !this.showModal;
-      this.$emit('show-modal', this.showModal);
-    },
-    openSidebar() {
-      this.$emit('show-sidebar', true);
-    }
-  }
-};
+const emit = defineEmits(["showMenu", "showSidebar"]);
+
+const cartStore = useCartStore();
+
+// Data
+const isOpenMenu = ref(false);
+const links = [
+  { name: "Face", to: "/face" },
+  { name: "All", to: "/products" },
+  { name: "Lips", to: "/lips" },
+];
+const menuLinks = [
+  { name: "About", to: "/about" },
+  { name: "All", to: "/products" },
+];
+
+// Computed
+const { getItemsCount, hasItems } = storeToRefs(cartStore);
+
+// Methods
+function toggleMenu() {
+  isOpenMenu.value = !isOpenMenu.value;
+  emit("showMenu", isOpenMenu.value);
+}
+
+function openSidebar() {
+  emit("showSidebar", true);
+}
 </script>
 
 <style lang="scss" scoped>
@@ -105,7 +124,7 @@ export default {
   width: 100%;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     z-index: -1;
     top: 0;
@@ -146,7 +165,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;  
+  justify-content: flex-end;
   min-height: 96px;
   padding: 35px 65px 0;
 
@@ -206,8 +225,8 @@ export default {
   }
 
   &::before {
-    content: '';
-    background: url('../assets/svg/menu.svg') no-repeat;
+    content: "";
+    background: url("../assets/svg/menu.svg") no-repeat;
     background-size: 16px;
     background-position: center;
     left: 0;
@@ -217,15 +236,15 @@ export default {
     display: inline-block;
   }
   &:hover::before {
-    background-image: url('../assets/svg/menu_hover.svg');
+    background-image: url("../assets/svg/menu_hover.svg");
   }
 
   &--open {
     &::before {
-      background-image: url('../assets/svg/close.svg');
+      background-image: url("../assets/svg/close.svg");
     }
     &:hover::before {
-      background-image: url('../assets/svg/close_hover.svg');
+      background-image: url("../assets/svg/close_hover.svg");
     }
   }
 }
@@ -256,7 +275,9 @@ export default {
 .the-navigation__hover {
   &:hover {
     background-color: $color-basic;
-    .the-navigation__link, .the-navigation__count, &.the-navigation__link {
+    .the-navigation__link,
+    .the-navigation__count,
+    &.the-navigation__link {
       color: $color-light;
     }
   }
@@ -272,9 +293,9 @@ export default {
     padding-right: 14px;
   }
   &::after {
-    content: '';
+    content: "";
     position: relative;
-    background: url('../assets/svg/lipstick.svg') no-repeat center/ 80%;
+    background: url("../assets/svg/lipstick.svg") no-repeat center/ 80%;
     left: 0;
     top: 0;
     height: 30px;
@@ -282,7 +303,7 @@ export default {
     display: inline-block;
   }
   &:hover::after {
-    background-image: url('../assets/svg/lipstick-white.svg');
+    background-image: url("../assets/svg/lipstick-white.svg");
   }
   &--count {
     font-size: 10px;
@@ -375,5 +396,4 @@ export default {
   font-size: 12px;
   width: 8px;
 }
-
 </style>

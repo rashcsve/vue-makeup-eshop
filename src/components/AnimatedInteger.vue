@@ -1,50 +1,45 @@
 <template>
-  <span v-if="float">{{ tweeningValue | currency }}</span>
-  <span v-else>{{ tweeningValue }}</span>
+  <span v-if="float">${{ value }}</span>
+  <span v-else>{{ value }}</span>
 </template>
 
-<script>
-export default {
-  props: {
-    value: {
-      type: Number,
-      required: true
-    },
-    float: {
-      type: Boolean,
-      default: false
-    }
-  },
-  data() {
-    return {
-      tweeningValue: 0
-    };
-  },
-  watch: {
-    value(newVal, oldVal) {
-      this.tween(oldVal, newVal);
-    }
-  },
-  mounted() {
-    this.tween(0, this.value);
-  },
-  methods: {
-    tween(startValue, endValue) {
-      let vm = this;
-      function animate() {
-        if (TWEEN.update()) {
-          requestAnimationFrame(animate);
-        }
-      }
-      new TWEEN.Tween({ tweeningValue: startValue })
-        .to({ tweeningValue: endValue }, 500)
-        .onUpdate(function() {
-          vm.float ? vm.tweeningValue = this.tweeningValue.toFixed(1) : vm.tweeningValue = this.tweeningValue.toFixed(0)
-        })
-        .start();
+<script setup>
+//TODO Fix it
+import { defineProps, ref, onMounted, watch } from "vue";
 
-      animate();
+const props = defineProps({
+  float: { type: Boolean, default: false },
+  value: { type: Number, required: true },
+});
+
+const tweeningValue = ref(0);
+
+// onMounted(() => {
+//   tween(0, props.value);
+// });
+
+watch("props.value", (newVal, oldVal) => {
+  console.log(newValue);
+  tween(oldVal, newVal);
+});
+
+function tween(startValue, endValue) {
+  function animate() {
+    if (TWEEN.update()) {
+      requestAnimationFrame(animate);
     }
+    console.log(props.float);
+    console.log(tweeningValue);
   }
-};
+  new TWEEN.Tween({ tweeningValue: startValue })
+    .to({ tweeningValue: endValue }, 500)
+    .onUpdate(function () {
+      props.float
+        ? (tweeningValue.value = tweeningValue.value.toFixed(1))
+        : (tweeningValue.value = tweeningValue.value.toFixed(0));
+    })
+    .start();
+
+  animate();
+}
 </script>

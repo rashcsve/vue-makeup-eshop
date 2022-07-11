@@ -1,10 +1,7 @@
 <template>
-  <footer
-    class="the-footer"
-    :style="{ 'background-image': 'url(' + require(`@/assets/${contactInfo.image}`) + ')' }"
-  >
+  <footer class="the-footer">
     <div class="the-footer__main">
-      <contact :contactInfo="contactInfo" class="the-footer__contact" />
+      <Contact :contactInfo="contactInfo" class="the-footer__contact" />
     </div>
     <div class="the-footer__other">
       <div class="the-footer__rules">
@@ -14,36 +11,25 @@
         </span>
       </div>
       <div class="the-footer__social">
-        <social-link name="instagram-white" link="https://www.instagram.com/" />
-        <social-link name="facebook-white" link="https://www.facebook.com/" />
+        <SocialLink name="instagram-white" link="https://www.instagram.com/" />
+        <SocialLink name="facebook-white" link="https://www.facebook.com/" />
       </div>
     </div>
   </footer>
 </template>
 
-<script>
-import Contact from "../components/ContactInfo";
-import SocialLink from "../components/SocialLink";
+<script setup>
+import Contact from "../components/ContactInfo.vue";
+import SocialLink from "../components/SocialLink.vue";
 
-export default {
-  components: {
-    SocialLink,
-    Contact
+const contactInfo = {
+  name: "Cosmetics",
+  address: {
+    street: "Love",
+    city: "Nature",
   },
-  data() {
-    return {
-      contactInfo: {
-        name: "Cosmetics",
-        address: {
-          street: "Love",
-          city: "Nature"
-        },
-        phone: "123456789",
-        email: "cruelty@free",
-        image: "images/footer.jpg"
-      }
-    };
-  }
+  phone: "123456789",
+  email: "cruelty@free",
 };
 </script>
 
@@ -56,6 +42,7 @@ export default {
   height: 497px;
   padding: 80px 0 48px 0;
 
+  background-image: url("../assets/images/footer.jpg");
   background-position: center;
   background-size: cover;
   color: $color-light;

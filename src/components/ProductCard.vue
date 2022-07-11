@@ -5,51 +5,28 @@
     </div>
     <div class="product-card__info">
       <h3 class="title title--h3 product-card__title">
-          {{ title }}
-        </h3>
+        {{ title }}
+      </h3>
       <div class="product-card__other">
         <p class="product-card__perex">{{ perex }}</p>
-        <p class="product-card__price">{{ price | currency }}</p>
+        <p class="product-card__price">${{ trimAmount(+price) }}</p>
       </div>
     </div>
   </router-link>
 </template>
 
-<script>
-import Button from '../components/Button';
+<script setup>
+import { defineProps } from "vue";
+import { trimAmount } from "../services/currency";
+import Button from "../components/Button.vue";
 
-  export default {
-    components: {
-      Button
-    },
-    data() {
-      return {
-        buttonTitle: "Buy"
-      }
-    },
-    props: {
-      id: {
-        type: Number,
-        default: 0
-      },
-      image: {
-        type: String,
-        default: ''
-      },
-      title: {
-        type: String,
-        default: ''
-      },
-      perex: {
-        type: String,
-        default: ''
-      },
-      price: {
-        type: String,
-        default: ''
-      }
-    }
-  }
+const props = defineProps({
+  id: Number,
+  image: String,
+  title: String,
+  perex: String,
+  price: String,
+});
 </script>
 
 <style lang="scss" scoped>
@@ -82,7 +59,7 @@ import Button from '../components/Button';
   margin-bottom: 0;
 }
 .product-card__img-wrapper {
-   @media #{$media-min-tablet} {
+  @media #{$media-min-tablet} {
     max-width: 200px;
   }
 }
