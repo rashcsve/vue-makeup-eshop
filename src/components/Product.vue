@@ -51,7 +51,10 @@ const choice = {
   placeholder: "Choose color...",
 };
 
-const addToCart = (product) => cartStore.addItemToCart(product);
+const addToCart = (product) => {
+  cartStore.addItemToCart(product);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
 function handleFormControl(selectedValue) {
   const rawValue = toRaw(selectedValue);
