@@ -16,6 +16,7 @@
 
     <router-link
       v-if="routerLink"
+      @click="btnClick"
       :to="routerLink"
       class="button"
       :class="{

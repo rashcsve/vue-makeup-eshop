@@ -45,7 +45,6 @@ function menuIsOpened(value) {
   isOpenMenu.value = value;
 }
 function showCartSidebar(value) {
-  console.log(value);
   isOpenCartSidebar.value = value;
 }
 </script>

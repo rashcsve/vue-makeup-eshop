@@ -104,10 +104,6 @@ const menuLinks = [
 // Computed
 const { getCartItemsCount: getItemsCount, hasItems } = storeToRefs(cartStore);
 
-// const hasItems = computed(() => cartStore.hasItems);
-// const getItemsCount = computed(() => cartStore.getCartItemsCount);
-console.log(getItemsCount);
-
 // Methods
 function toggleMenu() {
   isOpenMenu.value = !isOpenMenu.value;
