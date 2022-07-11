@@ -10,7 +10,6 @@ export const useCartStore = defineStore("CartStore", {
       return state.items && state.items.length !== 0;
     },
     getCartItemsCount() {
-      console.log(this.itemsCount);
       return this.itemsCount;
     },
     getCartItems(state) {
@@ -20,7 +19,7 @@ export const useCartStore = defineStore("CartStore", {
       let totalPrice = 0.0;
       this.items.forEach((it) => (totalPrice += it.price * it.stock));
       this.total.totalPrice = totalPrice;
-      return totalPrice.toFixed(1);
+      return totalPrice % 1 === 0 ? totalPrice : totalPrice.toFixed(1);
     },
   },
   actions: {

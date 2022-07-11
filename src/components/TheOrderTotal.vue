@@ -3,9 +3,7 @@
     <div class="order__taxes">
       <div class="order__tax -total">
         <label class="order__tax-title">Subtotal</label>
-        <label class="order__tax-price">
-          <animated-integer :value="getCartTotal" float />
-        </label>
+        <label class="order__tax-price"> ${{ getCartTotal }} </label>
       </div>
     </div>
   </div>
@@ -13,13 +11,13 @@
 
 <script setup>
 import FormControl from "./FormControl.vue";
-import AnimatedInteger from "./AnimatedInteger.vue";
 
+import { storeToRefs } from "pinia";
 import { useCartStore } from "../store/CartStore";
 const cartStore = useCartStore();
 
 // Computed
-const getCartTotal = cartStore.getCartTotal;
+const { getCartTotal } = storeToRefs(cartStore);
 </script>
 
 <style lang="scss" scoped>
