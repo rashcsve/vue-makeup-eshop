@@ -5,7 +5,7 @@
     <div class="product__info">
       <h3 class="title title--h1">{{ product.name }}</h3>
       <p class="product__perex">{{ product.brand }}</p>
-      <div class="product__price">${{ product.price }}</div>
+      <div class="product__price">${{ trimAmount(+product.price) }}</div>
       <form-control
         :choice="choice"
         :options="colors"
@@ -35,6 +35,7 @@ import MakeupService from "../services/api/MakeupService";
 import { ref, onMounted, toRaw } from "vue";
 import { useCartStore } from "../store/CartStore";
 import { useRoute } from "vue-router";
+import { trimAmount } from "../services/currency";
 
 const cartStore = useCartStore();
 const route = useRoute();

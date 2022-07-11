@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { trimAmount } from "../services/currency";
 
 export const useCartStore = defineStore("CartStore", {
   persist: true,
@@ -17,11 +18,11 @@ export const useCartStore = defineStore("CartStore", {
     getItems() {
       return this.items;
     },
-    getTotal(state) {
+    getTotal() {
       let totalPrice = 0.0;
       this.items.forEach((it) => (totalPrice += it.price * it.stock));
       this.total.totalPrice = totalPrice;
-      return totalPrice % 1 === 0 ? totalPrice : totalPrice.toFixed(1);
+      return trimAmount(totalPrice);
     },
   },
   actions: {

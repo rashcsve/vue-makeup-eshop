@@ -8,7 +8,6 @@ export const useFormStore = defineStore("FormStore", {
   actions: {
     setTransport(transport) {
       this.transport = JSON.parse(JSON.stringify(transport));
-      console.log(this.transport);
     },
     setContact(contact) {
       this.contact = JSON.parse(JSON.stringify(contact));

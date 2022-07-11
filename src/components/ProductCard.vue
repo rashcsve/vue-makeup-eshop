@@ -9,7 +9,7 @@
       </h3>
       <div class="product-card__other">
         <p class="product-card__perex">{{ perex }}</p>
-        <p class="product-card__price">${{ price }}</p>
+        <p class="product-card__price">${{ trimAmount(+price) }}</p>
       </div>
     </div>
   </router-link>
@@ -17,6 +17,7 @@
 
 <script setup>
 import { defineProps } from "vue";
+import { trimAmount } from "../services/currency";
 import Button from "../components/Button.vue";
 
 const props = defineProps({

@@ -42,7 +42,6 @@ function handleFormControl(selectedValue) {
     id: choice.name,
     value: selectedValue.value,
   };
-  console.log(transport);
   formStore.setTransport(transport);
 }
 </script>
