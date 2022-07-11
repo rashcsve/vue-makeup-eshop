@@ -1,34 +1,23 @@
 import Api from "./Api";
 
+const API_URL = "products.json?product_tags=cruelty+free";
+const API_PRODUCT_URL = API_URL + "&product_type=";
+
 export default {
   async getLipsProducts() {
-    let lipsProducts = [];
-    const lipsticks = await Api().get(
-      "products.json?product_tags=cruelty+free&product_type=lipstick"
-    );
-    const lipliners = await Api().get(
-      "products.json?product_tags=cruelty+free&product_type=lip_liner"
-    );
-    Object.keys(lipsticks.data).forEach((pr) => {
-      lipsProducts.push(lipsticks.data[pr]);
-    });
-    Object.keys(lipliners.data).forEach((pr) => {
-      lipsProducts.push(lipliners.data[pr]);
-    });
-    return lipsProducts;
+    const urls = [`${API_PRODUCT_URL}lipstick`, `${API_PRODUCT_URL}lip_liner`];
+    const requests = urls.map((url) => Api().get(url));
+    const [lipsticks, lipliners] = await Promise.all(requests);
+    return [...lipsticks?.data, ...lipliners?.data];
   },
   getFaceProducts() {
-    return Api().get(
-      "products.json?product_tags=cruelty+free&product_type=foundation"
-    );
+    return Api().get(`${API_PRODUCT_URL}foundation`);
   },
   getAllProducts() {
-    return Api().get(`products.json?product_tags=cruelty+free`);
+    return Api().get(API_URL);
   },
   getHomepageProducts() {
-    return Api().get(
-      `products.json?product_tags=cruelty+free&price_greater_than=6`
-    );
+    return Api().get(`${API_URL}&price_greater_than=6`);
   },
   getProduct(id) {
     return Api().get("products/" + id);
